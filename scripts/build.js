@@ -367,7 +367,7 @@ function renderSection(group) {
     .map((article, i) => renderIndexRow(article, i + 1))
     .join("\n");
   const code = CATEGORY_CODES[group.key] || CATEGORY_CODES.uncategorized;
-  return `    <section class="category-section">
+  return `    <section class="category-section" id="${escapeHtml(group.key)}">
       <span class="section-eyebrow">${escapeHtml(code)}</span>
       <h2 class="section-title">${escapeHtml(group.label)}</h2>
       <div class="index-list">

@@ -232,6 +232,7 @@ main.container {
 /* Category sections + index list */
 .category-section {
   margin-bottom: 52px;
+  scroll-margin-top: 90px;
 }
 
 .category-section:last-child {
