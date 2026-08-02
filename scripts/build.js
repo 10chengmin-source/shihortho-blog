@@ -10,6 +10,7 @@ const IGNORE_DIRS = new Set([
   ".git",
   ".github",
   "about",
+  "media",
   "dist",
 ]);
 
@@ -255,7 +256,7 @@ function buildHomeSeo() {
 function buildAboutSeo() {
   const url = `${SITE_URL}/about/`;
   const description =
-    "石承民醫師，臺中榮民總醫院骨科部脊椎外科科主任，專長脊椎手術與骨質疏鬆症治療。";
+    "石承民醫師，臺中榮民總醫院骨科部脊椎外科科主任，專長涵蓋脊椎手術、膝髖關節重建手術與骨質疏鬆治療。";
   const image = SITE_URL + DOCTOR_PORTRAIT;
   const tags = commonOgTags({
     title: `醫師介紹｜${DOCTOR_NAME} 醫師｜背後的力量`,
@@ -311,6 +312,7 @@ function writeSitemap(articles) {
   const staticUrls = [
     { loc: `${SITE_URL}/`, priority: "1.0" },
     { loc: `${SITE_URL}/about/`, priority: "0.8" },
+    { loc: `${SITE_URL}/media/`, priority: "0.6" },
   ];
   const articleUrls = articles.map((a) => ({
     loc: `${SITE_URL}/${a.dir}/`,
