@@ -71,11 +71,11 @@ function findArticles() {
     const publishedDate = readMeta(html, "article:date") || "";
     const author = readMeta(html, "article:author") || "";
     const category = readMeta(html, "article:category") || "uncategorized";
+    const orderMeta = readMeta(html, "article:order");
+    const manualOrder = orderMeta !== null ? Number(orderMeta) : null;
 
-    const sortKey =
-      gitLastModified(indexPath) ||
-      publishedDate ||
-      new Date().toISOString();
+    const gitSortKey = gitLastModified(indexPath);
+    const sortKey = gitSortKey || publishedDate || new Date().toISOString();
     const updatedDate = sortKey.slice(0, 10);
 
     articles.push({
@@ -89,10 +89,23 @@ function findArticles() {
       category,
       updatedDate,
       sortKey,
+      manualOrder,
     });
   }
 
-  articles.sort((a, b) => (a.sortKey < b.sortKey ? 1 : -1));
+  // Articles with an explicit article:order meta sort by that number
+  // (higher = newer = shown first). Articles without it fall back to
+  // git last-modified time and are always treated as newer than any
+  // manually ordered article, so freshly added posts bubble to the top
+  // automatically without needing article:order to be set by hand.
+  articles.sort((a, b) => {
+    if (a.manualOrder !== null && b.manualOrder !== null) {
+      return b.manualOrder - a.manualOrder;
+    }
+    if (a.manualOrder !== null) return 1;
+    if (b.manualOrder !== null) return -1;
+    return a.sortKey < b.sortKey ? 1 : -1;
+  });
   return articles;
 }
 
