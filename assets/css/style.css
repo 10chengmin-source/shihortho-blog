@@ -214,6 +214,26 @@ main.container {
   margin: 0 0 12px;
 }
 
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  flex-shrink: 0;
+}
+
+.profile-header h1 {
+  margin: 0;
+}
+
 .post-meta {
   display: flex;
   flex-wrap: wrap;
@@ -252,6 +272,27 @@ main.container {
 .post-content ol {
   padding-left: 1.4em;
   margin: 0 0 1.1em;
+}
+
+.post-content li {
+  margin-bottom: 0.5em;
+}
+
+.post-content blockquote {
+  margin: 0 0 1.1em;
+  padding: 4px 0 4px 16px;
+  border-left: 3px solid var(--color-accent);
+  color: var(--color-sub);
+}
+
+.post-content blockquote p {
+  margin: 0 0 0.3em;
+}
+
+.post-content hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2em 0;
 }
 
 .back-link {
