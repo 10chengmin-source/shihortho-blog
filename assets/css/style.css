@@ -361,12 +361,6 @@ main.container {
   margin: 0 0 8px;
 }
 
-.profile-role {
-  font-size: 0.9rem;
-  color: var(--color-sub);
-  margin: 0;
-}
-
 .post-category {
   display: inline-block;
   font-family: var(--font-mono);
@@ -484,7 +478,7 @@ main.container {
   padding: 32px 0;
   color: var(--color-sub);
   font-size: 0.82rem;
-  background: var(--color-surface);
+  background: var(--color-bg);
 }
 
 .site-footer p {
