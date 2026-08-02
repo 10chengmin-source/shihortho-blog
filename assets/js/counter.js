@@ -40,7 +40,7 @@
 
   async function run() {
     const page = document.body.getAttribute("data-page");
-    const badges = Array.from(document.querySelectorAll("[data-slug]"));
+    const badges = Array.from(document.querySelectorAll("span[data-slug]"));
 
     if (page === "article") {
       const slug = document.body.getAttribute("data-slug");
