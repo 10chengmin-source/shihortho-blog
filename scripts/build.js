@@ -31,7 +31,7 @@ function gitLastModified(absPath) {
     })
       .toString()
       .trim();
-    if (out) return out.slice(0, 10);
+    if (out) return out;
   } catch (e) {
     // not in a git repo yet, or file untracked
   }
@@ -54,10 +54,11 @@ function findArticles() {
     const publishedDate = readMeta(html, "article:date") || "";
     const author = readMeta(html, "article:author") || "";
 
-    const updatedDate =
+    const sortKey =
       gitLastModified(indexPath) ||
       publishedDate ||
-      new Date().toISOString().slice(0, 10);
+      new Date().toISOString();
+    const updatedDate = sortKey.slice(0, 10);
 
     articles.push({
       dir: entry.name,
@@ -68,10 +69,11 @@ function findArticles() {
       publishedDate,
       author,
       updatedDate,
+      sortKey,
     });
   }
 
-  articles.sort((a, b) => (a.updatedDate < b.updatedDate ? 1 : -1));
+  articles.sort((a, b) => (a.sortKey < b.sortKey ? 1 : -1));
   return articles;
 }
 
