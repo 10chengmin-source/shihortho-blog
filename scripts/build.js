@@ -30,6 +30,15 @@ const CATEGORY_LABELS = {
   uncategorized: "最新文章",
 };
 
+const CATEGORY_CODES = {
+  philosophy: "PHILOSOPHY",
+  announcement: "ANNOUNCEMENT",
+  surgery: "SURGERY",
+  education: "EDUCATION",
+  story: "CASE NOTES",
+  uncategorized: "LATEST",
+};
+
 // Update this if a custom domain is connected later (e.g. https://blog.shihortho.net).
 const SITE_URL = "https://shihortho-blog.pages.dev";
 const SITE_NAME = "背後的力量｜石醫師的骨科札記";
@@ -320,21 +329,21 @@ function writeSitemap(articles) {
   fs.writeFileSync(path.join(ROOT, "sitemap.xml"), xml, "utf8");
 }
 
-function renderCard(article) {
-  return `      <article class="card">
-        <a href="/${article.dir}/" class="card-link">
-          <div class="card-body">
-            <h3 class="card-title">${escapeHtml(article.title)}</h3>
-            <p class="card-excerpt">${escapeHtml(article.excerpt)}</p>
-            <div class="card-meta">
-              <span class="card-date">${article.updatedDate}</span>
-              <span class="card-views" data-slug="${escapeHtml(
+function renderIndexRow(article, indexInGroup) {
+  const num = String(indexInGroup).padStart(2, "0");
+  return `        <div class="index-row">
+          <span class="index-num">${num}</span>
+          <a href="/${article.dir}/" class="index-link">
+            <h3 class="index-title">${escapeHtml(article.title)}</h3>
+            <p class="index-excerpt">${escapeHtml(article.excerpt)}</p>
+            <div class="index-meta">
+              <span class="index-date">${article.updatedDate}</span>
+              <span class="index-views" data-slug="${escapeHtml(
                 article.slug
               )}">👁 —</span>
             </div>
-          </div>
-        </a>
-      </article>`;
+          </a>
+        </div>`;
 }
 
 function groupByCategory(articles) {
@@ -352,11 +361,15 @@ function groupByCategory(articles) {
 }
 
 function renderSection(group) {
-  const cardsHtml = group.articles.map(renderCard).join("\n");
+  const rowsHtml = group.articles
+    .map((article, i) => renderIndexRow(article, i + 1))
+    .join("\n");
+  const code = CATEGORY_CODES[group.key] || CATEGORY_CODES.uncategorized;
   return `    <section class="category-section">
+      <span class="section-eyebrow">${escapeHtml(code)}</span>
       <h2 class="section-title">${escapeHtml(group.label)}</h2>
-      <div class="card-grid">
-${cardsHtml}
+      <div class="index-list">
+${rowsHtml}
       </div>
     </section>`;
 }
