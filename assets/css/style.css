@@ -81,6 +81,10 @@ a {
 
 .site-nav {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .site-nav a {
@@ -88,6 +92,14 @@ a {
   text-decoration: none;
   color: var(--color-accent-dark);
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.site-nav a.nav-cta {
+  background: var(--color-accent);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 999px;
 }
 
 /* Hero (homepage, full-bleed) */
