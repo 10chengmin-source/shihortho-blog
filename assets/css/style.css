@@ -171,7 +171,7 @@ main.container {
   border-left: 4px solid #06c755;
   border-radius: var(--radius);
   padding: 24px 28px;
-  margin-bottom: 40px;
+  margin-top: 40px;
 }
 
 .notice-banner-text {
@@ -355,15 +355,6 @@ main.container {
   width: 100%;
   height: auto;
   display: block;
-}
-
-.profile-caption {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  color: var(--color-amber);
-  text-align: center;
-  padding-top: 10px;
 }
 
 .profile-header h1 {

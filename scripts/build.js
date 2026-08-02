@@ -23,7 +23,7 @@ const CATEGORY_ORDER = [
 
 const CATEGORY_LABELS = {
   philosophy: "石醫師的醫療理念",
-  announcement: "石醫師公告",
+  announcement: "有關石醫師的醫療團隊",
   surgery: "石醫師的手術室",
   education: "衛教教室",
   story: "臨床的小故事",
