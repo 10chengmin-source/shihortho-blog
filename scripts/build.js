@@ -9,6 +9,8 @@ const IGNORE_DIRS = new Set([
   "node_modules",
   ".git",
   ".github",
+  "about",
+  "dist",
 ]);
 
 function readMeta(html, name) {
