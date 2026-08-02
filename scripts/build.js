@@ -22,7 +22,7 @@ const CATEGORY_ORDER = [
 ];
 
 const CATEGORY_LABELS = {
-  philosophy: "我的醫療理念",
+  philosophy: "石醫師的醫療理念",
   announcement: "石醫師公告",
   surgery: "石醫師的手術室",
   education: "衛教教室",
@@ -114,6 +114,17 @@ function findArticles() {
     return a.sortKey < b.sortKey ? 1 : -1;
   });
   return articles;
+}
+
+function updateArticleCategoryLabel(article) {
+  let html = fs.readFileSync(article.indexPath, "utf8");
+  const label = CATEGORY_LABELS[article.category] || CATEGORY_LABELS.uncategorized;
+  const re = /(<span class="post-category">)[^<]*(<\/span>)/;
+  if (!re.test(html)) return;
+  const next = html.replace(re, `$1${label}$2`);
+  if (next !== html) {
+    fs.writeFileSync(article.indexPath, next, "utf8");
+  }
 }
 
 function updateArticleUpdatedMarker(article) {
@@ -369,6 +380,7 @@ function updateHomepageCards(articles) {
 function main() {
   const articles = findArticles();
   articles.forEach(updateArticleUpdatedMarker);
+  articles.forEach(updateArticleCategoryLabel);
   updateHomepageCards(articles);
   updateAllSeo(articles);
   writeRobotsTxt();
