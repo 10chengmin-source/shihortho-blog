@@ -169,6 +169,14 @@ main.container {
   border-bottom: 1px solid var(--color-border);
 }
 
+.category-section {
+  margin-bottom: 48px;
+}
+
+.category-section:last-child {
+  margin-bottom: 0;
+}
+
 .section-title {
   font-family: var(--font-serif);
   font-size: 1.5rem;
@@ -281,6 +289,16 @@ main.container {
 
 .profile-header h1 {
   margin: 0;
+}
+
+.post-category {
+  display: inline-block;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 4px 12px;
+  border-radius: 999px;
 }
 
 .post-meta {

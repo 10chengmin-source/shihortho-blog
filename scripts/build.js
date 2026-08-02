@@ -13,6 +13,23 @@ const IGNORE_DIRS = new Set([
   "dist",
 ]);
 
+const CATEGORY_ORDER = [
+  "philosophy",
+  "announcement",
+  "surgery",
+  "education",
+  "story",
+];
+
+const CATEGORY_LABELS = {
+  philosophy: "我的醫療理念",
+  announcement: "石醫師公告",
+  surgery: "石醫師的手術室",
+  education: "衛教教室",
+  story: "臨床的小故事",
+  uncategorized: "最新文章",
+};
+
 function readMeta(html, name) {
   const re = new RegExp(
     `<meta\\s+name=["']${name}["']\\s+content=["']([^"']*)["']\\s*/?>`,
@@ -53,6 +70,7 @@ function findArticles() {
     const excerpt = readMeta(html, "article:excerpt") || "";
     const publishedDate = readMeta(html, "article:date") || "";
     const author = readMeta(html, "article:author") || "";
+    const category = readMeta(html, "article:category") || "uncategorized";
 
     const sortKey =
       gitLastModified(indexPath) ||
@@ -68,6 +86,7 @@ function findArticles() {
       excerpt,
       publishedDate,
       author,
+      category,
       updatedDate,
       sortKey,
     });
@@ -113,6 +132,30 @@ function renderCard(article) {
       </article>`;
 }
 
+function groupByCategory(articles) {
+  const groups = new Map();
+  for (const article of articles) {
+    const key = CATEGORY_LABELS[article.category] ? article.category : "uncategorized";
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(article);
+  }
+
+  const order = [...CATEGORY_ORDER, "uncategorized"];
+  return order
+    .filter((key) => groups.has(key))
+    .map((key) => ({ key, label: CATEGORY_LABELS[key], articles: groups.get(key) }));
+}
+
+function renderSection(group) {
+  const cardsHtml = group.articles.map(renderCard).join("\n");
+  return `    <section class="category-section">
+      <h2 class="section-title">${escapeHtml(group.label)}</h2>
+      <div class="card-grid">
+${cardsHtml}
+      </div>
+    </section>`;
+}
+
 function updateHomepageCards(articles) {
   const indexPath = path.join(ROOT, "index.html");
   let html = fs.readFileSync(indexPath, "utf8");
@@ -120,8 +163,9 @@ function updateHomepageCards(articles) {
   if (!re.test(html)) {
     throw new Error("BUILD:CARDS markers not found in index.html");
   }
-  const cardsHtml = articles.map(renderCard).join("\n");
-  const replacement = `<!-- BUILD:CARDS:START -->\n${cardsHtml}\n      <!-- BUILD:CARDS:END -->`;
+  const groups = groupByCategory(articles);
+  const sectionsHtml = groups.map(renderSection).join("\n\n");
+  const replacement = `<!-- BUILD:CARDS:START -->\n${sectionsHtml}\n    <!-- BUILD:CARDS:END -->`;
   const next = html.replace(re, replacement);
   if (next !== html) {
     fs.writeFileSync(indexPath, next, "utf8");
