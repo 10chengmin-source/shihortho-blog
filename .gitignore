@@ -1,4 +1,4 @@
 node_modules/
-assets/images/hero-original.jpg
+assets/images/*-original.jpg
 .wrangler/
 dist/
