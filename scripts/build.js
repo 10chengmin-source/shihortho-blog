@@ -256,7 +256,7 @@ function buildHomeSeo() {
 function buildAboutSeo() {
   const url = `${SITE_URL}/about/`;
   const description =
-    "石承民醫師，臺中榮民總醫院骨科部脊椎外科科主任，專長涵蓋脊椎手術、膝髖關節重建手術與骨質疏鬆治療。";
+    "石承民醫師，臺中榮民總醫院骨科部脊椎外科科主任，專長涵蓋各式微創、複雜及脊椎翻修手術、膝髖關節重建手術與骨質疏鬆治療。";
   const image = SITE_URL + DOCTOR_PORTRAIT;
   const tags = commonOgTags({
     title: `醫師介紹｜${DOCTOR_NAME} 醫師｜背後的力量`,
