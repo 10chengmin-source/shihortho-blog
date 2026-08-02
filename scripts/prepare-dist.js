@@ -10,6 +10,7 @@ const EXCLUDE_DIRS = new Set([
   ".git",
   ".github",
 ]);
+const EXTRA_ROOT_FILES = new Set(["robots.txt", "sitemap.xml"]);
 
 function copyRecursive(src, dest) {
   const stat = fs.statSync(src);
@@ -31,7 +32,12 @@ function main() {
   for (const entry of fs.readdirSync(ROOT, { withFileTypes: true })) {
     if (entry.name.startsWith(".")) continue;
     if (EXCLUDE_DIRS.has(entry.name)) continue;
-    if (!entry.isDirectory() && !entry.name.endsWith(".html")) continue;
+    if (
+      !entry.isDirectory() &&
+      !entry.name.endsWith(".html") &&
+      !EXTRA_ROOT_FILES.has(entry.name)
+    )
+      continue;
 
     copyRecursive(path.join(ROOT, entry.name), path.join(DIST, entry.name));
   }

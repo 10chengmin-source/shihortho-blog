@@ -30,6 +30,13 @@ const CATEGORY_LABELS = {
   uncategorized: "最新文章",
 };
 
+// Update this if a custom domain is connected later (e.g. https://blog.shihortho.net).
+const SITE_URL = "https://shihortho-blog.pages.dev";
+const SITE_NAME = "背後的力量｜石醫師的骨科札記";
+const DOCTOR_NAME = "石承民";
+const DEFAULT_OG_IMAGE = "/assets/images/hero-cover.jpg";
+const DOCTOR_PORTRAIT = "/assets/images/doctor-portrait.jpg";
+
 function readMeta(html, name) {
   const re = new RegExp(
     `<meta\\s+name=["']${name}["']\\s+content=["']([^"']*)["']\\s*/?>`,
@@ -128,6 +135,180 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;");
 }
 
+function extractHeroImage(html) {
+  const m = html.match(
+    /<img\s+class="(?:hero-img|post-hero-img)"[\s\S]*?src="([^"]+)"/
+  );
+  return m ? m[1] : DEFAULT_OG_IMAGE;
+}
+
+function jsonLdScript(obj) {
+  return `<script type="application/ld+json">\n${JSON.stringify(
+    obj,
+    null,
+    2
+  )}\n  </script>`;
+}
+
+function commonOgTags({ title, description, url, image, type }) {
+  return [
+    `<link rel="canonical" href="${url}" />`,
+    `<meta property="og:type" content="${type}" />`,
+    `<meta property="og:site_name" content="${escapeHtml(SITE_NAME)}" />`,
+    `<meta property="og:locale" content="zh_TW" />`,
+    `<meta property="og:title" content="${escapeHtml(title)}" />`,
+    `<meta property="og:description" content="${escapeHtml(description)}" />`,
+    `<meta property="og:url" content="${url}" />`,
+    `<meta property="og:image" content="${image}" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
+  ];
+}
+
+function buildArticleSeo(article, html) {
+  const url = `${SITE_URL}/${article.dir}/`;
+  const image = SITE_URL + extractHeroImage(html);
+  const tags = commonOgTags({
+    title: article.title,
+    description: article.excerpt,
+    url,
+    image,
+    type: "article",
+  });
+  tags.push(
+    `<meta property="article:published_time" content="${article.publishedDate}" />`,
+    `<meta property="article:modified_time" content="${article.updatedDate}" />`
+  );
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    headline: article.title,
+    description: article.excerpt,
+    image,
+    author: { "@type": "Person", name: article.author || DOCTOR_NAME },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      logo: { "@type": "ImageObject", url: SITE_URL + DOCTOR_PORTRAIT },
+    },
+    datePublished: article.publishedDate,
+    dateModified: article.updatedDate,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    inLanguage: "zh-Hant-TW",
+  };
+  tags.push(jsonLdScript(jsonLd));
+  return tags.join("\n  ");
+}
+
+function buildHomeSeo() {
+  const url = `${SITE_URL}/`;
+  const description =
+    "石承民醫師的骨科札記，分享脊椎、關節與運動傷害相關的衛教知識、手術理念與臨床觀察。";
+  const image = SITE_URL + DEFAULT_OG_IMAGE;
+  const tags = commonOgTags({
+    title: SITE_NAME,
+    description,
+    url,
+    image,
+    type: "website",
+  });
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url,
+    description,
+    inLanguage: "zh-Hant-TW",
+    publisher: {
+      "@type": "Physician",
+      name: DOCTOR_NAME,
+      medicalSpecialty: "https://schema.org/Orthopedic",
+      image: SITE_URL + DOCTOR_PORTRAIT,
+      url,
+    },
+  };
+  tags.push(jsonLdScript(jsonLd));
+  return tags.join("\n  ");
+}
+
+function buildAboutSeo() {
+  const url = `${SITE_URL}/about/`;
+  const description =
+    "石承民醫師，臺中榮民總醫院骨科部脊椎外科科主任，專長脊椎手術與骨質疏鬆症治療。";
+  const image = SITE_URL + DOCTOR_PORTRAIT;
+  const tags = commonOgTags({
+    title: `醫師介紹｜${DOCTOR_NAME} 醫師｜背後的力量`,
+    description,
+    url,
+    image,
+    type: "profile",
+  });
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Physician",
+    name: DOCTOR_NAME,
+    image,
+    url,
+    medicalSpecialty: "https://schema.org/Orthopedic",
+    worksFor: {
+      "@type": "Hospital",
+      name: "臺中榮民總醫院",
+    },
+    alumniOf: ["陽明交通大學", "高雄醫學大學"],
+  };
+  tags.push(jsonLdScript(jsonLd));
+  return tags.join("\n  ");
+}
+
+function injectSeo(filePath, seoHtml) {
+  let html = fs.readFileSync(filePath, "utf8");
+  const re = /<!-- BUILD:SEO:START -->[\s\S]*?<!-- BUILD:SEO:END -->/;
+  if (!re.test(html)) return;
+  const replacement = `<!-- BUILD:SEO:START -->\n  ${seoHtml}\n  <!-- BUILD:SEO:END -->`;
+  const next = html.replace(re, replacement);
+  if (next !== html) {
+    fs.writeFileSync(filePath, next, "utf8");
+  }
+}
+
+function updateAllSeo(articles) {
+  injectSeo(path.join(ROOT, "index.html"), buildHomeSeo());
+  injectSeo(path.join(ROOT, "about", "index.html"), buildAboutSeo());
+  for (const article of articles) {
+    const html = fs.readFileSync(article.indexPath, "utf8");
+    injectSeo(article.indexPath, buildArticleSeo(article, html));
+  }
+}
+
+function writeRobotsTxt() {
+  const content = `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
+  fs.writeFileSync(path.join(ROOT, "robots.txt"), content, "utf8");
+}
+
+function writeSitemap(articles) {
+  const staticUrls = [
+    { loc: `${SITE_URL}/`, priority: "1.0" },
+    { loc: `${SITE_URL}/about/`, priority: "0.8" },
+  ];
+  const articleUrls = articles.map((a) => ({
+    loc: `${SITE_URL}/${a.dir}/`,
+    lastmod: a.updatedDate,
+    priority: "0.7",
+  }));
+
+  const urlXml = [...staticUrls, ...articleUrls]
+    .map((u) => {
+      const lastmod = u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : "";
+      return `  <url>\n    <loc>${u.loc}</loc>${lastmod}\n    <priority>${u.priority}</priority>\n  </url>`;
+    })
+    .join("\n");
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlXml}\n</urlset>\n`;
+  fs.writeFileSync(path.join(ROOT, "sitemap.xml"), xml, "utf8");
+}
+
 function renderCard(article) {
   return `      <article class="card">
         <a href="/${article.dir}/" class="card-link">
@@ -189,6 +370,9 @@ function main() {
   const articles = findArticles();
   articles.forEach(updateArticleUpdatedMarker);
   updateHomepageCards(articles);
+  updateAllSeo(articles);
+  writeRobotsTxt();
+  writeSitemap(articles);
   console.log(`Built ${articles.length} article(s):`);
   articles.forEach((a) =>
     console.log(`  - ${a.dir} (updated ${a.updatedDate})`)

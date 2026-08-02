@@ -2,3 +2,5 @@ node_modules/
 assets/images/*-original.jpg
 .wrangler/
 dist/
+/robots.txt
+/sitemap.xml
