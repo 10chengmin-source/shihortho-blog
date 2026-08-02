@@ -26,7 +26,7 @@ const CATEGORY_LABELS = {
   philosophy: "石醫師的醫療理念",
   announcement: "有關石醫師的醫療團隊",
   surgery: "石醫師的手術室",
-  education: "衛教教室",
+  education: "漫談骨科",
   story: "臨床的小故事",
   uncategorized: "最新文章",
 };
