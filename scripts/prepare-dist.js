@@ -10,7 +10,7 @@ const EXCLUDE_DIRS = new Set([
   ".git",
   ".github",
 ]);
-const EXTRA_ROOT_FILES = new Set(["robots.txt", "sitemap.xml"]);
+const EXTRA_ROOT_FILES = new Set(["robots.txt", "sitemap.xml", "rss.xml"]);
 
 function copyRecursive(src, dest) {
   const stat = fs.statSync(src);

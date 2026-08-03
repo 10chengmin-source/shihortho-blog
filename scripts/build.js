@@ -460,6 +460,106 @@ ${rowsHtml}
     </section>`;
 }
 
+const RELATED_HEADING = { zh: "延伸閱讀", en: "Further Reading" };
+
+function pickRelated(article, allArticles, count = 3) {
+  const others = allArticles.filter((a) => a !== article);
+  const sameCategory = others.filter((a) => a.category === article.category);
+  const rest = others.filter((a) => a.category !== article.category);
+  return [...sameCategory, ...rest].slice(0, count);
+}
+
+function renderRelated(article, allArticles, locale) {
+  const related = pickRelated(article, allArticles);
+  if (!related.length) return "";
+  const codes = locale === "en" ? CATEGORY_CODES : CATEGORY_LABELS;
+  const rowsHtml = related
+    .map(
+      (a) => `        <a href="/${a.dir}/" class="related-link">
+          <span class="related-category">${escapeHtml(
+            codes[a.category] || codes.uncategorized
+          )}</span>
+          <h4 class="related-title">${escapeHtml(a.title)}</h4>
+        </a>`
+    )
+    .join("\n");
+  return `      <aside class="related-articles">
+        <h3 class="related-heading">${RELATED_HEADING[locale]}</h3>
+        <div class="related-list">
+${rowsHtml}
+        </div>
+      </aside>`;
+}
+
+function injectRelated(article, allArticles, locale) {
+  const filePath = article.indexPath;
+  if (!fs.existsSync(filePath)) return;
+  let html = fs.readFileSync(filePath, "utf8");
+  const re = /<!-- BUILD:RELATED:START -->[\s\S]*?<!-- BUILD:RELATED:END -->/;
+  if (!re.test(html)) return;
+  const relatedHtml = renderRelated(article, allArticles, locale);
+  const inner = relatedHtml
+    ? `<!-- BUILD:RELATED:START -->\n${relatedHtml}\n      <!-- BUILD:RELATED:END -->`
+    : `<!-- BUILD:RELATED:START -->\n      <!-- BUILD:RELATED:END -->`;
+  const next = html.replace(re, inner);
+  if (next !== html) {
+    fs.writeFileSync(filePath, next, "utf8");
+  }
+}
+
+function escapeXml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function buildRssItems(articles) {
+  return articles
+    .map((a) => {
+      const url = `${SITE_URL}/${a.dir}/`;
+      const pubDate = new Date(`${a.publishedDate}T09:00:00+08:00`).toUTCString();
+      return `    <item>
+      <title>${escapeXml(a.title)}</title>
+      <link>${url}</link>
+      <guid isPermaLink="true">${url}</guid>
+      <pubDate>${pubDate}</pubDate>
+      <description>${escapeXml(a.excerpt)}</description>
+    </item>`;
+    })
+    .join("\n");
+}
+
+function writeRssFeed(articles, locale) {
+  const isEn = locale === "en";
+  const feedUrl = isEn ? `${SITE_URL}/en/rss.xml` : `${SITE_URL}/rss.xml`;
+  const siteUrl = isEn ? `${SITE_URL}/en/` : `${SITE_URL}/`;
+  const title = isEn ? SITE_NAME_EN : SITE_NAME;
+  const description = isEn
+    ? "Dr. Cheng-Min Shih's orthopedic notes: clinical philosophy, surgical insights, and patient education on spine, joint, and sports-related conditions."
+    : "石承民醫師的骨科札記，分享脊椎、關節與運動傷害相關的衛教知識、手術理念與臨床觀察。";
+  const language = isEn ? "en-us" : "zh-tw";
+  const itemsXml = buildRssItems(articles);
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${escapeXml(title)}</title>
+    <link>${siteUrl}</link>
+    <description>${escapeXml(description)}</description>
+    <language>${language}</language>
+    <atom:link href="${feedUrl}" rel="self" type="application/rss+xml" />
+${itemsXml}
+  </channel>
+</rss>
+`;
+  const outPath = isEn
+    ? path.join(ROOT, "en", "rss.xml")
+    : path.join(ROOT, "rss.xml");
+  fs.writeFileSync(outPath, xml, "utf8");
+}
+
 function updateHomepageCards(articles, indexPath, labels) {
   if (!fs.existsSync(indexPath)) return;
   let html = fs.readFileSync(indexPath, "utf8");
@@ -488,9 +588,14 @@ function main() {
   updateHomepageCards(zhArticles, path.join(ROOT, "index.html"), CATEGORY_LABELS);
   updateHomepageCards(enArticles, path.join(ROOT, "en", "index.html"), CATEGORY_LABELS_EN);
 
+  zhArticles.forEach((a) => injectRelated(a, zhArticles, "zh"));
+  enArticles.forEach((a) => injectRelated(a, enArticles, "en"));
+
   updateAllSeo(zhArticles, enArticles);
   writeRobotsTxt();
   writeSitemap(zhArticles, enArticles);
+  writeRssFeed(zhArticles, "zh");
+  writeRssFeed(enArticles, "en");
 
   console.log(
     `Built ${zhArticles.length} Chinese article(s), ${enArticles.length} English article(s):`

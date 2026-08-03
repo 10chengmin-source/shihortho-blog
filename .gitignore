@@ -4,3 +4,5 @@ assets/images/*-original.jpg
 dist/
 /robots.txt
 /sitemap.xml
+/rss.xml
+/en/rss.xml

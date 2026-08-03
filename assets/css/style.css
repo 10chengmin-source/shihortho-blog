@@ -484,6 +484,63 @@ main.container {
   color: var(--color-accent);
 }
 
+/* Related articles */
+.related-articles {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-line);
+}
+
+.related-heading {
+  margin: 0 0 16px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-sub);
+}
+
+.related-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.related-link {
+  display: block;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-line);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.related-list .related-link:last-child {
+  border-bottom: none;
+}
+
+.related-link:hover {
+  opacity: 0.75;
+}
+
+.related-category {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 4px;
+}
+
+.related-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--color-line);
