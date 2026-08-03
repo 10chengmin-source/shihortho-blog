@@ -60,6 +60,18 @@ const DOCTOR_NAME_EN = "Dr. Cheng-Min Shih";
 const DEFAULT_OG_IMAGE = "/assets/images/hero-cover.jpg";
 const DOCTOR_PORTRAIT = "/assets/images/doctor-portrait.jpg";
 
+// Partner / collaborator links shown in every page's footer.
+// Add future collaborators here — label/labelEn plus the url.
+const FRIEND_LINKS = [
+  {
+    label: "背後的力量 Facebook 粉絲專頁",
+    labelEn: "Behind the Strength on Facebook",
+    url: "https://www.facebook.com/profile.php?id=61581620385517",
+  },
+];
+
+const FRIEND_LINKS_HEADING = { zh: "友好連結", en: "Partner Links" };
+
 function readMeta(html, name) {
   // content is always double-quoted in this codebase; only "
   // terminates the match so apostrophes in English copy ("It's",
@@ -560,6 +572,34 @@ ${itemsXml}
   fs.writeFileSync(outPath, xml, "utf8");
 }
 
+function renderFriendLinks(locale) {
+  if (!FRIEND_LINKS.length) return "";
+  const linksHtml = FRIEND_LINKS.map((f) => {
+    const label = locale === "en" ? f.labelEn || f.label : f.label;
+    return `<a href="${f.url}" target="_blank" rel="noopener">${escapeHtml(
+      label
+    )}</a>`;
+  }).join("\n        ");
+  return `      <div class="friend-links">
+        <span class="friend-links-label">${FRIEND_LINKS_HEADING[locale]}</span>
+        ${linksHtml}
+      </div>`;
+}
+
+function injectFriendLinks(filePath, locale) {
+  if (!fs.existsSync(filePath)) return;
+  let html = fs.readFileSync(filePath, "utf8");
+  const re = /<!-- BUILD:FRIENDS:START -->[\s\S]*?<!-- BUILD:FRIENDS:END -->/;
+  if (!re.test(html)) return;
+  const inner = `<!-- BUILD:FRIENDS:START -->\n${renderFriendLinks(
+    locale
+  )}\n      <!-- BUILD:FRIENDS:END -->`;
+  const next = html.replace(re, inner);
+  if (next !== html) {
+    fs.writeFileSync(filePath, next, "utf8");
+  }
+}
+
 function updateHomepageCards(articles, indexPath, labels) {
   if (!fs.existsSync(indexPath)) return;
   let html = fs.readFileSync(indexPath, "utf8");
@@ -590,6 +630,15 @@ function main() {
 
   zhArticles.forEach((a) => injectRelated(a, zhArticles, "zh"));
   enArticles.forEach((a) => injectRelated(a, enArticles, "en"));
+
+  injectFriendLinks(path.join(ROOT, "index.html"), "zh");
+  injectFriendLinks(path.join(ROOT, "about", "index.html"), "zh");
+  injectFriendLinks(path.join(ROOT, "media", "index.html"), "zh");
+  injectFriendLinks(path.join(ROOT, "en", "index.html"), "en");
+  injectFriendLinks(path.join(ROOT, "en", "about", "index.html"), "en");
+  injectFriendLinks(path.join(ROOT, "en", "media", "index.html"), "en");
+  zhArticles.forEach((a) => injectFriendLinks(a.indexPath, "zh"));
+  enArticles.forEach((a) => injectFriendLinks(a.indexPath, "en"));
 
   updateAllSeo(zhArticles, enArticles);
   writeRobotsTxt();
