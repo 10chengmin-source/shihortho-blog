@@ -10,9 +10,12 @@
     "Content-Type": "application/json",
   };
 
+  const isEn = document.documentElement.lang.indexOf("en") === 0;
+  const numberLocale = isEn ? "en-US" : "zh-Hant";
+
   function renderCount(el, count) {
-    const label = el.getAttribute("data-label") || "次瀏覽";
-    el.textContent = "\u{1F441} " + count.toLocaleString("zh-Hant") + " " + label;
+    const label = el.getAttribute("data-label") || (isEn ? "views" : "次瀏覽");
+    el.textContent = "\u{1F441} " + count.toLocaleString(numberLocale) + " " + label;
   }
 
   async function fetchAllCounts() {
@@ -68,7 +71,7 @@
 
     const totalEl = document.getElementById("site-total-views");
     if (totalEl) {
-      totalEl.textContent = total.toLocaleString("zh-Hant");
+      totalEl.textContent = total.toLocaleString(numberLocale);
     }
   }
 

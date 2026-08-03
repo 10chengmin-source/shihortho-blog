@@ -111,6 +111,17 @@ a {
   color: var(--color-ink);
 }
 
+.site-nav a.lang-switch {
+  padding: 4px 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  font-size: 0.78rem;
+}
+
+.site-nav a.lang-switch:hover {
+  border-color: var(--color-accent);
+}
+
 .site-nav a.nav-cta {
   background: var(--color-accent);
   color: var(--color-accent-ink);
