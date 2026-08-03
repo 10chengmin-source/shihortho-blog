@@ -270,7 +270,7 @@ function buildHomeSeo(locale) {
   const url = isEn ? `${SITE_URL}/en/` : `${SITE_URL}/`;
   const siteName = isEn ? SITE_NAME_EN : SITE_NAME;
   const description = isEn
-    ? "Dr. Cheng-Min Shih's orthopedic notes — clinical philosophy, surgical insights, and patient education on spine, joint, and sports-related conditions."
+    ? "Dr. Cheng-Min Shih's orthopedic notes: clinical philosophy, surgical insights, and patient education on spine, joint, and sports-related conditions."
     : "石承民醫師的骨科札記，分享脊椎、關節與運動傷害相關的衛教知識、手術理念與臨床觀察。";
   const image = SITE_URL + DEFAULT_OG_IMAGE;
   const tags = commonOgTags({
