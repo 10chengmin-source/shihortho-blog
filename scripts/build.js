@@ -11,10 +11,11 @@ const IGNORE_DIRS = new Set([
   ".github",
   "about",
   "media",
+  "line",
   "dist",
   "en",
 ]);
-const EN_IGNORE_DIRS = new Set(["about", "media"]);
+const EN_IGNORE_DIRS = new Set(["about", "media", "line"]);
 
 const CATEGORY_ORDER = [
   "philosophy",
@@ -400,6 +401,7 @@ function writeSitemap(zhArticles, enArticles) {
     { loc: `${SITE_URL}/`, priority: "1.0" },
     { loc: `${SITE_URL}/about/`, priority: "0.8" },
     { loc: `${SITE_URL}/media/`, priority: "0.6" },
+    { loc: `${SITE_URL}/line/`, priority: "0.4" },
   ];
   if (fs.existsSync(path.join(ROOT, "en", "index.html"))) {
     staticUrls.push({ loc: `${SITE_URL}/en/`, priority: "1.0" });
@@ -409,6 +411,9 @@ function writeSitemap(zhArticles, enArticles) {
   }
   if (fs.existsSync(path.join(ROOT, "en", "media", "index.html"))) {
     staticUrls.push({ loc: `${SITE_URL}/en/media/`, priority: "0.6" });
+  }
+  if (fs.existsSync(path.join(ROOT, "en", "line", "index.html"))) {
+    staticUrls.push({ loc: `${SITE_URL}/en/line/`, priority: "0.4" });
   }
   const articleUrls = [...zhArticles, ...enArticles].map((a) => ({
     loc: `${SITE_URL}/${a.dir}/`,
