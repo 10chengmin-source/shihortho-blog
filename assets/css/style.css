@@ -349,6 +349,13 @@ main.container {
   color: var(--color-ink);
 }
 
+.post-subtitle {
+  margin: -8px 0 16px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-sub);
+}
+
 .profile-header {
   display: grid;
   grid-template-columns: 220px 1fr;
