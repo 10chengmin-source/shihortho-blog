@@ -418,6 +418,10 @@ main.container {
   margin: 28px auto;
 }
 
+.post-inline-figure--wide {
+  max-width: 560px;
+}
+
 .post-inline-img {
   width: 100%;
   height: auto;
