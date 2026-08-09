@@ -211,6 +211,31 @@ a {
   transform: translateY(-1px);
 }
 
+/* Mobile nav toggle — hidden entirely above the mobile breakpoint, where the
+   full .site-nav already displays inline as before. */
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--color-ink);
+}
+
 /* Hero (homepage) — the cover image already contains the title text,
    shown in full without cropping, framed like a lit panel in a dark room. */
 .hero {
@@ -770,5 +795,41 @@ main.container {
 
   .profile-photo-frame {
     max-width: 220px;
+  }
+
+  /* Collapse the nav behind a toggle so the header doesn't push the whole
+     first screen of content below the fold on small viewports. */
+  .tagline {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .site-nav {
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .site-nav.is-open {
+    display: flex;
+  }
+
+  .site-nav a {
+    padding: 10px 4px;
+    white-space: normal;
+  }
+
+  .site-nav a.lang-switch,
+  .site-nav a.nav-cta {
+    justify-content: center;
+    margin-top: 4px;
   }
 }

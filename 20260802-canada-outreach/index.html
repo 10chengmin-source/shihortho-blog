@@ -2,6 +2,10 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192x192.png" />
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>讓台灣醫療走向世界｜背後的力量</title>
   <meta
@@ -104,7 +108,12 @@
     <div class="container">
       <a href="/" class="logo">背後的力量</a>
       <p class="tagline">石醫師的骨科札記</p>
-      <nav class="site-nav">
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="選單">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
         <a href="/about/">醫師介紹</a>
         <a href="/#announcement">醫療團隊訊息</a>
         <a href="/#philosophy">醫療理念</a>
@@ -233,5 +242,6 @@
   <script src="/assets/js/supabase-config.js"></script>
   <script src="/assets/js/counter.js" defer></script>
 <script src="/assets/js/adaptive-reading.js" defer></script>
+<script src="/assets/js/mobile-nav.js" defer></script>
 </body>
 </html>

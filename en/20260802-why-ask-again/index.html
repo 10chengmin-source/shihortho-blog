@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192x192.png" />
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Why I Still Ask, “So, What's Bothering You?” | Behind the Strength</title>
   <meta
@@ -104,7 +108,12 @@
     <div class="container">
       <a href="/" class="logo">Behind the Strength</a>
       <p class="tagline">Dr. Shih's Orthopedic Notes</p>
-      <nav class="site-nav">
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
         <a href="/en/about/">About Dr. Shih</a>
         <a href="/en/#announcement">Practice News</a>
         <a href="/en/#philosophy">Philosophy of Care</a>
@@ -228,5 +237,6 @@
   <script src="/assets/js/supabase-config.js"></script>
   <script src="/assets/js/counter.js" defer></script>
 <script src="/assets/js/adaptive-reading.js" defer></script>
+<script src="/assets/js/mobile-nav.js" defer></script>
 </body>
 </html>
