@@ -2,6 +2,7 @@
   --content-max: 720px;
   --wide-max: 1100px;
   --color-bg: #10151b;
+  --color-bg-rgb: 16, 21, 27;
   --color-surface: #182029;
   --color-surface-raised: #1d2630;
   --color-ink: #eef2f4;
@@ -33,6 +34,7 @@
    palette changes; layout and components are shared. */
 html[data-color-mode="light"] {
   --color-bg: #f5f7f8;
+  --color-bg-rgb: 245, 247, 248;
   --color-surface: #ffffff;
   --color-surface-raised: #eef1f3;
   --color-ink: #14181c;
@@ -124,7 +126,7 @@ a {
 
 /* Header */
 .site-header {
-  background: rgba(16, 21, 27, 0.92);
+  background: rgba(var(--color-bg-rgb), 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--color-line);
