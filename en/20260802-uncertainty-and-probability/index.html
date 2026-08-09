@@ -18,6 +18,41 @@
   <meta name="article:author" content="Dr. Cheng-Min Shih" />
   <meta name="article:category" content="philosophy" />
   <meta name="article:order" content="6" />
+    <script>
+  (function(){
+    if (window.ADAPTIVE_READING_DISABLED) return;
+    try {
+      var root = document.documentElement;
+      var choice = localStorage.getItem('shihortho:reading-mode') || 'auto';
+      var colorMode, level;
+      if (choice === 'readability') {
+        colorMode = 'light'; level = '3';
+      } else if (choice === 'dark') {
+        colorMode = 'dark'; level = '0';
+      } else {
+        var mm = window.matchMedia ? window.matchMedia.bind(window) : null;
+        colorMode = (mm && mm('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+        var score = 0;
+        var zoomFlag = localStorage.getItem('shihortho:zoom-flag') || 'none';
+        if (zoomFlag === 'high') score += 2.5;
+        else if (zoomFlag === 'mild') score += 1.5;
+        if (mm && mm('(prefers-reduced-motion: reduce)').matches) score += 0.5;
+        if (window.innerWidth && window.innerWidth <= 360) score += 0.25;
+        var probe = document.createElement('span');
+        probe.textContent = 'M';
+        probe.style.cssText = 'position:absolute;visibility:hidden;left:-9999px;top:-9999px;font-size:1rem;';
+        root.appendChild(probe);
+        var px = parseFloat(getComputedStyle(probe).fontSize) || 16;
+        root.removeChild(probe);
+        if (px >= 19) score += 2; else if (px >= 17.5) score += 1;
+        level = score >= 3 ? '3' : score >= 2 ? '2' : score >= 1 ? '1' : '0';
+      }
+      root.setAttribute('data-color-mode', colorMode);
+      root.setAttribute('data-reading-level', level);
+      root.setAttribute('data-reading-choice', choice);
+    } catch (e) {}
+  })();
+  </script>
   <link rel="stylesheet" href="/assets/css/style.css" />
   <!-- BUILD:SEO:START -->
   <link rel="canonical" href="https://shihortho-blog.pages.dev/en/20260802-uncertainty-and-probability/" />
@@ -154,10 +189,19 @@
       </div>
       <!-- BUILD:FRIENDS:END -->
       <p>© 2026 Behind the Strength | Dr. Shih's Orthopedic Notes</p>
+      <div class="reading-settings" role="group" aria-label="Reading settings">
+        <span class="reading-settings-label">Reading</span>
+        <span class="reading-settings-options">
+          <button type="button" data-reading-choice="auto" aria-pressed="false">Auto</button>
+          <button type="button" data-reading-choice="readability" aria-pressed="false">Clear</button>
+          <button type="button" data-reading-choice="dark" aria-pressed="false">Dark</button>
+        </span>
+      </div>
     </div>
   </footer>
 
   <script src="/assets/js/supabase-config.js"></script>
   <script src="/assets/js/counter.js" defer></script>
+<script src="/assets/js/adaptive-reading.js" defer></script>
 </body>
 </html>

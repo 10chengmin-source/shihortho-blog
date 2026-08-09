@@ -15,6 +15,75 @@
   --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system,
     BlinkMacSystemFont, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
+
+  /* Adaptive reading tokens — layered on top of the base design system.
+     data-reading-level (0-3) scales these up progressively; data-color-mode
+     swaps the palette above without touching layout. See assets/js/adaptive-reading.js. */
+  --reader-font-size: 1.02rem;
+  --reader-line-height: 1.75;
+  --reader-content-width: var(--content-max);
+  --reader-paragraph-gap: 1.2em;
+  --reader-heading-gap-top: 2em;
+  --reader-heading-gap-bottom: 0.7em;
+  --reader-post-padding-x: 20px;
+}
+
+/* Cool, clean off-white palette (deliberately not warm cream — matches the
+   same "precise/clinical" direction the dark theme was chosen for). Only the
+   palette changes; layout and components are shared. */
+html[data-color-mode="light"] {
+  --color-bg: #f5f7f8;
+  --color-surface: #ffffff;
+  --color-surface-raised: #eef1f3;
+  --color-ink: #14181c;
+  --color-sub: #55606a;
+  --color-line: #d8dee2;
+  --color-accent: #066b4a;
+  --color-accent-ink: #ffffff;
+  --color-amber: #96690a;
+}
+
+/* Reading level 1: loosen line-height only. */
+html[data-reading-level="1"],
+html[data-reading-level="2"],
+html[data-reading-level="3"] {
+  --reader-line-height: 1.85;
+}
+
+/* Reading level 2: also step up body font-size. */
+html[data-reading-level="2"],
+html[data-reading-level="3"] {
+  --reader-font-size: 1.12rem;
+}
+
+/* Reading level 3: also widen paragraph/heading spacing, content width, and
+   mobile side padding. */
+html[data-reading-level="3"] {
+  --reader-paragraph-gap: 1.7em;
+  --reader-heading-gap-top: 2.4em;
+  --reader-heading-gap-bottom: 0.9em;
+  --reader-content-width: 760px;
+  --reader-post-padding-x: 24px;
+}
+
+/* Transitions are only enabled once adaptive-reading.js adds this class after
+   first paint, so the very first render is never mid-transition (no FOUC). */
+html.reading-transitions-ready body,
+html.reading-transitions-ready .post-content,
+html.reading-transitions-ready .site-header,
+html.reading-transitions-ready .site-footer {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 * {
@@ -123,6 +192,9 @@ a {
 }
 
 .site-nav a.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   background: var(--color-accent);
   color: var(--color-accent-ink);
   font-weight: 700;
@@ -214,7 +286,9 @@ main.container {
 
 .line-cta {
   flex-shrink: 0;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   background: #06c755;
   color: #fff;
   font-weight: 700;
@@ -335,9 +409,9 @@ main.container {
 
 /* Article page */
 .post {
-  max-width: var(--content-max);
+  max-width: var(--reader-content-width);
   margin: 0 auto;
-  padding: 36px 20px 64px;
+  padding: 36px var(--reader-post-padding-x) 64px;
 }
 
 .post-header h1 {
@@ -446,14 +520,15 @@ main.container {
 }
 
 .post-content {
-  font-size: 1.02rem;
+  font-size: var(--reader-font-size);
+  line-height: var(--reader-line-height);
 }
 
 .post-content h2 {
   font-family: var(--font-serif);
   font-size: 1.25rem;
   font-weight: 600;
-  margin: 2em 0 0.7em;
+  margin: var(--reader-heading-gap-top) 0 var(--reader-heading-gap-bottom);
   padding-top: 1.6em;
   border-top: 1px solid var(--color-line);
   color: var(--color-ink);
@@ -466,14 +541,14 @@ main.container {
 }
 
 .post-content p {
-  margin: 0 0 1.2em;
+  margin: 0 0 var(--reader-paragraph-gap);
   color: var(--color-ink);
 }
 
 .post-content ul,
 .post-content ol {
   padding-left: 1.4em;
-  margin: 0 0 1.2em;
+  margin: 0 0 var(--reader-paragraph-gap);
 }
 
 .post-content li {
@@ -619,13 +694,72 @@ main.container {
   color: var(--color-accent);
 }
 
+/* Low-key reading-settings control (footer). Deliberately understated —
+   this is an accessibility affordance, not a feature to promote. */
+.reading-settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.78rem;
+}
+
+.reading-settings-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-sub);
+}
+
+.reading-settings-options {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.reading-settings button {
+  min-height: 32px;
+  padding: 5px 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-sub);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.reading-settings button:hover {
+  border-color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+.reading-settings button[aria-pressed="true"] {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-weight: 600;
+}
+
 @media (max-width: 640px) {
+  :root {
+    --reader-post-padding-x: 20px;
+  }
+
+  html[data-reading-level="3"] {
+    --reader-post-padding-x: 24px;
+  }
+
   .index-row {
     gap: 14px;
   }
 
   .post {
-    padding: 28px 18px 48px;
+    padding: 28px var(--reader-post-padding-x) 48px;
   }
 
   .profile-header {
