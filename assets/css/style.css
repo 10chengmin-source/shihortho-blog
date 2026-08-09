@@ -323,8 +323,16 @@ main.container {
   text-decoration: none;
   padding: 12px 24px;
   border-radius: 999px;
-  transition: filter 0.15s ease, transform 0.15s ease;
   white-space: nowrap;
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+
+/* In the nav, the LINE button sits right next to nav-cta and must match its
+   size exactly (the notice-banner's standalone .line-cta keeps its larger,
+   more prominent sizing). */
+.site-nav .line-cta {
+  padding: 9px 20px;
+  font-size: 0.85rem;
 }
 
 .line-cta:hover {
