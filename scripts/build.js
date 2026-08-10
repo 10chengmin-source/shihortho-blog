@@ -845,7 +845,7 @@ function renderLangSwitch(currentLocaleCode, availability) {
   }).join("\n");
 
   return `<div class="lang-switch">
-        <button type="button" class="lang-switch-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="lang-switch-menu">${escapeHtml(
+        <button type="button" class="lang-switch-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="lang-switch-menu"><span class="lang-switch-icon" aria-hidden="true">🌐</span>${escapeHtml(
           current.langSwitchSelfLabel
         )}</button>
         <div class="lang-switch-menu" id="lang-switch-menu">
