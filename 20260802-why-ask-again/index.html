@@ -120,7 +120,16 @@
         <a href="/#surgery">手術札記</a>
         <a href="/#education">漫談骨科</a>
         <a href="/media/">衛教及媒體採訪</a>
-        <a href="/en/20260802-why-ask-again/" class="lang-switch">EN</a>
+        <!-- BUILD:LANGSWITCH:START --><div class="lang-switch">
+        <button type="button" class="lang-switch-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="lang-switch-menu">中文</button>
+        <div class="lang-switch-menu" id="lang-switch-menu">
+          <a href="/20260802-why-ask-again/" aria-current="true">中文</a>
+          <a href="/en/20260802-why-ask-again/">English</a>
+          <span class="lang-switch-disabled" aria-disabled="true">简体中文</span>
+          <span class="lang-switch-disabled" aria-disabled="true">Tiếng Việt</span>
+          <span class="lang-switch-disabled" aria-disabled="true">Bahasa Indonesia</span>
+        </div>
+      </div><!-- BUILD:LANGSWITCH:END -->
         <a
           href="https://www.vghtc.gov.tw/DoctorInfoDetail/5994?stampId=5192E&OPDSECTION=ORTH"
           target="_blank"
@@ -243,5 +252,6 @@
   <script src="/assets/js/counter.js" defer></script>
 <script src="/assets/js/adaptive-reading.js" defer></script>
 <script src="/assets/js/mobile-nav.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
 </body>
 </html>

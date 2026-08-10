@@ -250,6 +250,10 @@ function localeUrl(locale, suffix = "") {
   return locale.dir ? `${SITE_URL}/${locale.dir}/${suffix}` : `${SITE_URL}/${suffix}`;
 }
 
+function localePath(locale, suffix = "") {
+  return locale.dir ? `/${locale.dir}/${suffix}` : `/${suffix}`;
+}
+
 // Partner / collaborator links shown in every page's footer.
 // Add future collaborators here — one `labels` entry per locale, plus the url.
 const FRIEND_LINKS = [
@@ -819,6 +823,64 @@ function injectFriendLinks(filePath, locale) {
   }
 }
 
+// availability is a sparse {localeCode: relativeUrl} map for this exact
+// page (a static page or a specific article's counterparts). A locale
+// missing from the map renders as a disabled, unclickable entry instead of
+// a link to a page that doesn't exist yet.
+function renderLangSwitch(currentLocaleCode, availability) {
+  const current = LOCALES_BY_CODE[currentLocaleCode];
+  const itemsHtml = LOCALES.map((l) => {
+    const href = availability[l.code];
+    if (l.code === currentLocaleCode) {
+      return `          <a href="${href}" aria-current="true">${escapeHtml(
+        l.langSwitchSelfLabel
+      )}</a>`;
+    }
+    if (href) {
+      return `          <a href="${href}">${escapeHtml(l.langSwitchSelfLabel)}</a>`;
+    }
+    return `          <span class="lang-switch-disabled" aria-disabled="true">${escapeHtml(
+      l.langSwitchSelfLabel
+    )}</span>`;
+  }).join("\n");
+
+  return `<div class="lang-switch">
+        <button type="button" class="lang-switch-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="lang-switch-menu">${escapeHtml(
+          current.langSwitchSelfLabel
+        )}</button>
+        <div class="lang-switch-menu" id="lang-switch-menu">
+${itemsHtml}
+        </div>
+      </div>`;
+}
+
+function injectLangSwitch(filePath, currentLocaleCode, availability) {
+  if (!fs.existsSync(filePath)) return;
+  let html = fs.readFileSync(filePath, "utf8");
+  const re = /<!-- BUILD:LANGSWITCH:START -->[\s\S]*?<!-- BUILD:LANGSWITCH:END -->/;
+  if (!re.test(html)) return;
+  const inner = `<!-- BUILD:LANGSWITCH:START -->${renderLangSwitch(
+    currentLocaleCode,
+    availability
+  )}<!-- BUILD:LANGSWITCH:END -->`;
+  const next = html.replace(re, inner);
+  if (next !== html) {
+    fs.writeFileSync(filePath, next, "utf8");
+  }
+}
+
+// Computes a {localeCode: relativeUrl} map for one static page type (home,
+// about, media, or line) by checking which locales actually have that file.
+function staticPageAvailability(pageFile, suffix) {
+  const availability = {};
+  for (const l of LOCALES) {
+    if (fs.existsSync(path.join(ROOT, l.dir, pageFile))) {
+      availability[l.code] = localePath(l, suffix);
+    }
+  }
+  return availability;
+}
+
 function updateHomepageCards(articles, indexPath, labels) {
   if (!fs.existsSync(indexPath)) return;
   let html = fs.readFileSync(indexPath, "utf8");
@@ -856,6 +918,36 @@ function main() {
     injectFriendLinks(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
     injectFriendLinks(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
     articlesByLocale[locale.code].forEach((a) => injectFriendLinks(a.indexPath, locale.code));
+  }
+
+  const homeAvailability = staticPageAvailability("index.html", "");
+  const aboutAvailability = staticPageAvailability(path.join("about", "index.html"), "about/");
+  const mediaAvailability = staticPageAvailability(path.join("media", "index.html"), "media/");
+  const lineAvailability = staticPageAvailability(path.join("line", "index.html"), "line/");
+  const slugMap = buildSlugMap(articlesByLocale);
+
+  for (const locale of LOCALES) {
+    injectLangSwitch(path.join(ROOT, locale.dir, "index.html"), locale.code, homeAvailability);
+    injectLangSwitch(
+      path.join(ROOT, locale.dir, "about", "index.html"),
+      locale.code,
+      aboutAvailability
+    );
+    injectLangSwitch(
+      path.join(ROOT, locale.dir, "media", "index.html"),
+      locale.code,
+      mediaAvailability
+    );
+    injectLangSwitch(path.join(ROOT, locale.dir, "line", "index.html"), locale.code, lineAvailability);
+
+    articlesByLocale[locale.code].forEach((a) => {
+      const counterparts = slugMap.get(a.slug) || {};
+      const availability = {};
+      for (const l of LOCALES) {
+        if (counterparts[l.code]) availability[l.code] = `/${counterparts[l.code].dir}/`;
+      }
+      injectLangSwitch(a.indexPath, locale.code, availability);
+    });
   }
 
   updateAllSeo(articlesByLocale);

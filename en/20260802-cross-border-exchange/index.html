@@ -120,7 +120,16 @@
         <a href="/en/#surgery">Surgical Notes</a>
         <a href="/en/#education">Orthopedic Insights</a>
         <a href="/en/media/">Patient Education &amp; Media</a>
-        <a href="/20260802-cross-border-exchange/" class="lang-switch">中文</a>
+        <!-- BUILD:LANGSWITCH:START --><div class="lang-switch">
+        <button type="button" class="lang-switch-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="lang-switch-menu">English</button>
+        <div class="lang-switch-menu" id="lang-switch-menu">
+          <a href="/20260802-cross-border-exchange/">中文</a>
+          <a href="/en/20260802-cross-border-exchange/" aria-current="true">English</a>
+          <span class="lang-switch-disabled" aria-disabled="true">简体中文</span>
+          <span class="lang-switch-disabled" aria-disabled="true">Tiếng Việt</span>
+          <span class="lang-switch-disabled" aria-disabled="true">Bahasa Indonesia</span>
+        </div>
+      </div><!-- BUILD:LANGSWITCH:END -->
         <a
           href="https://www.vghtc.gov.tw/DoctorInfoDetail/5994?stampId=5192E&OPDSECTION=ORTH"
           target="_blank"
@@ -253,5 +262,6 @@
   <script src="/assets/js/counter.js" defer></script>
 <script src="/assets/js/adaptive-reading.js" defer></script>
 <script src="/assets/js/mobile-nav.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
 </body>
 </html>

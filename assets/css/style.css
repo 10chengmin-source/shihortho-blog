@@ -182,15 +182,72 @@ a {
   color: var(--color-ink);
 }
 
-.site-nav a.lang-switch {
+.lang-switch {
+  position: relative;
+}
+
+.lang-switch-toggle {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-sub);
   padding: 4px 12px;
   border: 1px solid var(--color-line);
   border-radius: 999px;
-  font-size: 0.78rem;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
-.site-nav a.lang-switch:hover {
+.lang-switch-toggle:hover {
   border-color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+.lang-switch-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  min-width: 140px;
+  padding: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lang-switch.is-open .lang-switch-menu {
+  display: flex;
+}
+
+.lang-switch-menu a,
+.lang-switch-menu span {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.lang-switch-menu a {
+  color: var(--color-sub);
+}
+
+.lang-switch-menu a:hover,
+.lang-switch-menu a[aria-current="true"] {
+  background: var(--color-surface-raised);
+  color: var(--color-ink);
+}
+
+.lang-switch-menu .lang-switch-disabled {
+  color: var(--color-line);
+  cursor: not-allowed;
 }
 
 .site-nav a.nav-cta {
@@ -835,9 +892,33 @@ main.container {
     white-space: normal;
   }
 
-  .site-nav a.lang-switch,
   .site-nav a.nav-cta {
     justify-content: center;
     margin-top: 4px;
+  }
+
+  .lang-switch {
+    order: -1;
+  }
+
+  .lang-switch-toggle {
+    width: 100%;
+    text-align: center;
+  }
+
+  .lang-switch-menu {
+    display: none;
+    position: static;
+    box-shadow: none;
+    margin-top: 4px;
+  }
+
+  .lang-switch.is-open .lang-switch-menu {
+    display: flex;
+  }
+
+  .lang-switch-menu a,
+  .lang-switch-menu span {
+    text-align: center;
   }
 }
