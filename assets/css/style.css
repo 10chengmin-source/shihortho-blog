@@ -574,6 +574,13 @@ main.container {
   margin: 0 0 16px;
   color: var(--color-ink);
   text-wrap: balance;
+  /* CJK text has no spaces, so the browser's default is free to break between
+     ANY two characters — which can split a word in half. keep-all restricts
+     breaks to punctuation (and explicit <wbr> where a title has none), so a
+     line only ever wraps at a real semantic boundary. Latin scripts are
+     unaffected by this property. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .post-subtitle {
@@ -686,6 +693,8 @@ main.container {
   border-top: 1px solid var(--color-line);
   color: var(--color-ink);
   text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .post-content h2:first-child {
@@ -701,6 +710,8 @@ main.container {
   margin: calc(var(--reader-heading-gap-top) * 0.65) 0 calc(var(--reader-heading-gap-bottom) * 0.85);
   color: var(--color-ink);
   text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .post-content h3:first-child {
