@@ -187,6 +187,9 @@ a {
 }
 
 .lang-switch-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font: inherit;
   font-size: 0.78rem;
   font-weight: 500;
@@ -197,6 +200,11 @@ a {
   background: transparent;
   cursor: pointer;
   transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.lang-switch-icon {
+  font-size: 0.9em;
+  line-height: 1;
 }
 
 .lang-switch-toggle:hover {
