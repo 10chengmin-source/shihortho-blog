@@ -1,5 +1,4 @@
 :root {
-  --content-max: 720px;
   --wide-max: 1100px;
   --color-bg: #10151b;
   --color-bg-rgb: 16, 21, 27;
@@ -17,16 +16,67 @@
     BlinkMacSystemFont, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
 
+  /* Article-typography bases — one set of "reading comfort" defaults per
+     locale (font-size/line-height/column-width/paragraph-gap), tuned to how
+     each script is actually read (CJK: narrower column measured in
+     characters; Latin scripts: wider column measured in ch). Overridden per
+     html[lang] below. data-reading-level then scales UP from whichever
+     locale base is active via calc(), so accessibility mode and locale
+     tuning compose instead of one clobbering the other. */
+  --reader-font-size-base: 1.125rem;
+  --reader-line-height-base: 1.7;
+  --reader-content-width-base: 64ch;
+  --reader-paragraph-gap-base: 1.3em;
+
   /* Adaptive reading tokens — layered on top of the base design system.
      data-reading-level (0-3) scales these up progressively; data-color-mode
      swaps the palette above without touching layout. See assets/js/adaptive-reading.js. */
-  --reader-font-size: 1.02rem;
-  --reader-line-height: 1.75;
-  --reader-content-width: var(--content-max);
-  --reader-paragraph-gap: 1.2em;
+  --reader-font-size: var(--reader-font-size-base);
+  --reader-line-height: var(--reader-line-height-base);
+  --reader-content-width: var(--reader-content-width-base);
+  --reader-paragraph-gap: var(--reader-paragraph-gap-base);
   --reader-heading-gap-top: 2em;
   --reader-heading-gap-bottom: 0.7em;
   --reader-post-padding-x: 20px;
+}
+
+/* Per-locale article typography. Only these tokens change — everything else
+   (nav, cards, footer, buttons) is locale-agnostic and untouched. Traditional
+   and Simplified Chinese read comfortably narrower, measured in characters
+   (em); Latin scripts read comfortably wider, measured in ch. */
+html[lang="zh-Hant"] {
+  --reader-font-size-base: 1.125rem;
+  --reader-line-height-base: 1.85;
+  --reader-content-width-base: 33em;
+  --reader-paragraph-gap-base: 1.35em;
+}
+
+html[lang="zh-CN"] {
+  --reader-font-size-base: 1.125rem;
+  --reader-line-height-base: 1.82;
+  --reader-content-width-base: 34em;
+  --reader-paragraph-gap-base: 1.35em;
+}
+
+html[lang="en"] {
+  --reader-font-size-base: 1.125rem;
+  --reader-line-height-base: 1.7;
+  --reader-content-width-base: 64ch;
+  --reader-paragraph-gap-base: 1.3em;
+}
+
+html[lang="vi"] {
+  --reader-font-size-base: 1.125rem;
+  --reader-line-height-base: 1.78;
+  --reader-content-width-base: 60ch;
+  --reader-paragraph-gap-base: 1.3em;
+}
+
+html[lang="id"] {
+  --reader-font-size-base: 1.125rem;
+  --reader-line-height-base: 1.72;
+  --reader-content-width-base: 64ch;
+  --reader-paragraph-gap-base: 1.3em;
 }
 
 /* Cool, clean off-white palette (deliberately not warm cream — matches the
@@ -45,26 +95,28 @@ html[data-color-mode="light"] {
   --color-amber: #96690a;
 }
 
-/* Reading level 1: loosen line-height only. */
+/* Reading level 1: loosen line-height only. Delta is relative to whichever
+   locale base is active (see html[lang] rules above), so accessibility mode
+   and locale tuning compose instead of one clobbering the other. */
 html[data-reading-level="1"],
 html[data-reading-level="2"],
 html[data-reading-level="3"] {
-  --reader-line-height: 1.85;
+  --reader-line-height: calc(var(--reader-line-height-base) + 0.1);
 }
 
 /* Reading level 2: also step up body font-size. */
 html[data-reading-level="2"],
 html[data-reading-level="3"] {
-  --reader-font-size: 1.12rem;
+  --reader-font-size: calc(var(--reader-font-size-base) + 0.1rem);
 }
 
 /* Reading level 3: also widen paragraph/heading spacing, content width, and
    mobile side padding. */
 html[data-reading-level="3"] {
-  --reader-paragraph-gap: 1.7em;
+  --reader-paragraph-gap: calc(var(--reader-paragraph-gap-base) + 0.5em);
   --reader-heading-gap-top: 2.4em;
   --reader-heading-gap-bottom: 0.9em;
-  --reader-content-width: 760px;
+  --reader-content-width: calc(var(--reader-content-width-base) + 40px);
   --reader-post-padding-x: 24px;
 }
 
@@ -521,6 +573,7 @@ main.container {
   line-height: 1.5;
   margin: 0 0 16px;
   color: var(--color-ink);
+  text-wrap: balance;
 }
 
 .post-subtitle {
@@ -590,7 +643,7 @@ main.container {
 
 .post-hero figcaption {
   margin-top: 8px;
-  font-size: 0.78rem;
+  font-size: calc(var(--reader-font-size) * 0.76);
   color: var(--color-sub);
 }
 
@@ -614,7 +667,7 @@ main.container {
 
 .post-inline-figure figcaption {
   margin-top: 8px;
-  font-size: 0.78rem;
+  font-size: calc(var(--reader-font-size) * 0.76);
   color: var(--color-sub);
   text-align: center;
 }
@@ -632,12 +685,26 @@ main.container {
   padding-top: 1.6em;
   border-top: 1px solid var(--color-line);
   color: var(--color-ink);
+  text-wrap: balance;
 }
 
 .post-content h2:first-child {
   margin-top: 0;
   padding-top: 0;
   border-top: none;
+}
+
+.post-content h3 {
+  font-family: var(--font-serif);
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin: calc(var(--reader-heading-gap-top) * 0.65) 0 calc(var(--reader-heading-gap-bottom) * 0.85);
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.post-content h3:first-child {
+  margin-top: 0;
 }
 
 .post-content p {
@@ -661,7 +728,7 @@ main.container {
   border-left: 3px solid var(--color-amber);
   color: var(--color-sub);
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: calc(var(--reader-font-size) * 1.03);
   font-style: italic;
 }
 
