@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192x192.png" />
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>背后的力量｜石医师的骨科札记</title>
+  <meta name="description" content="石医师的骨科札记，分享脊柱、关节与运动损伤相关的健康科普知识与临床观察。" />
+    <script>
+  (function(){
+    if (window.ADAPTIVE_READING_DISABLED) return;
+    try {
+      var root = document.documentElement;
+      var choice = localStorage.getItem('shihortho:reading-mode') || 'auto';
+      var colorMode, level;
+      if (choice === 'readability') {
+        colorMode = 'light'; level = '3';
+      } else if (choice === 'dark') {
+        colorMode = 'dark'; level = '0';
+      } else {
+        var mm = window.matchMedia ? window.matchMedia.bind(window) : null;
+        colorMode = (mm && mm('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+        var score = 0;
+        var zoomFlag = localStorage.getItem('shihortho:zoom-flag') || 'none';
+        if (zoomFlag === 'high') score += 2.5;
+        else if (zoomFlag === 'mild') score += 1.5;
+        if (mm && mm('(prefers-reduced-motion: reduce)').matches) score += 0.5;
+        if (window.innerWidth && window.innerWidth <= 360) score += 0.25;
+        var probe = document.createElement('span');
+        probe.textContent = 'M';
+        probe.style.cssText = 'position:absolute;visibility:hidden;left:-9999px;top:-9999px;font-size:1rem;';
+        root.appendChild(probe);
+        var px = parseFloat(getComputedStyle(probe).fontSize) || 16;
+        root.removeChild(probe);
+        if (px >= 19) score += 2; else if (px >= 17.5) score += 1;
+        level = score >= 3 ? '3' : score >= 2 ? '2' : score >= 1 ? '1' : '0';
+      }
+      root.setAttribute('data-color-mode', colorMode);
+      root.setAttribute('data-reading-level', level);
+      root.setAttribute('data-reading-choice', choice);
+    } catch (e) {}
+  })();
+  </script>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="alternate" type="application/rss+xml" title="背后的力量｜石医师的骨科札记" href="/zh-cn/rss.xml" />
+  <!-- BUILD:SEO:START -->
+  <link rel="canonical" href="https://shihortho-blog.pages.dev/zh-cn/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="背后的力量｜石医师的骨科札记" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:title" content="背后的力量｜石医师的骨科札记" />
+  <meta property="og:description" content="石承民医师的骨科札记，分享脊柱、关节与运动损伤相关的健康科普知识、手术理念与临床观察。" />
+  <meta property="og:url" content="https://shihortho-blog.pages.dev/zh-cn/" />
+  <meta property="og:image" content="https://shihortho-blog.pages.dev/assets/images/hero-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="alternate" hreflang="zh-Hant" href="https://shihortho-blog.pages.dev/" />
+  <link rel="alternate" hreflang="en" href="https://shihortho-blog.pages.dev/en/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://shihortho-blog.pages.dev/zh-cn/" />
+  <link rel="alternate" hreflang="vi" href="https://shihortho-blog.pages.dev/vi/" />
+  <link rel="alternate" hreflang="id" href="https://shihortho-blog.pages.dev/id/" />
+  <link rel="alternate" hreflang="x-default" href="https://shihortho-blog.pages.dev/" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "背后的力量｜石医师的骨科札记",
+  "url": "https://shihortho-blog.pages.dev/zh-cn/",
+  "description": "石承民医师的骨科札记，分享脊柱、关节与运动损伤相关的健康科普知识、手术理念与临床观察。",
+  "inLanguage": "zh-Hans-CN",
+  "publisher": {
+    "@type": "Physician",
+    "name": "石承民",
+    "medicalSpecialty": "https://schema.org/Orthopedic",
+    "image": "https://shihortho-blog.pages.dev/assets/images/doctor-portrait.jpg",
+    "url": "https://shihortho-blog.pages.dev/zh-cn/"
+  }
+}
+  </script>
+  <!-- BUILD:SEO:END -->
+</head>
+<body data-page="home">
+  <header class="site-header">
+    <div class="container">
+      <a href="/zh-cn/" class="logo">背后的力量</a>
+      <p class="tagline">石医师的骨科札记</p>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="菜单">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="/zh-cn/about/">关于我们</a>
+        <a href="/zh-cn/#announcement">团队动态</a>
+        <a href="/zh-cn/#philosophy">医疗理念</a>
+        <a href="/zh-cn/#surgery">手术札记</a>
+        <a href="/zh-cn/#education">漫谈骨科</a>
+        <a href="/zh-cn/media/">健康科普与媒体采访</a>
+        <!-- BUILD:LANGSWITCH:START --><div class="lang-switch">
+        <button type="button" class="lang-switch-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="lang-switch-menu">简体中文</button>
+        <div class="lang-switch-menu" id="lang-switch-menu">
+          <a href="/">中文</a>
+          <a href="/en/">English</a>
+          <a href="/zh-cn/" aria-current="true">简体中文</a>
+          <a href="/vi/">Tiếng Việt</a>
+          <a href="/id/">Bahasa Indonesia</a>
+        </div>
+      </div><!-- BUILD:LANGSWITCH:END -->
+        <a
+          href="https://www.vghtc.gov.tw/DoctorInfoDetail/5994?stampId=5192E&OPDSECTION=ORTH"
+          target="_blank"
+          rel="noopener"
+          class="nav-cta"
+          >初诊及复诊挂号</a
+        >
+        <a
+          href="/zh-cn/line/"
+          class="line-cta"
+          >加入 LINE 服务群组</a
+        >
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1 class="visually-hidden">背后的力量：石医师的骨科札记</h1>
+    <picture>
+      <source srcset="/assets/images/hero-cover.webp" type="image/webp" />
+      <img
+        class="hero-img"
+        src="/assets/images/hero-cover.jpg"
+        alt="石承民医师于台中荣民总医院进行脊柱手术，网站标题「背后的力量·石医师的骨科札记」"
+        width="2400"
+        height="924"
+      />
+    </picture>
+  </section>
+
+  <main class="container">
+    <p class="stats">网站总浏览次数：<span id="site-total-views">—</span></p>
+
+    <!-- BUILD:CARDS:START -->
+    <section class="category-section" id="philosophy">
+      <span class="section-eyebrow">PHILOSOPHY</span>
+      <h2 class="section-title">石医师的医疗理念</h2>
+      <div class="index-list">
+        <div class="index-row">
+          <span class="index-num">01</span>
+          <a href="/zh-cn/20260802-precision-diagnosis/" class="index-link">
+            <h3 class="index-title">精准诊断，源自对细节的层层过滤</h3>
+            <p class="index-excerpt">厘清困扰、评估功能、对照影像，这是我的诊断逻辑。影像只是最后的拼图，不应取代病人的实际感受。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-02</span>
+              <span class="index-views" data-slug="20260802-precision-diagnosis">👁 —</span>
+            </div>
+          </a>
+        </div>
+        <div class="index-row">
+          <span class="index-num">02</span>
+          <a href="/zh-cn/20260802-uncertainty-and-probability/" class="index-link">
+            <h3 class="index-title">医学是充满不确定性的科学，也是关于概率的艺术</h3>
+            <p class="index-excerpt">我们追求的从来不是零风险，而是在充分理解后的精准抉择，陪着病人一起走上一条最有机会找回生活质量的路。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-02</span>
+              <span class="index-views" data-slug="20260802-uncertainty-and-probability">👁 —</span>
+            </div>
+          </a>
+        </div>
+        <div class="index-row">
+          <span class="index-num">03</span>
+          <a href="/zh-cn/20260802-why-ask-again/" class="index-link">
+            <h3 class="index-title">为什么我还是会再问一次「您哪里不舒服」</h3>
+            <p class="index-excerpt">即使已经有先前的病历记录，每一次看诊对我而言，都是一个需要重新评估的过程。这是对病人的一种保障。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-02</span>
+              <span class="index-views" data-slug="20260802-why-ask-again">👁 —</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-section" id="announcement">
+      <span class="section-eyebrow">ANNOUNCEMENT</span>
+      <h2 class="section-title">石医师医疗团队动态</h2>
+      <div class="index-list">
+        <div class="index-row">
+          <span class="index-num">01</span>
+          <a href="/zh-cn/20260802-canada-outreach/" class="index-link">
+            <h3 class="index-title">让台湾医疗走向世界</h3>
+            <p class="index-excerpt">参与台中荣总国际医疗团队加拿大交流行程，与多伦多大学、SickKids Hospital、UBC 等单位交流，也为海外侨胞提供健康咨询服务。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-02</span>
+              <span class="index-views" data-slug="20260802-canada-outreach">👁 —</span>
+            </div>
+          </a>
+        </div>
+        <div class="index-row">
+          <span class="index-num">02</span>
+          <a href="/zh-cn/20260802-jssr-2026/" class="index-link">
+            <h3 class="index-title">最近常关诊的原因</h3>
+            <p class="index-excerpt">这几天参加了 JSSR 2026 年会，研究也获得大会 English Presentation Award 的肯定，主题是比较传统微创后路融合与侧方脊柱融合手术的差异。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-02</span>
+              <span class="index-views" data-slug="20260802-jssr-2026">👁 —</span>
+            </div>
+          </a>
+        </div>
+        <div class="index-row">
+          <span class="index-num">03</span>
+          <a href="/zh-cn/20260802-team-nhqa-award/" class="index-link">
+            <h3 class="index-title">用整个团队的力量，回应每一位信任我们的病人</h3>
+            <p class="index-excerpt">脊柱外科团队以「机械手臂微创腹式手术治疗严重脊椎变形」荣获 NHQA 国家医疗品质奖白金奖，这份荣誉是团队长期累积的结果。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-02</span>
+              <span class="index-views" data-slug="20260802-team-nhqa-award">👁 —</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-section" id="surgery">
+      <span class="section-eyebrow">SURGERY</span>
+      <h2 class="section-title">石医师的手术室</h2>
+      <div class="index-list">
+        <div class="index-row">
+          <span class="index-num">01</span>
+          <a href="/zh-cn/20260809-doctors-weekend/" class="index-link">
+            <h3 class="index-title">周末，留给学习</h3>
+            <p class="index-excerpt">一群脊柱外科医生把父亲节与周末留给大体手术教学，年轻医生在学，资深医生也在学。医生的学习，没有毕业的一天。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-09</span>
+              <span class="index-views" data-slug="20260809-doctors-weekend">👁 —</span>
+            </div>
+          </a>
+        </div>
+        <div class="index-row">
+          <span class="index-num">02</span>
+          <a href="/zh-cn/20260802-cross-border-exchange/" class="index-link">
+            <h3 class="index-title">医疗没有国界：手术室里的跨国对话</h3>
+            <p class="index-excerpt">手术室迎来了来自泰国与韩国的国际交流访问医师。医疗确实没有国界，大家聚在一起，既是交流技术的朋友，也是互相启发的老师。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-02</span>
+              <span class="index-views" data-slug="20260802-cross-border-exchange">👁 —</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-section" id="education">
+      <span class="section-eyebrow">EDUCATION</span>
+      <h2 class="section-title">漫谈骨科</h2>
+      <div class="index-list">
+        <div class="index-row">
+          <span class="index-num">01</span>
+          <a href="/zh-cn/20260802-symptom-location-vs-source/" class="index-link">
+            <h3 class="index-title">症状在这，问题却不一定在那里</h3>
+            <p class="index-excerpt">症状出现的位置，并不一定等于问题真正的来源。好的医疗判断，不是靠单一症状或一张影像下结论，而是把整个人放进来看。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-02</span>
+              <span class="index-views" data-slug="20260802-symptom-location-vs-source">👁 —</span>
+            </div>
+          </a>
+        </div>
+        <div class="index-row">
+          <span class="index-num">02</span>
+          <a href="/zh-cn/20260802-why-xray-with-mri/" class="index-link">
+            <h3 class="index-title">为什么有了 MRI，我还是建议你先拍张 X 光？</h3>
+            <p class="index-excerpt">我们治疗的是病人，而不是影像。即使已经有了 MRI，仍常建议补拍 X 光，因为两者能回答的问题并不相同。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-02</span>
+              <span class="index-views" data-slug="20260802-why-xray-with-mri">👁 —</span>
+            </div>
+          </a>
+        </div>
+        <div class="index-row">
+          <span class="index-num">03</span>
+          <a href="/zh-cn/20260802-when-pain-affects-life/" class="index-link">
+            <h3 class="index-title">不是最近才痛，是最近才开始影响生活</h3>
+            <p class="index-excerpt">骨科问题多半不是突然发生，而是长期负荷逐渐累积。及早评估不代表一定要治疗或手术，却能让人更安心地安排接下来的生活。</p>
+            <div class="index-meta">
+              <span class="index-date">2026-08-02</span>
+              <span class="index-views" data-slug="20260802-when-pain-affects-life">👁 —</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- BUILD:CARDS:END -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <!-- BUILD:FRIENDS:START -->
+      <div class="friend-links">
+        <span class="friend-links-label">友情链接</span>
+        <a href="https://www.facebook.com/profile.php?id=61581620385517" target="_blank" rel="noopener">背后的力量 Facebook 主页</a>
+      </div>
+      <!-- BUILD:FRIENDS:END -->
+      <p>© 2026 背后的力量·石医师的骨科札记</p>
+      <div class="reading-settings" role="group" aria-label="阅读设置">
+        <span class="reading-settings-label">阅读设置</span>
+        <span class="reading-settings-options">
+          <button type="button" data-reading-choice="auto" aria-pressed="false">自动</button>
+          <button type="button" data-reading-choice="readability" aria-pressed="false">清晰</button>
+          <button type="button" data-reading-choice="dark" aria-pressed="false">深色</button>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/supabase-config.js"></script>
+  <script src="/assets/js/counter.js" defer></script>
+<script src="/assets/js/adaptive-reading.js" defer></script>
+<script src="/assets/js/mobile-nav.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+</body>
+</html>
