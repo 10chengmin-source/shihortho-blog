@@ -3,19 +3,6 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 const ROOT = path.join(__dirname, "..");
-const IGNORE_DIRS = new Set([
-  "assets",
-  "scripts",
-  "node_modules",
-  ".git",
-  ".github",
-  "about",
-  "media",
-  "line",
-  "dist",
-  "en",
-]);
-const EN_IGNORE_DIRS = new Set(["about", "media", "line"]);
 
 const CATEGORY_ORDER = [
   "philosophy",
@@ -24,6 +11,18 @@ const CATEGORY_ORDER = [
   "education",
   "story",
 ];
+
+// Locale-agnostic short eyebrow codes used on the homepage sections for
+// every locale, and in the related-articles widget for locales whose
+// relatedChipStyle is "code" (currently just "en").
+const CATEGORY_CODES = {
+  philosophy: "PHILOSOPHY",
+  announcement: "ANNOUNCEMENT",
+  surgery: "SURGERY",
+  education: "EDUCATION",
+  story: "CASE NOTES",
+  uncategorized: "LATEST",
+};
 
 const CATEGORY_LABELS = {
   philosophy: "石醫師的醫療理念",
@@ -43,35 +42,236 @@ const CATEGORY_LABELS_EN = {
   uncategorized: "Latest",
 };
 
-const CATEGORY_CODES = {
-  philosophy: "PHILOSOPHY",
-  announcement: "ANNOUNCEMENT",
-  surgery: "SURGERY",
-  education: "EDUCATION",
-  story: "CASE NOTES",
-  uncategorized: "LATEST",
+const CATEGORY_LABELS_ZH_CN = {
+  philosophy: "石医师的医疗理念",
+  announcement: "石医师医疗团队动态",
+  surgery: "石医师的手术室",
+  education: "漫谈骨科",
+  story: "临床小故事",
+  uncategorized: "最新文章",
+};
+
+const CATEGORY_LABELS_VI = {
+  philosophy: "Triết Lý Điều Trị Của Bác Sĩ Shih",
+  announcement: "Tin Tức Phòng Khám",
+  surgery: "Ghi Chép Phẫu Thuật",
+  education: "Kiến Thức Chỉnh Hình",
+  story: "Câu Chuyện Lâm Sàng",
+  uncategorized: "Mới Nhất",
+};
+
+const CATEGORY_LABELS_ID = {
+  philosophy: "Filosofi Perawatan Dr. Shih",
+  announcement: "Kabar Klinik",
+  surgery: "Catatan Bedah",
+  education: "Wawasan Ortopedi",
+  story: "Kisah Klinis",
+  uncategorized: "Terbaru",
 };
 
 // Update this if a custom domain is connected later (e.g. https://blog.shihortho.net).
 const SITE_URL = "https://shihortho-blog.pages.dev";
 const SITE_NAME = "背後的力量｜石醫師的骨科札記";
 const SITE_NAME_EN = "Behind the Strength | Dr. Shih's Orthopedic Notes";
+const SITE_NAME_ZH_CN = "背后的力量｜石医师的骨科札记";
+const SITE_NAME_VI = "Sức Mạnh Đằng Sau | Nhật Ký Chỉnh Hình Của Bác Sĩ Shih";
+const SITE_NAME_ID = "Kekuatan di Baliknya | Catatan Ortopedi Dr. Shih";
+
 const DOCTOR_NAME = "石承民";
 const DOCTOR_NAME_EN = "Dr. Cheng-Min Shih";
+const DOCTOR_NAME_ZH_CN = "石承民";
+const DOCTOR_NAME_VI = "Bác sĩ Shih Cheng-Min";
+const DOCTOR_NAME_ID = "Dr. Shih Cheng-Min";
+
 const DEFAULT_OG_IMAGE = "/assets/images/hero-cover.jpg";
 const DOCTOR_PORTRAIT = "/assets/images/doctor-portrait.jpg";
 
+const HOME_DESCRIPTION_ZH =
+  "石承民醫師的骨科札記，分享脊椎、關節與運動傷害相關的衛教知識、手術理念與臨床觀察。";
+const HOME_DESCRIPTION_EN =
+  "Dr. Cheng-Min Shih's orthopedic notes: clinical philosophy, surgical insights, and patient education on spine, joint, and sports-related conditions.";
+const HOME_DESCRIPTION_ZH_CN =
+  "石承民医师的骨科札记，分享脊柱、关节与运动损伤相关的健康科普知识、手术理念与临床观察。";
+const HOME_DESCRIPTION_VI =
+  "Nhật ký chỉnh hình của Bác sĩ Shih Cheng-Min: triết lý điều trị, kinh nghiệm phẫu thuật và kiến thức chăm sóc sức khỏe về cột sống, khớp và chấn thương thể thao.";
+const HOME_DESCRIPTION_ID =
+  "Catatan ortopedi Dr. Shih Cheng-Min: filosofi perawatan, wawasan bedah, dan edukasi pasien seputar tulang belakang, sendi, dan cedera olahraga.";
+
+const ABOUT_TITLE_ZH = `醫師介紹｜${DOCTOR_NAME} 醫師｜背後的力量`;
+const ABOUT_TITLE_EN = "About Dr. Shih | Behind the Strength";
+const ABOUT_TITLE_ZH_CN = "医师介绍｜石承民医师｜背后的力量";
+const ABOUT_TITLE_VI = "Giới Thiệu Bác Sĩ Shih | Sức Mạnh Đằng Sau";
+const ABOUT_TITLE_ID = "Tentang Dr. Shih | Kekuatan di Baliknya";
+
+const ABOUT_DESCRIPTION_ZH =
+  "石承民醫師，臺中榮民總醫院骨科部脊椎外科科主任，專長涵蓋各式微創、複雜及脊椎翻修手術、膝髖關節重建手術與骨質疏鬆治療。";
+const ABOUT_DESCRIPTION_EN =
+  "Dr. Cheng-Min Shih, Chief of the Division of Spine Surgery, Department of Orthopedics, Taichung Veterans General Hospital. Specializing in minimally invasive, complex, and revision spine surgery, hip and knee reconstruction, and osteoporosis care.";
+const ABOUT_DESCRIPTION_ZH_CN =
+  "石承民医师，台中荣民总医院骨科部脊柱外科主任，专长涵盖各类微创、复杂及脊柱翻修手术、膝髋关节重建手术与骨质疏松治疗。";
+const ABOUT_DESCRIPTION_VI =
+  "Bác sĩ Shih Cheng-Min, Trưởng khoa Phẫu thuật Cột sống, Khoa Chỉnh hình, Bệnh viện Cựu chiến binh Đài Trung. Chuyên về phẫu thuật cột sống xâm lấn tối thiểu, phức tạp và tái phẫu thuật, tái tạo khớp háng và khớp gối, cùng điều trị loãng xương.";
+const ABOUT_DESCRIPTION_ID =
+  "Dr. Shih Cheng-Min, Kepala Divisi Bedah Tulang Belakang, Departemen Ortopedi, Rumah Sakit Umum Veteran Taichung. Berfokus pada bedah tulang belakang minim sayatan, kompleks, dan revisi, rekonstruksi sendi panggul dan lutut, serta penanganan osteoporosis.";
+
+// Every locale-aware function in this file reads from LOCALES instead of
+// hand-duplicating a branch per language. To add a locale: add an entry
+// here, create its directory with the same shape as en/, and re-run the
+// build — every generation step (SEO, sitemap, RSS, related-articles,
+// friend-links, lang-switch) picks it up automatically. Entries whose
+// directory doesn't exist on disk yet are silently skipped everywhere via
+// fs.existsSync guards, so adding metadata ahead of content is safe.
+const LOCALES = [
+  {
+    code: "zh",
+    dir: "",
+    isDefault: true,
+    htmlLang: "zh-Hant",
+    hreflang: "zh-Hant",
+    ogLocale: "zh_TW",
+    inLanguage: "zh-Hant-TW",
+    rssLanguage: "zh-tw",
+    siteName: SITE_NAME,
+    doctorName: DOCTOR_NAME,
+    homeDescription: HOME_DESCRIPTION_ZH,
+    rssDescription: HOME_DESCRIPTION_ZH,
+    aboutTitle: ABOUT_TITLE_ZH,
+    aboutDescription: ABOUT_DESCRIPTION_ZH,
+    hospitalName: "臺中榮民總醫院",
+    alumniOf: ["陽明交通大學", "高雄醫學大學"],
+    categoryLabels: CATEGORY_LABELS,
+    relatedChipStyle: "full",
+    langSwitchSelfLabel: "中文",
+  },
+  {
+    code: "en",
+    dir: "en",
+    isDefault: false,
+    htmlLang: "en",
+    hreflang: "en",
+    ogLocale: "en_US",
+    inLanguage: "en",
+    rssLanguage: "en-us",
+    siteName: SITE_NAME_EN,
+    doctorName: DOCTOR_NAME_EN,
+    homeDescription: HOME_DESCRIPTION_EN,
+    rssDescription: HOME_DESCRIPTION_EN,
+    aboutTitle: ABOUT_TITLE_EN,
+    aboutDescription: ABOUT_DESCRIPTION_EN,
+    hospitalName: "Taichung Veterans General Hospital",
+    alumniOf: ["National Yang Ming Chiao Tung University", "Kaohsiung Medical University"],
+    categoryLabels: CATEGORY_LABELS_EN,
+    relatedChipStyle: "code",
+    langSwitchSelfLabel: "English",
+  },
+  {
+    code: "zh-cn",
+    dir: "zh-cn",
+    isDefault: false,
+    htmlLang: "zh-CN",
+    hreflang: "zh-CN",
+    ogLocale: "zh_CN",
+    inLanguage: "zh-Hans-CN",
+    rssLanguage: "zh-cn",
+    siteName: SITE_NAME_ZH_CN,
+    doctorName: DOCTOR_NAME_ZH_CN,
+    homeDescription: HOME_DESCRIPTION_ZH_CN,
+    rssDescription: HOME_DESCRIPTION_ZH_CN,
+    aboutTitle: ABOUT_TITLE_ZH_CN,
+    aboutDescription: ABOUT_DESCRIPTION_ZH_CN,
+    hospitalName: "台中荣民总医院",
+    alumniOf: ["阳明交通大学", "高雄医学大学"],
+    categoryLabels: CATEGORY_LABELS_ZH_CN,
+    relatedChipStyle: "full",
+    langSwitchSelfLabel: "简体中文",
+  },
+  {
+    code: "vi",
+    dir: "vi",
+    isDefault: false,
+    htmlLang: "vi",
+    hreflang: "vi",
+    ogLocale: "vi_VN",
+    inLanguage: "vi",
+    rssLanguage: "vi",
+    siteName: SITE_NAME_VI,
+    doctorName: DOCTOR_NAME_VI,
+    homeDescription: HOME_DESCRIPTION_VI,
+    rssDescription: HOME_DESCRIPTION_VI,
+    aboutTitle: ABOUT_TITLE_VI,
+    aboutDescription: ABOUT_DESCRIPTION_VI,
+    hospitalName: "Bệnh viện Cựu chiến binh Đài Trung",
+    alumniOf: ["Đại học Quốc lập Dương Minh Giao Thông", "Đại học Y khoa Cao Hùng"],
+    categoryLabels: CATEGORY_LABELS_VI,
+    relatedChipStyle: "full",
+    langSwitchSelfLabel: "Tiếng Việt",
+  },
+  {
+    code: "id",
+    dir: "id",
+    isDefault: false,
+    htmlLang: "id",
+    hreflang: "id",
+    ogLocale: "id_ID",
+    inLanguage: "id",
+    rssLanguage: "id",
+    siteName: SITE_NAME_ID,
+    doctorName: DOCTOR_NAME_ID,
+    homeDescription: HOME_DESCRIPTION_ID,
+    rssDescription: HOME_DESCRIPTION_ID,
+    aboutTitle: ABOUT_TITLE_ID,
+    aboutDescription: ABOUT_DESCRIPTION_ID,
+    hospitalName: "Rumah Sakit Umum Veteran Taichung",
+    alumniOf: ["Universitas Nasional Yang Ming Chiao Tung", "Universitas Kedokteran Kaohsiung"],
+    categoryLabels: CATEGORY_LABELS_ID,
+    relatedChipStyle: "full",
+    langSwitchSelfLabel: "Bahasa Indonesia",
+  },
+];
+const LOCALES_BY_CODE = Object.fromEntries(LOCALES.map((l) => [l.code, l]));
+const DEFAULT_LOCALE = LOCALES.find((l) => l.isDefault);
+
+// Static page directories that exist once per locale (not blog articles).
+const PAGE_DIRS = new Set(["about", "media", "line"]);
+// Everything the root (default-locale) article scan must skip: the static
+// page dirs, non-content tooling dirs, and every other locale's directory.
+const ROOT_IGNORE_DIRS = new Set([
+  ...PAGE_DIRS,
+  "assets",
+  "scripts",
+  "node_modules",
+  ".git",
+  ".github",
+  "dist",
+  ...LOCALES.filter((l) => l.dir).map((l) => l.dir),
+]);
+
+function localeUrl(locale, suffix = "") {
+  return locale.dir ? `${SITE_URL}/${locale.dir}/${suffix}` : `${SITE_URL}/${suffix}`;
+}
+
 // Partner / collaborator links shown in every page's footer.
-// Add future collaborators here — label/labelEn plus the url.
+// Add future collaborators here — one `labels` entry per locale, plus the url.
 const FRIEND_LINKS = [
   {
-    label: "背後的力量 Facebook 粉絲專頁",
-    labelEn: "Behind the Strength on Facebook",
+    labels: {
+      zh: "背後的力量 Facebook 粉絲專頁",
+      en: "Behind the Strength on Facebook",
+      "zh-cn": "背后的力量 Facebook 主页",
+      vi: "Trang Facebook Sức Mạnh Đằng Sau",
+      id: "Halaman Facebook Kekuatan di Baliknya",
+    },
     url: "https://www.facebook.com/profile.php?id=61581620385517",
   },
 ];
 
-const FRIEND_LINKS_HEADING = { zh: "友好連結", en: "Partner Links" };
+const FRIEND_LINKS_HEADING = {
+  zh: "友好連結",
+  en: "Partner Links",
+  "zh-cn": "友情链接",
+  vi: "Liên Kết Đối Tác",
+  id: "Tautan Mitra",
+};
 
 function readMeta(html, name) {
   // content is always double-quoted in this codebase; only "
@@ -156,12 +356,15 @@ function findArticlesIn(baseDir, ignoreDirs, dirPrefix) {
   return articles;
 }
 
-function findArticles() {
-  return findArticlesIn(ROOT, IGNORE_DIRS, "");
-}
-
-function findEnglishArticles() {
-  return findArticlesIn(path.join(ROOT, "en"), EN_IGNORE_DIRS, "en/");
+function findAllArticles() {
+  const result = {};
+  for (const locale of LOCALES) {
+    const baseDir = locale.dir ? path.join(ROOT, locale.dir) : ROOT;
+    const ignoreDirs = locale.isDefault ? ROOT_IGNORE_DIRS : PAGE_DIRS;
+    const dirPrefix = locale.dir ? locale.dir + "/" : "";
+    result[locale.code] = findArticlesIn(baseDir, ignoreDirs, dirPrefix);
+  }
+  return result;
 }
 
 function updateArticleCategoryLabel(article, labels) {
@@ -210,13 +413,12 @@ function jsonLdScript(obj) {
 }
 
 function commonOgTags({ title, description, url, image, type, locale }) {
-  const siteName = locale === "en" ? SITE_NAME_EN : SITE_NAME;
-  const ogLocale = locale === "en" ? "en_US" : "zh_TW";
+  const loc = LOCALES_BY_CODE[locale];
   return [
     `<link rel="canonical" href="${url}" />`,
     `<meta property="og:type" content="${type}" />`,
-    `<meta property="og:site_name" content="${escapeHtml(siteName)}" />`,
-    `<meta property="og:locale" content="${ogLocale}" />`,
+    `<meta property="og:site_name" content="${escapeHtml(loc.siteName)}" />`,
+    `<meta property="og:locale" content="${loc.ogLocale}" />`,
     `<meta property="og:title" content="${escapeHtml(title)}" />`,
     `<meta property="og:description" content="${escapeHtml(description)}" />`,
     `<meta property="og:url" content="${url}" />`,
@@ -225,15 +427,22 @@ function commonOgTags({ title, description, url, image, type, locale }) {
   ];
 }
 
-function hreflangTags(zhUrl, enUrl) {
+// Accepts a sparse {localeCode: url} map and emits one alternate tag per
+// present locale (in LOCALES order) plus one x-default pointing at the
+// default locale's URL.
+function hreflangTags(urlsByLocale) {
   const tags = [];
-  if (zhUrl) tags.push(`<link rel="alternate" hreflang="zh-Hant" href="${zhUrl}" />`);
-  if (enUrl) tags.push(`<link rel="alternate" hreflang="en" href="${enUrl}" />`);
-  if (zhUrl) tags.push(`<link rel="alternate" hreflang="x-default" href="${zhUrl}" />`);
+  for (const locale of LOCALES) {
+    const url = urlsByLocale[locale.code];
+    if (url) tags.push(`<link rel="alternate" hreflang="${locale.hreflang}" href="${url}" />`);
+  }
+  const defaultUrl = urlsByLocale[DEFAULT_LOCALE.code];
+  if (defaultUrl) tags.push(`<link rel="alternate" hreflang="x-default" href="${defaultUrl}" />`);
   return tags;
 }
 
-function buildArticleSeo(article, html, locale, counterpart) {
+function buildArticleSeo(article, html, locale, counterpartsByLocale) {
+  const loc = LOCALES_BY_CODE[locale];
   const url = `${SITE_URL}/${article.dir}/`;
   const image = SITE_URL + extractHeroImage(html);
   const tags = commonOgTags({
@@ -249,10 +458,15 @@ function buildArticleSeo(article, html, locale, counterpart) {
     `<meta property="article:modified_time" content="${article.updatedDate}" />`
   );
 
-  const counterpartUrl = counterpart ? `${SITE_URL}/${counterpart.dir}/` : null;
-  const zhUrl = locale === "zh" ? url : counterpartUrl;
-  const enUrl = locale === "en" ? url : counterpartUrl;
-  tags.push(...hreflangTags(zhUrl, enUrl));
+  const urlsByLocale = {};
+  for (const l of LOCALES) {
+    if (l.code === locale) {
+      urlsByLocale[l.code] = url;
+    } else if (counterpartsByLocale && counterpartsByLocale[l.code]) {
+      urlsByLocale[l.code] = `${SITE_URL}/${counterpartsByLocale[l.code].dir}/`;
+    }
+  }
+  tags.push(...hreflangTags(urlsByLocale));
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -262,50 +476,53 @@ function buildArticleSeo(article, html, locale, counterpart) {
     image,
     author: {
       "@type": "Person",
-      name: article.author || (locale === "en" ? DOCTOR_NAME_EN : DOCTOR_NAME),
+      name: article.author || loc.doctorName,
     },
     publisher: {
       "@type": "Organization",
-      name: locale === "en" ? SITE_NAME_EN : SITE_NAME,
+      name: loc.siteName,
       logo: { "@type": "ImageObject", url: SITE_URL + DOCTOR_PORTRAIT },
     },
     datePublished: article.publishedDate,
     dateModified: article.updatedDate,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    inLanguage: locale === "en" ? "en" : "zh-Hant-TW",
+    inLanguage: loc.inLanguage,
   };
   tags.push(jsonLdScript(jsonLd));
   return tags.join("\n  ");
 }
 
 function buildHomeSeo(locale) {
-  const isEn = locale === "en";
-  const url = isEn ? `${SITE_URL}/en/` : `${SITE_URL}/`;
-  const siteName = isEn ? SITE_NAME_EN : SITE_NAME;
-  const description = isEn
-    ? "Dr. Cheng-Min Shih's orthopedic notes: clinical philosophy, surgical insights, and patient education on spine, joint, and sports-related conditions."
-    : "石承民醫師的骨科札記，分享脊椎、關節與運動傷害相關的衛教知識、手術理念與臨床觀察。";
+  const loc = LOCALES_BY_CODE[locale];
+  const url = localeUrl(loc);
   const image = SITE_URL + DEFAULT_OG_IMAGE;
   const tags = commonOgTags({
-    title: siteName,
-    description,
+    title: loc.siteName,
+    description: loc.homeDescription,
     url,
     image,
     type: "website",
     locale,
   });
-  tags.push(...hreflangTags(`${SITE_URL}/`, `${SITE_URL}/en/`));
+
+  const urlsByLocale = {};
+  for (const l of LOCALES) {
+    if (fs.existsSync(path.join(ROOT, l.dir, "index.html"))) {
+      urlsByLocale[l.code] = localeUrl(l);
+    }
+  }
+  tags.push(...hreflangTags(urlsByLocale));
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: siteName,
+    name: loc.siteName,
     url,
-    description,
-    inLanguage: isEn ? "en" : "zh-Hant-TW",
+    description: loc.homeDescription,
+    inLanguage: loc.inLanguage,
     publisher: {
       "@type": "Physician",
-      name: isEn ? DOCTOR_NAME_EN : DOCTOR_NAME,
+      name: loc.doctorName,
       medicalSpecialty: "https://schema.org/Orthopedic",
       image: SITE_URL + DOCTOR_PORTRAIT,
       url,
@@ -316,32 +533,35 @@ function buildHomeSeo(locale) {
 }
 
 function buildAboutSeo(locale) {
-  const isEn = locale === "en";
-  const url = isEn ? `${SITE_URL}/en/about/` : `${SITE_URL}/about/`;
-  const title = isEn
-    ? "About Dr. Shih | Behind the Strength"
-    : `醫師介紹｜${DOCTOR_NAME} 醫師｜背後的力量`;
-  const description = isEn
-    ? "Dr. Cheng-Min Shih, Chief of the Division of Spine Surgery, Department of Orthopedics, Taichung Veterans General Hospital. Specializing in minimally invasive, complex, and revision spine surgery, hip and knee reconstruction, and osteoporosis care."
-    : "石承民醫師，臺中榮民總醫院骨科部脊椎外科科主任，專長涵蓋各式微創、複雜及脊椎翻修手術、膝髖關節重建手術與骨質疏鬆治療。";
+  const loc = LOCALES_BY_CODE[locale];
+  const url = localeUrl(loc, "about/");
   const image = SITE_URL + DOCTOR_PORTRAIT;
-  const tags = commonOgTags({ title, description, url, image, type: "profile", locale });
-  tags.push(...hreflangTags(`${SITE_URL}/about/`, `${SITE_URL}/en/about/`));
+  const tags = commonOgTags({
+    title: loc.aboutTitle,
+    description: loc.aboutDescription,
+    url,
+    image,
+    type: "profile",
+    locale,
+  });
+
+  const urlsByLocale = {};
+  for (const l of LOCALES) {
+    if (fs.existsSync(path.join(ROOT, l.dir, "about", "index.html"))) {
+      urlsByLocale[l.code] = localeUrl(l, "about/");
+    }
+  }
+  tags.push(...hreflangTags(urlsByLocale));
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Physician",
-    name: isEn ? DOCTOR_NAME_EN : DOCTOR_NAME,
+    name: loc.doctorName,
     image,
     url,
     medicalSpecialty: "https://schema.org/Orthopedic",
-    worksFor: {
-      "@type": "Hospital",
-      name: isEn ? "Taichung Veterans General Hospital" : "臺中榮民總醫院",
-    },
-    alumniOf: isEn
-      ? ["National Yang Ming Chiao Tung University", "Kaohsiung Medical University"]
-      : ["陽明交通大學", "高雄醫學大學"],
+    worksFor: { "@type": "Hospital", name: loc.hospitalName },
+    alumniOf: loc.alumniOf,
   };
   tags.push(jsonLdScript(jsonLd));
   return tags.join("\n  ");
@@ -359,35 +579,30 @@ function injectSeo(filePath, seoHtml) {
   }
 }
 
-function buildSlugMap(zhArticles, enArticles) {
+function buildSlugMap(articlesByLocale) {
   const map = new Map();
-  for (const a of zhArticles) {
-    if (!map.has(a.slug)) map.set(a.slug, {});
-    map.get(a.slug).zh = a;
-  }
-  for (const a of enArticles) {
-    if (!map.has(a.slug)) map.set(a.slug, {});
-    map.get(a.slug).en = a;
+  for (const locale of LOCALES) {
+    for (const a of articlesByLocale[locale.code]) {
+      if (!map.has(a.slug)) map.set(a.slug, {});
+      map.get(a.slug)[locale.code] = a;
+    }
   }
   return map;
 }
 
-function updateAllSeo(zhArticles, enArticles) {
-  injectSeo(path.join(ROOT, "index.html"), buildHomeSeo("zh"));
-  injectSeo(path.join(ROOT, "about", "index.html"), buildAboutSeo("zh"));
-  injectSeo(path.join(ROOT, "en", "index.html"), buildHomeSeo("en"));
-  injectSeo(path.join(ROOT, "en", "about", "index.html"), buildAboutSeo("en"));
-
-  const slugMap = buildSlugMap(zhArticles, enArticles);
-  for (const article of zhArticles) {
-    const html = fs.readFileSync(article.indexPath, "utf8");
-    const counterpart = slugMap.get(article.slug)?.en || null;
-    injectSeo(article.indexPath, buildArticleSeo(article, html, "zh", counterpart));
+function updateAllSeo(articlesByLocale) {
+  for (const locale of LOCALES) {
+    injectSeo(path.join(ROOT, locale.dir, "index.html"), buildHomeSeo(locale.code));
+    injectSeo(path.join(ROOT, locale.dir, "about", "index.html"), buildAboutSeo(locale.code));
   }
-  for (const article of enArticles) {
-    const html = fs.readFileSync(article.indexPath, "utf8");
-    const counterpart = slugMap.get(article.slug)?.zh || null;
-    injectSeo(article.indexPath, buildArticleSeo(article, html, "en", counterpart));
+
+  const slugMap = buildSlugMap(articlesByLocale);
+  for (const locale of LOCALES) {
+    for (const article of articlesByLocale[locale.code]) {
+      const html = fs.readFileSync(article.indexPath, "utf8");
+      const counterparts = slugMap.get(article.slug) || {};
+      injectSeo(article.indexPath, buildArticleSeo(article, html, locale.code, counterparts));
+    }
   }
 }
 
@@ -396,26 +611,25 @@ function writeRobotsTxt() {
   fs.writeFileSync(path.join(ROOT, "robots.txt"), content, "utf8");
 }
 
-function writeSitemap(zhArticles, enArticles) {
-  const staticUrls = [
-    { loc: `${SITE_URL}/`, priority: "1.0" },
-    { loc: `${SITE_URL}/about/`, priority: "0.8" },
-    { loc: `${SITE_URL}/media/`, priority: "0.6" },
-    { loc: `${SITE_URL}/line/`, priority: "0.4" },
+function writeSitemap(articlesByLocale) {
+  const staticPages = [
+    { file: "index.html", suffix: "", priority: "1.0" },
+    { file: path.join("about", "index.html"), suffix: "about/", priority: "0.8" },
+    { file: path.join("media", "index.html"), suffix: "media/", priority: "0.6" },
+    { file: path.join("line", "index.html"), suffix: "line/", priority: "0.4" },
   ];
-  if (fs.existsSync(path.join(ROOT, "en", "index.html"))) {
-    staticUrls.push({ loc: `${SITE_URL}/en/`, priority: "1.0" });
+
+  const staticUrls = [];
+  for (const locale of LOCALES) {
+    for (const page of staticPages) {
+      const filePath = path.join(ROOT, locale.dir, page.file);
+      if (locale.isDefault || fs.existsSync(filePath)) {
+        staticUrls.push({ loc: localeUrl(locale, page.suffix), priority: page.priority });
+      }
+    }
   }
-  if (fs.existsSync(path.join(ROOT, "en", "about", "index.html"))) {
-    staticUrls.push({ loc: `${SITE_URL}/en/about/`, priority: "0.8" });
-  }
-  if (fs.existsSync(path.join(ROOT, "en", "media", "index.html"))) {
-    staticUrls.push({ loc: `${SITE_URL}/en/media/`, priority: "0.6" });
-  }
-  if (fs.existsSync(path.join(ROOT, "en", "line", "index.html"))) {
-    staticUrls.push({ loc: `${SITE_URL}/en/line/`, priority: "0.4" });
-  }
-  const articleUrls = [...zhArticles, ...enArticles].map((a) => ({
+
+  const articleUrls = LOCALES.flatMap((l) => articlesByLocale[l.code]).map((a) => ({
     loc: `${SITE_URL}/${a.dir}/`,
     lastmod: a.updatedDate,
     priority: "0.7",
@@ -477,7 +691,13 @@ ${rowsHtml}
     </section>`;
 }
 
-const RELATED_HEADING = { zh: "延伸閱讀", en: "Further Reading" };
+const RELATED_HEADING = {
+  zh: "延伸閱讀",
+  en: "Further Reading",
+  "zh-cn": "延伸阅读",
+  vi: "Đọc Thêm",
+  id: "Baca Juga",
+};
 
 function pickRelated(article, allArticles, count = 3) {
   const others = allArticles.filter((a) => a !== article);
@@ -489,7 +709,8 @@ function pickRelated(article, allArticles, count = 3) {
 function renderRelated(article, allArticles, locale) {
   const related = pickRelated(article, allArticles);
   if (!related.length) return "";
-  const codes = locale === "en" ? CATEGORY_CODES : CATEGORY_LABELS;
+  const loc = LOCALES_BY_CODE[locale];
+  const codes = loc.relatedChipStyle === "code" ? CATEGORY_CODES : loc.categoryLabels;
   const rowsHtml = related
     .map(
       (a) => `        <a href="/${a.dir}/" class="related-link">
@@ -550,37 +771,30 @@ function buildRssItems(articles) {
 }
 
 function writeRssFeed(articles, locale) {
-  const isEn = locale === "en";
-  const feedUrl = isEn ? `${SITE_URL}/en/rss.xml` : `${SITE_URL}/rss.xml`;
-  const siteUrl = isEn ? `${SITE_URL}/en/` : `${SITE_URL}/`;
-  const title = isEn ? SITE_NAME_EN : SITE_NAME;
-  const description = isEn
-    ? "Dr. Cheng-Min Shih's orthopedic notes: clinical philosophy, surgical insights, and patient education on spine, joint, and sports-related conditions."
-    : "石承民醫師的骨科札記，分享脊椎、關節與運動傷害相關的衛教知識、手術理念與臨床觀察。";
-  const language = isEn ? "en-us" : "zh-tw";
+  const loc = LOCALES_BY_CODE[locale];
+  const siteUrl = localeUrl(loc);
+  const feedUrl = `${siteUrl}rss.xml`;
   const itemsXml = buildRssItems(articles);
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escapeXml(title)}</title>
+    <title>${escapeXml(loc.siteName)}</title>
     <link>${siteUrl}</link>
-    <description>${escapeXml(description)}</description>
-    <language>${language}</language>
+    <description>${escapeXml(loc.rssDescription)}</description>
+    <language>${loc.rssLanguage}</language>
     <atom:link href="${feedUrl}" rel="self" type="application/rss+xml" />
 ${itemsXml}
   </channel>
 </rss>
 `;
-  const outPath = isEn
-    ? path.join(ROOT, "en", "rss.xml")
-    : path.join(ROOT, "rss.xml");
+  const outPath = path.join(ROOT, loc.dir, "rss.xml");
   fs.writeFileSync(outPath, xml, "utf8");
 }
 
 function renderFriendLinks(locale) {
   if (!FRIEND_LINKS.length) return "";
   const linksHtml = FRIEND_LINKS.map((f) => {
-    const label = locale === "en" ? f.labelEn || f.label : f.label;
+    const label = f.labels[locale] || f.labels.en || f.labels.zh;
     return `<a href="${f.url}" target="_blank" rel="noopener">${escapeHtml(
       label
     )}</a>`;
@@ -622,40 +836,43 @@ function updateHomepageCards(articles, indexPath, labels) {
 }
 
 function main() {
-  const zhArticles = findArticles();
-  const enArticles = findEnglishArticles();
+  const articlesByLocale = findAllArticles();
 
-  zhArticles.forEach(updateArticleUpdatedMarker);
-  zhArticles.forEach((a) => updateArticleCategoryLabel(a, CATEGORY_LABELS));
-  enArticles.forEach(updateArticleUpdatedMarker);
-  enArticles.forEach((a) => updateArticleCategoryLabel(a, CATEGORY_LABELS_EN));
+  for (const locale of LOCALES) {
+    const articles = articlesByLocale[locale.code];
+    articles.forEach(updateArticleUpdatedMarker);
+    articles.forEach((a) => updateArticleCategoryLabel(a, locale.categoryLabels));
+    updateHomepageCards(
+      articles,
+      path.join(ROOT, locale.dir, "index.html"),
+      locale.categoryLabels
+    );
+    articles.forEach((a) => injectRelated(a, articles, locale.code));
+  }
 
-  updateHomepageCards(zhArticles, path.join(ROOT, "index.html"), CATEGORY_LABELS);
-  updateHomepageCards(enArticles, path.join(ROOT, "en", "index.html"), CATEGORY_LABELS_EN);
+  for (const locale of LOCALES) {
+    injectFriendLinks(path.join(ROOT, locale.dir, "index.html"), locale.code);
+    injectFriendLinks(path.join(ROOT, locale.dir, "about", "index.html"), locale.code);
+    injectFriendLinks(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
+    injectFriendLinks(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
+    articlesByLocale[locale.code].forEach((a) => injectFriendLinks(a.indexPath, locale.code));
+  }
 
-  zhArticles.forEach((a) => injectRelated(a, zhArticles, "zh"));
-  enArticles.forEach((a) => injectRelated(a, enArticles, "en"));
-
-  injectFriendLinks(path.join(ROOT, "index.html"), "zh");
-  injectFriendLinks(path.join(ROOT, "about", "index.html"), "zh");
-  injectFriendLinks(path.join(ROOT, "media", "index.html"), "zh");
-  injectFriendLinks(path.join(ROOT, "en", "index.html"), "en");
-  injectFriendLinks(path.join(ROOT, "en", "about", "index.html"), "en");
-  injectFriendLinks(path.join(ROOT, "en", "media", "index.html"), "en");
-  zhArticles.forEach((a) => injectFriendLinks(a.indexPath, "zh"));
-  enArticles.forEach((a) => injectFriendLinks(a.indexPath, "en"));
-
-  updateAllSeo(zhArticles, enArticles);
+  updateAllSeo(articlesByLocale);
   writeRobotsTxt();
-  writeSitemap(zhArticles, enArticles);
-  writeRssFeed(zhArticles, "zh");
-  writeRssFeed(enArticles, "en");
+  writeSitemap(articlesByLocale);
+  for (const locale of LOCALES) {
+    if (locale.isDefault || fs.existsSync(path.join(ROOT, locale.dir))) {
+      writeRssFeed(articlesByLocale[locale.code], locale.code);
+    }
+  }
 
-  console.log(
-    `Built ${zhArticles.length} Chinese article(s), ${enArticles.length} English article(s):`
-  );
-  zhArticles.forEach((a) => console.log(`  - ${a.dir} (updated ${a.updatedDate})`));
-  enArticles.forEach((a) => console.log(`  - ${a.dir} (updated ${a.updatedDate})`));
+  console.log(`Built ${LOCALES.length} configured locale(s):`);
+  for (const locale of LOCALES) {
+    const articles = articlesByLocale[locale.code];
+    console.log(`  ${locale.code}: ${articles.length} article(s)`);
+    articles.forEach((a) => console.log(`    - ${a.dir} (updated ${a.updatedDate})`));
+  }
 }
 
 main();
