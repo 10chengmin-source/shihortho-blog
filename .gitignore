@@ -2,6 +2,9 @@ node_modules/
 assets/images/*-original.jpg
 .wrangler/
 dist/
+.env
+.env.local
+.env.*.local
 /robots.txt
 /sitemap.xml
 /rss.xml
