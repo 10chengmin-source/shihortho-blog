@@ -69,8 +69,7 @@ const CATEGORY_LABELS_ID = {
   uncategorized: "Terbaru",
 };
 
-// Update this if a custom domain is connected later (e.g. https://blog.shihortho.net).
-const SITE_URL = "https://shihortho-blog.pages.dev";
+const SITE_URL = "https://stonecare.daemet.com";
 const SITE_NAME = "背後的力量｜石醫師的骨科札記";
 const SITE_NAME_EN = "Behind the Strength | Dr. Shih's Orthopedic Notes";
 const SITE_NAME_ZH_CN = "背后的力量｜石医师的骨科札记";
