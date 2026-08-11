@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "node --env-file=\"$CLAUDE_PROJECT_DIR/.env.local\" \"$CLAUDE_PROJECT_DIR/scripts/notifications-session-hook.js\""
+      }
+    ]
+  }
+}
