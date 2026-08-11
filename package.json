@@ -6,6 +6,7 @@
   "scripts": {
     "build": "node scripts/build.js",
     "dist": "node scripts/prepare-dist.js",
+    "notifications:pending": "node --env-file=.env.local scripts/notifications-pending.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
