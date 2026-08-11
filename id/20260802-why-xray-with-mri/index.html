@@ -227,6 +227,22 @@
       </aside>
       <!-- BUILD:RELATED:END -->
     </article>
+      <!-- BUILD:SUBSCRIBE:START -->
+      <div class="subscribe-block">
+        <span class="subscribe-block-label">Pemberitahuan Artikel</span>
+        <h2 class="subscribe-block-heading">Dapatkan pemberitahuan artikel baru</h2>
+        <p class="subscribe-block-desc">Kami akan mengirim email saat ada artikel baru. Anda dapat berhenti berlangganan kapan saja.</p>
+        <form class="subscribe-form" data-locale="id" data-success-msg="Terima kasih — silakan periksa kotak masuk untuk mengonfirmasi langganan Anda." data-error-msg="Terjadi kesalahan. Silakan coba lagi nanti." data-invalid-msg="Silakan masukkan alamat email yang valid.">
+          <div class="subscribe-honeypot" aria-hidden="true">
+            <label for="subscribe-website">Website</label>
+            <input type="text" id="subscribe-website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="email" class="subscribe-input" name="email" placeholder="Alamat email" aria-label="Alamat email" required />
+          <button type="submit" class="subscribe-submit">Berlangganan</button>
+        </form>
+        <p class="subscribe-status" role="status" aria-live="polite"></p>
+      </div>
+      <!-- BUILD:SUBSCRIBE:END -->
   </main>
 
   <footer class="site-footer">
@@ -251,6 +267,7 @@
 
   <script src="/assets/js/supabase-config.js"></script>
   <script src="/assets/js/counter.js" defer></script>
+  <script src="/assets/js/subscribe.js" defer></script>
 <script src="/assets/js/adaptive-reading.js" defer></script>
 <script src="/assets/js/mobile-nav.js" defer></script>
 <script src="/assets/js/lang-switch.js" defer></script>

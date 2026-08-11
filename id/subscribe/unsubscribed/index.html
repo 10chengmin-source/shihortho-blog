@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192x192.png" />
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Berhenti Berlangganan | Kekuatan di Baliknya | Catatan Ortopedi Dr. Shih</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://stonecare.daemet.com/id/subscribe/unsubscribed/" />
+    <script>
+  (function(){
+    if (window.ADAPTIVE_READING_DISABLED) return;
+    try {
+      var root = document.documentElement;
+      var choice = localStorage.getItem('shihortho:reading-mode') || 'auto';
+      var colorMode, level;
+      if (choice === 'readability') {
+        colorMode = 'light'; level = '3';
+      } else if (choice === 'dark') {
+        colorMode = 'dark'; level = '0';
+      } else {
+        var mm = window.matchMedia ? window.matchMedia.bind(window) : null;
+        colorMode = (mm && mm('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+        level = '0';
+      }
+      root.setAttribute('data-color-mode', colorMode);
+      root.setAttribute('data-reading-level', level);
+      root.setAttribute('data-reading-choice', choice);
+    } catch (e) {}
+  })();
+  </script>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body data-page="subscribe-action">
+  <header class="site-header">
+    <div class="container">
+      <a href="/id/" class="logo">Kekuatan di Baliknya</a>
+      <p class="tagline">Catatan Ortopedi Dr. Shih</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="subscribe-action-card">
+      <h1>Berhenti Berlangganan</h1>
+      <p
+        class="subscribe-action-status"
+        data-subscribe-action="unsubscribe"
+        data-msg-success="Anda telah berhenti berlangganan dan tidak akan menerima pemberitahuan lagi."
+        data-msg-error="Tautan tidak valid — silakan periksa kembali URL-nya."
+        data-msg-invalid="Tautan tidak valid — silakan periksa kembali URL-nya."
+      >…</p>
+      <a href="/id/" class="back-link">Kembali ke beranda</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Kekuatan di Baliknya</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/supabase-config.js"></script>
+  <script src="/assets/js/subscribe-action.js" defer></script>
+</body>
+</html>

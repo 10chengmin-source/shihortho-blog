@@ -113,6 +113,100 @@ const ABOUT_DESCRIPTION_VI =
 const ABOUT_DESCRIPTION_ID =
   "Dr. Shih Cheng-Min, Kepala Divisi Bedah Tulang Belakang, Departemen Ortopedi, Rumah Sakit Umum Veteran Taichung. Berfokus pada bedah tulang belakang minim sayatan, kompleks, dan revisi, rekonstruksi sendi panggul dan lutut, serta penanganan osteoporosis.";
 
+// Draft copy — review before shipping, matches the site's quiet,
+// fact-grounded tone (not marketing language). Same fields as
+// _shared/locales.ts's confirm/notification email copy, but for the
+// on-page subscribe form + confirm/unsubscribe landing pages.
+const SUBSCRIBE_COPY_ZH = {
+  label: "文章通知",
+  heading: "訂閱新文章通知",
+  desc: "新文章發布時，以電子郵件通知您，可隨時取消訂閱。",
+  placeholder: "電子郵件",
+  submit: "訂閱",
+  success: "感謝訂閱，請至信箱點擊確認連結完成訂閱。",
+  error: "訂閱時發生問題，請稍後再試。",
+  invalid: "請輸入有效的電子郵件地址。",
+  confirmedHeading: "訂閱確認",
+  confirmedSuccess: "您已成功訂閱新文章通知。",
+  confirmedError: "確認連結無效或已過期，請重新訂閱。",
+  unsubscribedHeading: "取消訂閱",
+  unsubscribedSuccess: "您已取消訂閱，將不再收到新文章通知。",
+  unsubscribedError: "連結無效，請確認網址是否完整。",
+  backLink: "回首頁",
+};
+
+const SUBSCRIBE_COPY_EN = {
+  label: "Article Updates",
+  heading: "Get notified about new articles",
+  desc: "Receive an email when a new article is published. Unsubscribe anytime.",
+  placeholder: "Email address",
+  submit: "Subscribe",
+  success: "Thanks — check your inbox to confirm your subscription.",
+  error: "Something went wrong. Please try again later.",
+  invalid: "Please enter a valid email address.",
+  confirmedHeading: "Confirm Subscription",
+  confirmedSuccess: "You're subscribed to new article notifications.",
+  confirmedError: "This confirmation link is invalid or expired — please subscribe again.",
+  unsubscribedHeading: "Unsubscribe",
+  unsubscribedSuccess: "You've been unsubscribed and won't receive further notifications.",
+  unsubscribedError: "This link is invalid — please check the URL.",
+  backLink: "Back to home",
+};
+
+const SUBSCRIBE_COPY_ZH_CN = {
+  label: "文章通知",
+  heading: "订阅新文章通知",
+  desc: "新文章发布时，以电子邮件通知您，可随时取消订阅。",
+  placeholder: "电子邮件",
+  submit: "订阅",
+  success: "感谢订阅，请至邮箱点击确认链接完成订阅。",
+  error: "订阅时发生问题，请稍后再试。",
+  invalid: "请输入有效的电子邮件地址。",
+  confirmedHeading: "订阅确认",
+  confirmedSuccess: "您已成功订阅新文章通知。",
+  confirmedError: "确认链接无效或已过期，请重新订阅。",
+  unsubscribedHeading: "取消订阅",
+  unsubscribedSuccess: "您已取消订阅，将不再收到新文章通知。",
+  unsubscribedError: "链接无效，请确认网址是否完整。",
+  backLink: "回首页",
+};
+
+const SUBSCRIBE_COPY_VI = {
+  label: "Thông Báo Bài Viết",
+  heading: "Nhận thông báo bài viết mới",
+  desc: "Chúng tôi sẽ gửi email khi có bài viết mới. Bạn có thể hủy đăng ký bất cứ lúc nào.",
+  placeholder: "Địa chỉ email",
+  submit: "Đăng ký",
+  success: "Cảm ơn bạn — vui lòng kiểm tra hộp thư để xác nhận đăng ký.",
+  error: "Đã xảy ra lỗi. Vui lòng thử lại sau.",
+  invalid: "Vui lòng nhập địa chỉ email hợp lệ.",
+  confirmedHeading: "Xác Nhận Đăng Ký",
+  confirmedSuccess: "Bạn đã đăng ký nhận thông báo bài viết mới thành công.",
+  confirmedError: "Liên kết xác nhận không hợp lệ hoặc đã hết hạn — vui lòng đăng ký lại.",
+  unsubscribedHeading: "Hủy Đăng Ký",
+  unsubscribedSuccess: "Bạn đã hủy đăng ký và sẽ không nhận thêm thông báo.",
+  unsubscribedError: "Liên kết không hợp lệ — vui lòng kiểm tra lại URL.",
+  backLink: "Về trang chủ",
+};
+
+const SUBSCRIBE_COPY_ID = {
+  label: "Pemberitahuan Artikel",
+  heading: "Dapatkan pemberitahuan artikel baru",
+  desc: "Kami akan mengirim email saat ada artikel baru. Anda dapat berhenti berlangganan kapan saja.",
+  placeholder: "Alamat email",
+  submit: "Berlangganan",
+  success: "Terima kasih — silakan periksa kotak masuk untuk mengonfirmasi langganan Anda.",
+  error: "Terjadi kesalahan. Silakan coba lagi nanti.",
+  invalid: "Silakan masukkan alamat email yang valid.",
+  confirmedHeading: "Konfirmasi Langganan",
+  confirmedSuccess: "Anda telah berhasil berlangganan pemberitahuan artikel baru.",
+  confirmedError: "Tautan konfirmasi tidak valid atau telah kedaluwarsa — silakan berlangganan lagi.",
+  unsubscribedHeading: "Berhenti Berlangganan",
+  unsubscribedSuccess: "Anda telah berhenti berlangganan dan tidak akan menerima pemberitahuan lagi.",
+  unsubscribedError: "Tautan tidak valid — silakan periksa kembali URL-nya.",
+  backLink: "Kembali ke beranda",
+};
+
 // Every locale-aware function in this file reads from LOCALES instead of
 // hand-duplicating a branch per language. To add a locale: add an entry
 // here, create its directory with the same shape as en/, and re-run the
@@ -141,6 +235,7 @@ const LOCALES = [
     categoryLabels: CATEGORY_LABELS,
     relatedChipStyle: "full",
     langSwitchSelfLabel: "中文",
+    subscribeCopy: SUBSCRIBE_COPY_ZH,
   },
   {
     code: "en",
@@ -162,6 +257,7 @@ const LOCALES = [
     categoryLabels: CATEGORY_LABELS_EN,
     relatedChipStyle: "code",
     langSwitchSelfLabel: "English",
+    subscribeCopy: SUBSCRIBE_COPY_EN,
   },
   {
     code: "zh-cn",
@@ -183,6 +279,7 @@ const LOCALES = [
     categoryLabels: CATEGORY_LABELS_ZH_CN,
     relatedChipStyle: "full",
     langSwitchSelfLabel: "简体中文",
+    subscribeCopy: SUBSCRIBE_COPY_ZH_CN,
   },
   {
     code: "vi",
@@ -204,6 +301,7 @@ const LOCALES = [
     categoryLabels: CATEGORY_LABELS_VI,
     relatedChipStyle: "full",
     langSwitchSelfLabel: "Tiếng Việt",
+    subscribeCopy: SUBSCRIBE_COPY_VI,
   },
   {
     code: "id",
@@ -225,6 +323,7 @@ const LOCALES = [
     categoryLabels: CATEGORY_LABELS_ID,
     relatedChipStyle: "full",
     langSwitchSelfLabel: "Bahasa Indonesia",
+    subscribeCopy: SUBSCRIBE_COPY_ID,
   },
 ];
 const LOCALES_BY_CODE = Object.fromEntries(LOCALES.map((l) => [l.code, l]));
@@ -842,6 +941,42 @@ function injectFriendLinks(filePath, locale) {
   }
 }
 
+function renderSubscribeForm(localeCode) {
+  const copy = LOCALES_BY_CODE[localeCode].subscribeCopy;
+  return `      <div class="subscribe-block">
+        <span class="subscribe-block-label">${escapeHtml(copy.label)}</span>
+        <h2 class="subscribe-block-heading">${escapeHtml(copy.heading)}</h2>
+        <p class="subscribe-block-desc">${escapeHtml(copy.desc)}</p>
+        <form class="subscribe-form" data-locale="${localeCode}" data-success-msg="${escapeHtml(
+    copy.success
+  )}" data-error-msg="${escapeHtml(copy.error)}" data-invalid-msg="${escapeHtml(copy.invalid)}">
+          <div class="subscribe-honeypot" aria-hidden="true">
+            <label for="subscribe-website">Website</label>
+            <input type="text" id="subscribe-website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="email" class="subscribe-input" name="email" placeholder="${escapeHtml(
+            copy.placeholder
+          )}" aria-label="${escapeHtml(copy.placeholder)}" required />
+          <button type="submit" class="subscribe-submit">${escapeHtml(copy.submit)}</button>
+        </form>
+        <p class="subscribe-status" role="status" aria-live="polite"></p>
+      </div>`;
+}
+
+function injectSubscribeForm(filePath, localeCode) {
+  if (!fs.existsSync(filePath)) return;
+  let html = fs.readFileSync(filePath, "utf8");
+  const re = /<!-- BUILD:SUBSCRIBE:START -->[\s\S]*?<!-- BUILD:SUBSCRIBE:END -->/;
+  if (!re.test(html)) return;
+  const inner = `<!-- BUILD:SUBSCRIBE:START -->\n${renderSubscribeForm(
+    localeCode
+  )}\n      <!-- BUILD:SUBSCRIBE:END -->`;
+  const next = html.replace(re, inner);
+  if (next !== html) {
+    fs.writeFileSync(filePath, next, "utf8");
+  }
+}
+
 // availability is a sparse {localeCode: relativeUrl} map for this exact
 // page (a static page or a specific article's counterparts). A locale
 // missing from the map renders as a disabled, unclickable entry instead of
@@ -938,6 +1073,11 @@ function main() {
     injectFriendLinks(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
     injectFriendLinks(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
     articlesByLocale[locale.code].forEach((a) => injectFriendLinks(a.indexPath, locale.code));
+
+    // Homepage lower-middle + bottom of every article page only — not the
+    // about/media/line static pages.
+    injectSubscribeForm(path.join(ROOT, locale.dir, "index.html"), locale.code);
+    articlesByLocale[locale.code].forEach((a) => injectSubscribeForm(a.indexPath, locale.code));
   }
 
   const homeAvailability = staticPageAvailability("index.html", "");

@@ -238,6 +238,22 @@
       </aside>
       <!-- BUILD:RELATED:END -->
     </article>
+      <!-- BUILD:SUBSCRIBE:START -->
+      <div class="subscribe-block">
+        <span class="subscribe-block-label">Thông Báo Bài Viết</span>
+        <h2 class="subscribe-block-heading">Nhận thông báo bài viết mới</h2>
+        <p class="subscribe-block-desc">Chúng tôi sẽ gửi email khi có bài viết mới. Bạn có thể hủy đăng ký bất cứ lúc nào.</p>
+        <form class="subscribe-form" data-locale="vi" data-success-msg="Cảm ơn bạn — vui lòng kiểm tra hộp thư để xác nhận đăng ký." data-error-msg="Đã xảy ra lỗi. Vui lòng thử lại sau." data-invalid-msg="Vui lòng nhập địa chỉ email hợp lệ.">
+          <div class="subscribe-honeypot" aria-hidden="true">
+            <label for="subscribe-website">Website</label>
+            <input type="text" id="subscribe-website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="email" class="subscribe-input" name="email" placeholder="Địa chỉ email" aria-label="Địa chỉ email" required />
+          <button type="submit" class="subscribe-submit">Đăng ký</button>
+        </form>
+        <p class="subscribe-status" role="status" aria-live="polite"></p>
+      </div>
+      <!-- BUILD:SUBSCRIBE:END -->
   </main>
 
   <footer class="site-footer">
@@ -262,6 +278,7 @@
 
   <script src="/assets/js/supabase-config.js"></script>
   <script src="/assets/js/counter.js" defer></script>
+  <script src="/assets/js/subscribe.js" defer></script>
 <script src="/assets/js/adaptive-reading.js" defer></script>
 <script src="/assets/js/mobile-nav.js" defer></script>
 <script src="/assets/js/lang-switch.js" defer></script>

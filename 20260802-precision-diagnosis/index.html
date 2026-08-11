@@ -214,6 +214,22 @@
       </aside>
       <!-- BUILD:RELATED:END -->
     </article>
+      <!-- BUILD:SUBSCRIBE:START -->
+      <div class="subscribe-block">
+        <span class="subscribe-block-label">文章通知</span>
+        <h2 class="subscribe-block-heading">訂閱新文章通知</h2>
+        <p class="subscribe-block-desc">新文章發布時，以電子郵件通知您，可隨時取消訂閱。</p>
+        <form class="subscribe-form" data-locale="zh" data-success-msg="感謝訂閱，請至信箱點擊確認連結完成訂閱。" data-error-msg="訂閱時發生問題，請稍後再試。" data-invalid-msg="請輸入有效的電子郵件地址。">
+          <div class="subscribe-honeypot" aria-hidden="true">
+            <label for="subscribe-website">Website</label>
+            <input type="text" id="subscribe-website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="email" class="subscribe-input" name="email" placeholder="電子郵件" aria-label="電子郵件" required />
+          <button type="submit" class="subscribe-submit">訂閱</button>
+        </form>
+        <p class="subscribe-status" role="status" aria-live="polite"></p>
+      </div>
+      <!-- BUILD:SUBSCRIBE:END -->
   </main>
 
   <footer class="site-footer">
@@ -238,6 +254,7 @@
 
   <script src="/assets/js/supabase-config.js"></script>
   <script src="/assets/js/counter.js" defer></script>
+  <script src="/assets/js/subscribe.js" defer></script>
 <script src="/assets/js/adaptive-reading.js" defer></script>
 <script src="/assets/js/mobile-nav.js" defer></script>
 <script src="/assets/js/lang-switch.js" defer></script>

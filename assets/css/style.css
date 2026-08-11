@@ -562,6 +562,123 @@ main.container {
   letter-spacing: 0.04em;
 }
 
+/* Article-notification subscribe form (homepage lower-middle, article
+   footer). Deliberately understated — a quiet utility, not a promo banner. */
+.subscribe-block {
+  margin: 40px 0;
+  padding: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+}
+
+.subscribe-block-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 10px;
+  display: block;
+}
+
+.subscribe-block-heading {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0 0 8px;
+  color: var(--color-ink);
+}
+
+.subscribe-block-desc {
+  margin: 0 0 18px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--color-sub);
+}
+
+.subscribe-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.subscribe-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.subscribe-input {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.subscribe-input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.subscribe-submit {
+  padding: 10px 20px;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.subscribe-submit:hover {
+  opacity: 0.88;
+}
+
+.subscribe-submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.subscribe-status {
+  margin: 12px 0 0;
+  min-height: 1.2em;
+  font-size: 0.82rem;
+  color: var(--color-sub);
+}
+
+/* Standalone confirm/unsubscribe landing pages */
+.subscribe-action-card {
+  max-width: var(--reader-content-width);
+  margin: 64px auto;
+  padding: 32px var(--reader-post-padding-x);
+  text-align: center;
+}
+
+.subscribe-action-card h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin: 0 0 14px;
+  color: var(--color-ink);
+}
+
+.subscribe-action-status {
+  font-size: 0.95rem;
+  color: var(--color-sub);
+  margin: 0 0 24px;
+}
+
 /* Article page */
 .post {
   max-width: var(--reader-content-width);

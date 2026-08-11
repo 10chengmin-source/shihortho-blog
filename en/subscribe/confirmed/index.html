@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192x192.png" />
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Confirm Subscription | Behind the Strength | Dr. Shih's Orthopedic Notes</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://stonecare.daemet.com/en/subscribe/confirmed/" />
+    <script>
+  (function(){
+    if (window.ADAPTIVE_READING_DISABLED) return;
+    try {
+      var root = document.documentElement;
+      var choice = localStorage.getItem('shihortho:reading-mode') || 'auto';
+      var colorMode, level;
+      if (choice === 'readability') {
+        colorMode = 'light'; level = '3';
+      } else if (choice === 'dark') {
+        colorMode = 'dark'; level = '0';
+      } else {
+        var mm = window.matchMedia ? window.matchMedia.bind(window) : null;
+        colorMode = (mm && mm('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+        level = '0';
+      }
+      root.setAttribute('data-color-mode', colorMode);
+      root.setAttribute('data-reading-level', level);
+      root.setAttribute('data-reading-choice', choice);
+    } catch (e) {}
+  })();
+  </script>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body data-page="subscribe-action">
+  <header class="site-header">
+    <div class="container">
+      <a href="/en/" class="logo">Behind the Strength</a>
+      <p class="tagline">Dr. Shih's Orthopedic Notes</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="subscribe-action-card">
+      <h1>Confirm Subscription</h1>
+      <p
+        class="subscribe-action-status"
+        data-subscribe-action="confirm"
+        data-msg-success="You're subscribed to new article notifications."
+        data-msg-error="This confirmation link is invalid or expired — please subscribe again."
+        data-msg-invalid="This confirmation link is invalid or expired — please subscribe again."
+      >…</p>
+      <a href="/en/" class="back-link">Back to home</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Behind the Strength</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/supabase-config.js"></script>
+  <script src="/assets/js/subscribe-action.js" defer></script>
+</body>
+</html>
