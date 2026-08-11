@@ -9,6 +9,7 @@ const EXCLUDE_DIRS = new Set([
   "node_modules",
   ".git",
   ".github",
+  "supabase",
 ]);
 const EXTRA_ROOT_FILES = new Set(["robots.txt", "sitemap.xml", "rss.xml"]);
 
