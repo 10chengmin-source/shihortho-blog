@@ -13,11 +13,6 @@
   const isEn = document.documentElement.lang.indexOf("en") === 0;
   const numberLocale = isEn ? "en-US" : "zh-Hant";
 
-  function renderCount(el, count) {
-    const label = el.getAttribute("data-label") || (isEn ? "views" : "次瀏覽");
-    el.textContent = "\u{1F441} " + count.toLocaleString(numberLocale) + " " + label;
-  }
-
   async function fetchAllCounts() {
     const res = await fetch(
       config.url + "/rest/v1/page_views?select=slug,views",
@@ -41,38 +36,28 @@
     return typeof data === "number" ? data : data && data.views;
   }
 
+  // Per-article counts are still tracked (increment on view, summed into the
+  // homepage total) but no longer rendered individually — a freshly
+  // published article's low count reads as "nobody reads this" rather than
+  // "just published"; the homepage's "NEW" badge (see build.js) replaces
+  // that signal without the discouraging number. Only the site-wide total
+  // (a much larger, more representative figure) is still displayed.
   async function run() {
     const page = document.body.getAttribute("data-page");
-    const badges = Array.from(document.querySelectorAll("span[data-slug]"));
 
     if (page === "article") {
       const slug = document.body.getAttribute("data-slug");
-      if (slug) {
-        const newCount = await incrementCount(slug);
-        if (typeof newCount === "number") {
-          badges
-            .filter((el) => el.getAttribute("data-slug") === slug)
-            .forEach((el) => renderCount(el, newCount));
-        }
-      }
+      if (slug) await incrementCount(slug);
       return;
     }
 
+    const totalEl = document.getElementById("site-total-views");
+    if (!totalEl) return;
+
     const rows = await fetchAllCounts();
-    const bySlug = new Map(rows.map((r) => [r.slug, r.views]));
     let total = 0;
     rows.forEach((r) => (total += r.views || 0));
-
-    badges.forEach((el) => {
-      const slug = el.getAttribute("data-slug");
-      const count = bySlug.get(slug) || 0;
-      renderCount(el, count);
-    });
-
-    const totalEl = document.getElementById("site-total-views");
-    if (totalEl) {
-      totalEl.textContent = total.toLocaleString(numberLocale);
-    }
+    totalEl.textContent = total.toLocaleString(numberLocale);
   }
 
   if (document.readyState === "loading") {

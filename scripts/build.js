@@ -328,6 +328,9 @@ function findArticlesIn(baseDir, ignoreDirs, dirPrefix) {
     const sortKey = gitSortKey || publishedDate || new Date().toISOString();
     const updatedDate = sortKey.slice(0, 10);
 
+    const publishedMs = publishedDate ? new Date(publishedDate).getTime() : NaN;
+    const isNew = !Number.isNaN(publishedMs) && Date.now() - publishedMs < NEW_BADGE_WINDOW_MS;
+
     articles.push({
       dir: dirPrefix + entry.name,
       indexPath,
@@ -340,6 +343,7 @@ function findArticlesIn(baseDir, ignoreDirs, dirPrefix) {
       updatedDate,
       sortKey,
       manualOrder,
+      isNew,
     });
   }
 
@@ -649,18 +653,20 @@ function writeSitemap(articlesByLocale) {
   fs.writeFileSync(path.join(ROOT, "sitemap.xml"), xml, "utf8");
 }
 
-function renderIndexRow(article, indexInGroup) {
+function renderIndexRow(article, indexInGroup, locale) {
   const num = String(indexInGroup).padStart(2, "0");
+  const newBadge = article.isNew
+    ? `\n              <span class="index-badge-new">${escapeHtml(
+        NEW_BADGE_LABEL[locale]
+      )}</span>`
+    : "";
   return `        <div class="index-row">
           <span class="index-num">${num}</span>
           <a href="/${article.dir}/" class="index-link">
             <h3 class="index-title">${escapeHtml(article.title)}</h3>
             <p class="index-excerpt">${escapeHtml(article.excerpt)}</p>
             <div class="index-meta">
-              <span class="index-date">${article.updatedDate}</span>
-              <span class="index-views" data-slug="${escapeHtml(
-                article.slug
-              )}">👁 —</span>
+              <span class="index-date">${article.updatedDate}</span>${newBadge}
             </div>
           </a>
         </div>`;
@@ -680,9 +686,9 @@ function groupByCategory(articles, labels) {
     .map((key) => ({ key, label: labels[key], articles: groups.get(key) }));
 }
 
-function renderSection(group) {
+function renderSection(group, locale) {
   const rowsHtml = group.articles
-    .map((article, i) => renderIndexRow(article, i + 1))
+    .map((article, i) => renderIndexRow(article, i + 1, locale))
     .join("\n");
   const code = CATEGORY_CODES[group.key] || CATEGORY_CODES.uncategorized;
   return `    <section class="category-section" id="${escapeHtml(group.key)}">
@@ -700,6 +706,20 @@ const RELATED_HEADING = {
   "zh-cn": "延伸阅读",
   vi: "Đọc Thêm",
   id: "Baca Juga",
+};
+
+// Articles published within this window show a "NEW" badge on the homepage
+// instead of a view count (a freshly-published article's real view count is
+// low by definition, which read as "nobody reads this" rather than "just
+// published" — a badge signals the same thing without the discouraging number).
+const NEW_BADGE_WINDOW_MS = 14 * 24 * 60 * 60 * 1000;
+
+const NEW_BADGE_LABEL = {
+  zh: "最新",
+  en: "New",
+  "zh-cn": "最新",
+  vi: "Mới",
+  id: "Baru",
 };
 
 function pickRelated(article, allArticles, count = 3) {
@@ -880,7 +900,7 @@ function staticPageAvailability(pageFile, suffix) {
   return availability;
 }
 
-function updateHomepageCards(articles, indexPath, labels) {
+function updateHomepageCards(articles, indexPath, labels, locale) {
   if (!fs.existsSync(indexPath)) return;
   let html = fs.readFileSync(indexPath, "utf8");
   const re = /<!-- BUILD:CARDS:START -->[\s\S]*?<!-- BUILD:CARDS:END -->/;
@@ -888,7 +908,7 @@ function updateHomepageCards(articles, indexPath, labels) {
     throw new Error(`BUILD:CARDS markers not found in ${indexPath}`);
   }
   const groups = groupByCategory(articles, labels);
-  const sectionsHtml = groups.map(renderSection).join("\n\n");
+  const sectionsHtml = groups.map((group) => renderSection(group, locale)).join("\n\n");
   const replacement = `<!-- BUILD:CARDS:START -->\n${sectionsHtml}\n    <!-- BUILD:CARDS:END -->`;
   const next = html.replace(re, replacement);
   if (next !== html) {
@@ -906,7 +926,8 @@ function main() {
     updateHomepageCards(
       articles,
       path.join(ROOT, locale.dir, "index.html"),
-      locale.categoryLabels
+      locale.categoryLabels,
+      locale.code
     );
     articles.forEach((a) => injectRelated(a, articles, locale.code));
   }
