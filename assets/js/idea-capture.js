@@ -1,9 +1,10 @@
 /**
- * Powers notes/index.html, a private (unlisted) mobile page for capturing
- * article ideas. Posts to the submit-idea Edge Function. The mic button is
- * a progressive enhancement via the Web Speech API — on browsers without
- * it, the textarea still works fine with the phone keyboard's own built-in
- * dictation button.
+ * Powers the private (unlisted) mobile page for capturing article ideas.
+ * Posts to the submit-idea Edge Function. Voice input relies entirely on
+ * the phone keyboard's own built-in dictation button (works reliably on
+ * both iOS and Android) rather than the Web Speech API — iOS Safari
+ * exposes webkitSpeechRecognition but it doesn't actually work, so a
+ * custom mic button there would just fail silently/confusingly.
  */
 (function () {
   "use strict";
@@ -12,7 +13,6 @@
     var config = window.SUPABASE_CONFIG;
     var textarea = document.getElementById("notes-input");
     var submitBtn = document.getElementById("notes-submit");
-    var micBtn = document.getElementById("notes-mic");
     var status = document.getElementById("notes-status");
     if (!textarea || !submitBtn || !status) return;
 
@@ -59,57 +59,6 @@
         .then(function () {
           submitBtn.disabled = false;
         });
-    });
-
-    var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognitionCtor || !micBtn) return;
-
-    var recognition = new SpeechRecognitionCtor();
-    recognition.lang = "zh-TW";
-    recognition.interimResults = false;
-    recognition.continuous = true;
-    var listening = false;
-
-    micBtn.hidden = false;
-
-    recognition.addEventListener("result", function (event) {
-      var chunk = "";
-      for (var i = event.resultIndex; i < event.results.length; i++) {
-        chunk += event.results[i][0].transcript;
-      }
-      if (!chunk) return;
-      var existing = textarea.value;
-      textarea.value = existing && !/\s$/.test(existing) ? existing + " " + chunk : existing + chunk;
-    });
-
-    recognition.addEventListener("end", function () {
-      listening = false;
-      micBtn.textContent = "🎤 語音輸入";
-      micBtn.setAttribute("aria-pressed", "false");
-    });
-
-    recognition.addEventListener("error", function () {
-      listening = false;
-      micBtn.textContent = "🎤 語音輸入";
-      micBtn.setAttribute("aria-pressed", "false");
-      status.textContent = "語音辨識發生問題，請直接用鍵盤輸入。";
-    });
-
-    micBtn.addEventListener("click", function () {
-      if (listening) {
-        recognition.stop();
-        return;
-      }
-      listening = true;
-      micBtn.textContent = "🎤 聆聽中…（點擊停止）";
-      micBtn.setAttribute("aria-pressed", "true");
-      status.textContent = "";
-      try {
-        recognition.start();
-      } catch (e) {
-        listening = false;
-        micBtn.textContent = "🎤 語音輸入";
-      }
     });
   }
 

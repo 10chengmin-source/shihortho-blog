@@ -66,10 +66,13 @@ other work. When in doubt about an article's actual status, run
 
 # Mobile article-idea capture
 
-`notes/index.html` is a private, unlisted page (not linked from any nav,
-`noindex`) where the user jots raw article ideas from their phone —
-typed or via voice-to-text. Submissions land in the `article_ideas`
-Supabase table via the `submit-idea` Edge Function.
+A private, unlisted page at a random 128-bit path (not linked from any
+nav, `noindex`, moved off a guessable name like `/notes/` on purpose —
+that old path is intentionally dead, not redirected, so it can't leak the
+real one) is where the user jots raw article ideas from their phone,
+typed or via the phone keyboard's own dictation button. Submissions land
+in the `article_ideas` Supabase table via the `submit-idea` Edge
+Function. Never link to this page from anywhere public.
 
 A `SessionStart` hook (`scripts/ideas-session-hook.js`) surfaces any
 unprocessed idea automatically at the start of a session, the same way

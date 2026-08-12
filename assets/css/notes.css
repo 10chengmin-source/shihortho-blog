@@ -1,4 +1,4 @@
-/* notes/index.html — private mobile idea-capture page. Not part of the
+/* Private mobile idea-capture page (unlisted random path). Not part of the
    public site's design system, so it's kept in its own small stylesheet
    rather than bloating style.css, but still reuses the site's CSS
    variables (colors/fonts) for visual consistency. */
@@ -50,7 +50,6 @@
   margin-top: 14px;
 }
 
-.notes-mic-btn,
 .notes-submit-btn {
   flex: 1 1 140px;
   padding: 12px 16px;
@@ -59,20 +58,6 @@
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-}
-
-.notes-mic-btn {
-  border: 1px solid var(--color-line);
-  background: transparent;
-  color: var(--color-ink);
-}
-
-.notes-mic-btn[aria-pressed="true"] {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-}
-
-.notes-submit-btn {
   border: 1px solid var(--color-accent);
   background: var(--color-accent);
   color: var(--color-accent-ink);
