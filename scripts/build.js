@@ -341,6 +341,9 @@ const ROOT_IGNORE_DIRS = new Set([
   ".git",
   ".github",
   "dist",
+  "supabase",
+  "subscribe",
+  "notes",
   ...LOCALES.filter((l) => l.dir).map((l) => l.dir),
 ]);
 

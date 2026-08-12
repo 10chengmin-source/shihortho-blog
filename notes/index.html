@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>文章想法記錄</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/notes.css" />
+</head>
+<body>
+  <main class="notes-page">
+    <h1>文章想法記錄</h1>
+    <p class="notes-hint">想到什麼就打字，或用下面的語音輸入按鈕（也可以直接用手機鍵盤內建的語音輸入）。按送出就好，不用整理成一篇文章。</p>
+    <textarea id="notes-input" class="notes-textarea" placeholder="在這裡輸入…"></textarea>
+    <div class="notes-actions">
+      <button type="button" id="notes-mic" class="notes-mic-btn" aria-pressed="false" hidden>🎤 語音輸入</button>
+      <button type="button" id="notes-submit" class="notes-submit-btn">送出</button>
+    </div>
+    <p id="notes-status" class="notes-status" role="status" aria-live="polite"></p>
+  </main>
+
+  <script src="/assets/js/supabase-config.js"></script>
+  <script src="/assets/js/idea-capture.js" defer></script>
+</body>
+</html>

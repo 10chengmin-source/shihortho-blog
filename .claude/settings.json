@@ -4,6 +4,10 @@
       {
         "type": "command",
         "command": "node --env-file=\"$CLAUDE_PROJECT_DIR/.env.local\" \"$CLAUDE_PROJECT_DIR/scripts/notifications-session-hook.js\""
+      },
+      {
+        "type": "command",
+        "command": "node --env-file=\"$CLAUDE_PROJECT_DIR/.env.local\" \"$CLAUDE_PROJECT_DIR/scripts/ideas-session-hook.js\""
       }
     ]
   }

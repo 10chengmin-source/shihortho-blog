@@ -63,3 +63,19 @@ All of this is real Supabase data (`article_notifications`,
 the `SessionStart` hook fail silently/harmlessly — they must never block
 other work. When in doubt about an article's actual status, run
 `npm run notifications:pending` rather than trusting conversation history.
+
+# Mobile article-idea capture
+
+`notes/index.html` is a private, unlisted page (not linked from any nav,
+`noindex`) where the user jots raw article ideas from their phone —
+typed or via voice-to-text. Submissions land in the `article_ideas`
+Supabase table via the `submit-idea` Edge Function.
+
+A `SessionStart` hook (`scripts/ideas-session-hook.js`) surfaces any
+unprocessed idea automatically at the start of a session, the same way
+pending notifications do. When one shows up: discuss it with the user,
+help turn it into an article if they want to, and once it's been used (or
+they say to drop it) mark it with `scripts/ideas-mark-processed.js <id>` so
+it stops resurfacing. `npm run ideas:pending` checks manually. Unlike
+notification decisions, there's no 3-way choice here — an idea just stays
+unprocessed until someone acts on it.
