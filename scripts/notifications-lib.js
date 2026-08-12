@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const SITE_URL = "https://stonecare.daemet.com";
+const SITE_URL = "https://drstone.daemet.com";
 
 // Mirrors LOCALES in build.js (dir + code only — this script doesn't need
 // the copy/SEO fields build.js carries).

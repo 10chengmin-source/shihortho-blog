@@ -26,7 +26,7 @@ export const LOCALES: Record<LocaleCode, LocaleInfo> = {
   id: { siteName: "Kekuatan di Baliknya | Catatan Ortopedi Dr. Shih", dir: "id" },
 };
 
-export const SITE_URL = "https://stonecare.daemet.com";
+export const SITE_URL = "https://drstone.daemet.com";
 
 export function localePath(locale: LocaleCode, suffix = ""): string {
   const dir = LOCALES[locale].dir;
