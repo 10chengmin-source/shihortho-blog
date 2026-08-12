@@ -343,7 +343,7 @@ const ROOT_IGNORE_DIRS = new Set([
   "dist",
   "supabase",
   "subscribe",
-  "notes",
+  "idea-capture-9b0436e5ce39ba5884a3cb1f18952684",
   ...LOCALES.filter((l) => l.dir).map((l) => l.dir),
 ]);
 
