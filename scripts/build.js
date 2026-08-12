@@ -12,9 +12,9 @@ const CATEGORY_ORDER = [
   "story",
 ];
 
-// Locale-agnostic short eyebrow codes used on the homepage sections for
-// every locale, and in the related-articles widget for locales whose
-// relatedChipStyle is "code" (currently just "en").
+// English eyebrow codes, used in the related-articles widget for locales
+// whose relatedChipStyle is "code" (currently just "en") and as the "en"
+// entry of CATEGORY_EYEBROW below.
 const CATEGORY_CODES = {
   philosophy: "PHILOSOPHY",
   announcement: "ANNOUNCEMENT",
@@ -22,6 +22,49 @@ const CATEGORY_CODES = {
   education: "EDUCATION",
   story: "CASE NOTES",
   uncategorized: "LATEST",
+};
+
+// Per-locale short eyebrow labels for the homepage section headers
+// (.section-eyebrow). Deliberately in each locale's own language rather
+// than English-only codes — an all-caps English word above a Chinese/
+// Vietnamese/Indonesian heading reads as an untranslated leftover, not a
+// design choice. Only "en" itself uses English. Non-English locales keep
+// the same mono, uppercase-letterspaced treatment where the script has
+// case (vi/id); Han-script locales just use short local words.
+const CATEGORY_EYEBROW = {
+  en: CATEGORY_CODES,
+  zh: {
+    philosophy: "理念",
+    announcement: "公告",
+    surgery: "手術室",
+    education: "衛教",
+    story: "故事",
+    uncategorized: "最新",
+  },
+  "zh-cn": {
+    philosophy: "理念",
+    announcement: "公告",
+    surgery: "手术室",
+    education: "科普",
+    story: "故事",
+    uncategorized: "最新",
+  },
+  vi: {
+    philosophy: "TRIẾT LÝ",
+    announcement: "THÔNG BÁO",
+    surgery: "PHẪU THUẬT",
+    education: "KIẾN THỨC",
+    story: "CÂU CHUYỆN",
+    uncategorized: "MỚI NHẤT",
+  },
+  id: {
+    philosophy: "FILOSOFI",
+    announcement: "KABAR",
+    surgery: "BEDAH",
+    education: "EDUKASI",
+    story: "KISAH",
+    uncategorized: "TERBARU",
+  },
 };
 
 const CATEGORY_LABELS = {
@@ -84,6 +127,13 @@ const DOCTOR_NAME_ID = "Dr. Shih Cheng-Min";
 
 const DEFAULT_OG_IMAGE = "/assets/images/hero-cover.jpg";
 const DOCTOR_PORTRAIT = "/assets/images/doctor-portrait.jpg";
+
+// Inline SVG globe icon for the lang-switch toggle, replacing a generic 🌐
+// emoji — no external/paid icon set involved (project constraint: no
+// paid icon packages), just a simple currentColor line icon that matches
+// the button's own text color and its hover transition for free.
+const LANG_SWITCH_ICON_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 2.6 4.2 5.7 4.2 9s-1.4 6.4-4.2 9c-2.8-2.6-4.2-5.7-4.2-9S9.2 5.6 12 3z"/></svg>';
 
 const HOME_DESCRIPTION_ZH =
   "石承民醫師的骨科札記，分享脊椎、關節與運動傷害相關的衛教知識、手術理念與臨床觀察。";
@@ -792,7 +842,8 @@ function renderSection(group, locale) {
   const rowsHtml = group.articles
     .map((article, i) => renderIndexRow(article, i + 1, locale))
     .join("\n");
-  const code = CATEGORY_CODES[group.key] || CATEGORY_CODES.uncategorized;
+  const eyebrows = CATEGORY_EYEBROW[locale] || CATEGORY_CODES;
+  const code = eyebrows[group.key] || eyebrows.uncategorized;
   return `    <section class="category-section" id="${escapeHtml(group.key)}">
       <span class="section-eyebrow">${escapeHtml(code)}</span>
       <h2 class="section-title">${escapeHtml(group.label)}</h2>
@@ -1002,7 +1053,7 @@ function renderLangSwitch(currentLocaleCode, availability) {
   }).join("\n");
 
   return `<div class="lang-switch">
-        <button type="button" class="lang-switch-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="lang-switch-menu"><span class="lang-switch-icon" aria-hidden="true">🌐</span>${escapeHtml(
+        <button type="button" class="lang-switch-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="lang-switch-menu"><span class="lang-switch-icon" aria-hidden="true">${LANG_SWITCH_ICON_SVG}</span>${escapeHtml(
           current.langSwitchSelfLabel
         )}</button>
         <div class="lang-switch-menu" id="lang-switch-menu">

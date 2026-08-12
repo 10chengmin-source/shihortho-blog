@@ -10,6 +10,7 @@
   --color-accent: #29c48f;
   --color-accent-ink: #0b1310;
   --color-amber: #e8b84b;
+  --color-line-brand: #06c755;
   --radius: 6px;
   --font-serif: "Noto Serif TC", "PingFang TC", serif;
   --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system,
@@ -93,6 +94,28 @@ html[data-color-mode="light"] {
   --color-accent: #066b4a;
   --color-accent-ink: #ffffff;
   --color-amber: #96690a;
+}
+
+/* No-JS fallback: the bootstrap <script> in <head> is what normally sets
+   data-color-mode from the visitor's OS preference before first paint. If
+   JavaScript is blocked, that attribute never gets set and :root's dark
+   defaults would apply unconditionally regardless of OS preference. This
+   mirrors that same light palette for the narrow no-JS-and-prefers-light
+   case, scoped to html:not([data-color-mode]) so it never fights the JS
+   path once that attribute is present. */
+@media (prefers-color-scheme: light) {
+  html:not([data-color-mode]) {
+    --color-bg: #f5f7f8;
+    --color-bg-rgb: 245, 247, 248;
+    --color-surface: #ffffff;
+    --color-surface-raised: #eef1f3;
+    --color-ink: #14181c;
+    --color-sub: #55606a;
+    --color-line: #d8dee2;
+    --color-accent: #066b4a;
+    --color-accent-ink: #ffffff;
+    --color-amber: #96690a;
+  }
 }
 
 /* Reading level 1: loosen line-height only. Delta is relative to whichever
@@ -193,15 +216,33 @@ a {
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
+  /* The nav bar (6 links + lang switch + 2 CTAs) needs more horizontal room
+     than the --wide-max reading-width cap gives every other section — that
+     cap is right for article/card content but starves the nav, especially
+     in longer-text locales (en/vi/id), well before it starves the reading
+     column. Widen just the header row; .hero/main/footer keep --wide-max.
+     Whatever doesn't fit even at this width still falls back to the
+     hamburger via .nav-collapsed below — this isn't relied on to be
+     "wide enough" for every locale, just wide enough to matter. */
+  max-width: 1500px;
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   font-family: var(--font-serif);
   font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   text-decoration: none;
   color: var(--color-ink);
+}
+
+.logo-mark {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
 }
 
 .tagline {
@@ -241,13 +282,17 @@ a {
 .lang-switch-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  min-height: 44px;
   font: inherit;
   font-size: 0.78rem;
   font-weight: 500;
   color: var(--color-sub);
-  padding: 4px 12px;
+  padding: 4px 14px;
   border: 1px solid var(--color-line);
+  /* Pill shape is reserved on this site for controls that toggle/switch a
+     state (this menu, .reading-settings buttons) — it deliberately reads
+     differently from the rectangular .nav-cta/.line-cta action buttons. */
   border-radius: 999px;
   background: transparent;
   cursor: pointer;
@@ -255,8 +300,16 @@ a {
 }
 
 .lang-switch-icon {
-  font-size: 0.9em;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
   line-height: 1;
+}
+
+.lang-switch-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .lang-switch-toggle:hover {
@@ -318,7 +371,9 @@ a {
   color: var(--color-accent-ink);
   font-weight: 700;
   padding: 9px 20px;
-  border-radius: 999px;
+  /* Rectangular, matching the site's other primary actions (subscribe-submit,
+     notice-banner) — the nav's one true "primary action" button. */
+  border-radius: var(--radius);
   transition: filter 0.15s ease, transform 0.15s ease;
 }
 
@@ -353,11 +408,18 @@ a {
   background: var(--color-ink);
 }
 
-/* Hero (homepage) — the cover image already contains the title text,
-   shown in full without cropping, framed like a lit panel in a dark room. */
+/* Hero (homepage). The cover photo is toned dark so it reads as one of the
+   site's own dark editorial panels rather than a pasted-in banner; the title
+   is real HTML (not baked into the image), so every locale shows its own
+   translated headline over the same photo. The panel is intentionally a
+   fixed dark treatment in both color modes — like a photo inset, not a
+   themed surface — so hero-title/hero-subtitle use fixed light colors below
+   rather than the --color-ink/--color-sub tokens that flip in light mode. */
 .hero {
+  position: relative;
   width: 100%;
-  background: var(--color-surface);
+  overflow: hidden;
+  background: var(--color-bg);
   border-bottom: 1px solid var(--color-amber);
   box-shadow: 0 1px 24px rgba(232, 184, 75, 0.12);
 }
@@ -366,6 +428,51 @@ a {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.hero-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 46%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 5% 0 2%;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 3.6vw, 2.5rem);
+  line-height: 1.3;
+  margin: 0 0 10px;
+  color: #f2f6f4;
+  text-wrap: balance;
+  word-break: keep-all;
+}
+
+.hero-subtitle {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+  margin: 0;
+  color: #9fc3b3;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 760px) {
+  .hero-content {
+    position: static;
+    width: auto;
+    /* Fixed dark, not var(--color-bg) — that flips to near-white in light
+       mode, which would make the fixed-light hero-title/subtitle colors
+       above nearly invisible against it. Same panel-not-a-surface logic as
+       the desktop overlay, just stacked instead of absolutely positioned. */
+    background: #10151b;
+    padding: 24px 24px 28px;
+  }
 }
 
 .visually-hidden {
@@ -395,7 +502,7 @@ main.container {
   flex-wrap: wrap;
   background: var(--color-surface);
   border: 1px solid var(--color-line);
-  border-left: 4px solid #06c755;
+  border-left: 4px solid var(--color-line-brand);
   border-radius: var(--radius);
   padding: 24px 28px;
   margin-top: 40px;
@@ -433,28 +540,38 @@ main.container {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  background: #06c755;
+  background: var(--color-line-brand);
   color: #fff;
   font-weight: 700;
   font-size: 0.9rem;
   text-decoration: none;
   padding: 12px 24px;
-  border-radius: 999px;
+  border-radius: var(--radius);
   white-space: nowrap;
-  transition: filter 0.15s ease, transform 0.15s ease;
-}
-
-/* In the nav, the LINE button sits right next to nav-cta and must match its
-   size exactly (the notice-banner's standalone .line-cta keeps its larger,
-   more prominent sizing). */
-.site-nav .line-cta {
-  padding: 9px 20px;
-  font-size: 0.85rem;
+  transition: filter 0.15s ease, transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
 .line-cta:hover {
   filter: brightness(1.08);
   transform: translateY(-1px);
+}
+
+/* In the nav, the LINE button sits right next to .nav-cta. It reads as the
+   secondary action there — outline instead of filled — so the one true
+   primary action (booking) is unambiguous at a glance. The notice-banner's
+   standalone .line-cta above keeps its solid, more prominent styling since
+   it has no competing primary button next to it. */
+.site-nav .line-cta {
+  padding: 9px 20px;
+  font-size: 0.85rem;
+  background: transparent;
+  color: var(--color-line-brand);
+  border: 1px solid var(--color-line-brand);
+}
+
+.site-nav .line-cta:hover {
+  background: var(--color-line-brand);
+  color: #fff;
 }
 
 /* Category sections + index list */
@@ -759,13 +876,13 @@ main.container {
   margin: 0 0 32px;
 }
 
+/* Plain line border, no glow — the amber glow-frame is reserved for Dr.
+   Shih's own portrait (.profile-photo-frame) as a personal signature, not
+   applied to every photo on the site. */
 .post-hero-img {
   width: 100%;
   height: auto;
-  border: 1px solid var(--color-amber);
-  box-shadow: 0 0 0 5px var(--color-bg), 0 0 28px rgba(232, 184, 75, 0.12);
-  padding: 6px;
-  background: var(--color-surface);
+  border: 1px solid var(--color-line);
 }
 
 .post-hero figcaption {
@@ -783,13 +900,11 @@ main.container {
   max-width: 560px;
 }
 
+/* Plain line border, matching .post-hero-img above — see comment there. */
 .post-inline-img {
   width: 100%;
   height: auto;
-  border: 1px solid var(--color-amber);
-  box-shadow: 0 0 0 5px var(--color-bg), 0 0 28px rgba(232, 184, 75, 0.12);
-  padding: 6px;
-  background: var(--color-surface);
+  border: 1px solid var(--color-line);
 }
 
 .post-inline-figure figcaption {
@@ -1019,8 +1134,8 @@ main.container {
 }
 
 .reading-settings button {
-  min-height: 32px;
-  padding: 5px 12px;
+  min-height: 40px;
+  padding: 8px 12px;
   border: 1px solid var(--color-line);
   border-radius: 999px;
   background: transparent;
@@ -1041,6 +1156,80 @@ main.container {
   border-color: var(--color-accent);
   color: var(--color-accent-ink);
   font-weight: 600;
+}
+
+/* Header/nav collapse behind the hamburger toggle. A single fixed-width
+   breakpoint can't cover every locale here: how much horizontal room the
+   full inline nav (6 links + lang switch + 2 CTA buttons) needs varies a
+   lot by language — English/Vietnamese/Indonesian labels run meaningfully
+   wider than the Chinese ones for the same links, so a viewport that's
+   plenty wide for zh can still be too narrow for vi. This ruleset is
+   therefore driven by two different triggers that both apply the exact
+   same layout:
+   1. @media (max-width: 640px) below — a pure-CSS guarantee for
+      definitely-phone-sized viewports, so there's no flash of the wrong
+      layout before JS runs.
+   2. .site-header.nav-collapsed here — added/removed by
+      assets/js/mobile-nav.js after actually measuring whether the nav's
+      content fits on one line, which is what makes this correct for every
+      locale at every width above 640px instead of just guessing. */
+.site-header.nav-collapsed .tagline {
+  display: none;
+}
+
+.site-header.nav-collapsed .nav-toggle {
+  display: inline-flex;
+}
+
+.site-header.nav-collapsed .site-nav {
+  display: none;
+  flex-basis: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-line);
+}
+
+.site-header.nav-collapsed .site-nav.is-open {
+  display: flex;
+}
+
+.site-header.nav-collapsed .site-nav a {
+  padding: 10px 4px;
+  white-space: normal;
+}
+
+.site-header.nav-collapsed .site-nav a.nav-cta {
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.site-header.nav-collapsed .lang-switch {
+  order: -1;
+}
+
+.site-header.nav-collapsed .lang-switch-toggle {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.site-header.nav-collapsed .lang-switch-menu {
+  display: none;
+  position: static;
+  box-shadow: none;
+  margin-top: 4px;
+}
+
+.site-header.nav-collapsed .lang-switch.is-open .lang-switch-menu {
+  display: flex;
+}
+
+.site-header.nav-collapsed .lang-switch-menu a,
+.site-header.nav-collapsed .lang-switch-menu span {
+  text-align: center;
 }
 
 @media (max-width: 640px) {
@@ -1068,8 +1257,7 @@ main.container {
     max-width: 220px;
   }
 
-  /* Collapse the nav behind a toggle so the header doesn't push the whole
-     first screen of content below the fold on small viewports. */
+  /* Pure-CSS guarantee — see the big comment above .nav-collapsed. */
   .tagline {
     display: none;
   }
@@ -1109,6 +1297,7 @@ main.container {
 
   .lang-switch-toggle {
     width: 100%;
+    justify-content: center;
     text-align: center;
   }
 
