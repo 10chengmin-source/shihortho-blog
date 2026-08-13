@@ -98,6 +98,27 @@
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(updateCollapse).catch(function () {});
     }
+
+    // DOMContentLoaded/fonts.ready both fire before the page's images (in
+    // particular the large homepage hero) have finished loading. Once they
+    // do, page height increases and the browser adds a vertical scrollbar,
+    // shrinking the viewport width by ~15-17px — enough to flip a nav that
+    // was measured as "fits" into one that no longer does, with nothing
+    // left to re-trigger updateCollapse() afterwards. Re-measure on window
+    // 'load' (images + scrollbar settled) and keep watching the header's
+    // own box with ResizeObserver so any later width change (font
+    // rendering, zoom, devtools, etc.) is caught directly instead of
+    // relying on indirect signals like window resize alone.
+    window.addEventListener("load", updateCollapse);
+
+    if (typeof ResizeObserver === "function") {
+      var roTimer = null;
+      var ro = new ResizeObserver(function () {
+        if (roTimer) window.clearTimeout(roTimer);
+        roTimer = window.setTimeout(updateCollapse, 60);
+      });
+      ro.observe(header);
+    }
   }
 
   if (document.readyState === "loading") {

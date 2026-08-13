@@ -240,8 +240,13 @@ a {
 }
 
 .logo-mark {
-  width: 26px;
-  height: 26px;
+  /* 32px (up from 26px) pairs with the simplified nav mark (see
+     logomark-small.png) — the detailed spine-segment artwork blurred into
+     an illegible smudge at 26px, so small sizes use a notch-free simplified
+     mark instead; the extra few px gives that simplified shape a bit more
+     room to read clearly too. */
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
 }
 
