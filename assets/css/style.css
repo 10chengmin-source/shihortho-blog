@@ -467,6 +467,16 @@ a {
   letter-spacing: 0.01em;
 }
 
+/* Hospital affiliation — a credibility signal that must be visible on the
+   homepage itself, not just after clicking through to About/booking. */
+.hero-hospital {
+  font-family: var(--font-mono);
+  font-size: clamp(0.68rem, 1.1vw, 0.78rem);
+  letter-spacing: 0.04em;
+  margin: 14px 0 0;
+  color: #7fa396;
+}
+
 @media (max-width: 760px) {
   .hero-content {
     position: static;
