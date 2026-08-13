@@ -645,6 +645,28 @@ main.container {
   min-width: 0;
 }
 
+/* Only articles with an existing photo get a thumbnail — most philosophy/
+   education pieces have none, and deliberately render without one rather
+   than a generated placeholder. */
+.index-link-with-thumb {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.index-thumb {
+  flex-shrink: 0;
+  width: 100px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--color-surface-raised);
+}
+
+.index-body {
+  min-width: 0;
+}
+
 .index-title {
   font-family: var(--font-serif);
   font-weight: 600;
@@ -1258,6 +1280,15 @@ main.container {
 
   .index-row {
     gap: 14px;
+  }
+
+  .index-link-with-thumb {
+    gap: 12px;
+  }
+
+  .index-thumb {
+    width: 72px;
+    height: 72px;
   }
 
   .post {

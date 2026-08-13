@@ -484,6 +484,18 @@ function findArticlesIn(baseDir, ignoreDirs, dirPrefix) {
     const publishedMs = publishedDate ? new Date(publishedDate).getTime() : NaN;
     const isNew = !Number.isNaN(publishedMs) && Date.now() - publishedMs < NEW_BADGE_WINDOW_MS;
 
+    // Homepage list thumbnail: only for articles that already have a real
+    // hero photo (class="post-hero-img"), reusing a pre-generated -thumb.jpg
+    // sibling if one exists. Articles without a photo (most of the
+    // philosophy/education pieces) simply render without a thumbnail —
+    // deliberately not auto-generating a placeholder for those.
+    let thumbnail = null;
+    const heroMatch = html.match(/class="post-hero-img"[\s\S]*?src="\/assets\/images\/([^"]+)\.jpg"/);
+    if (heroMatch) {
+      const thumbPath = path.join(ROOT, "assets", "images", `${heroMatch[1]}-thumb.jpg`);
+      if (fs.existsSync(thumbPath)) thumbnail = `/assets/images/${heroMatch[1]}-thumb.jpg`;
+    }
+
     articles.push({
       dir: dirPrefix + entry.name,
       indexPath,
@@ -497,6 +509,7 @@ function findArticlesIn(baseDir, ignoreDirs, dirPrefix) {
       sortKey,
       manualOrder,
       isNew,
+      thumbnail,
     });
   }
 
@@ -813,13 +826,19 @@ function renderIndexRow(article, indexInGroup, locale) {
         NEW_BADGE_LABEL[locale]
       )}</span>`
     : "";
+  const thumb = article.thumbnail
+    ? `<img class="index-thumb" src="${article.thumbnail}" alt="" width="100" height="70" loading="lazy" />\n            `
+    : "";
+  const linkClass = article.thumbnail ? "index-link index-link-with-thumb" : "index-link";
   return `        <div class="index-row">
           <span class="index-num">${num}</span>
-          <a href="/${article.dir}/" class="index-link">
-            <h3 class="index-title">${escapeHtml(article.title)}</h3>
-            <p class="index-excerpt">${escapeHtml(article.excerpt)}</p>
-            <div class="index-meta">
-              <span class="index-date">${article.updatedDate}</span>${newBadge}
+          <a href="/${article.dir}/" class="${linkClass}">
+            ${thumb}<div class="index-body">
+              <h3 class="index-title">${escapeHtml(article.title)}</h3>
+              <p class="index-excerpt">${escapeHtml(article.excerpt)}</p>
+              <div class="index-meta">
+                <span class="index-date">${article.updatedDate}</span>${newBadge}
+              </div>
             </div>
           </a>
         </div>`;
