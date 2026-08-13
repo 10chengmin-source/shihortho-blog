@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const { execSync } = require("child_process");
 
 const ROOT = path.join(__dirname, "..");
@@ -1105,6 +1106,79 @@ function updateHomepageCards(articles, indexPath, labels, locale) {
   }
 }
 
+// Static assets (CSS/JS/hero image) are served with a long browser cache
+// (Cache-Control: max-age=14400) and no per-file versioning, so a deploy
+// alone doesn't make already-cached visitors see the change for up to 4
+// hours. Appending a content-derived ?v= query string to every reference
+// changes the URL whenever the underlying file changes, which busts the
+// cache immediately without needing to touch Cloudflare's cache settings.
+const VERSIONED_ASSETS = [
+  "assets/css/style.css",
+  "assets/js/supabase-config.js",
+  "assets/js/counter.js",
+  "assets/js/subscribe.js",
+  "assets/js/subscribe-action.js",
+  "assets/js/adaptive-reading.js",
+  "assets/js/mobile-nav.js",
+  "assets/js/lang-switch.js",
+  "assets/images/hero-cover.jpg",
+  "assets/images/hero-cover.webp",
+];
+
+function computeAssetVersion() {
+  const hash = crypto.createHash("md5");
+  for (const rel of VERSIONED_ASSETS) {
+    const abs = path.join(ROOT, rel);
+    if (fs.existsSync(abs)) hash.update(fs.readFileSync(abs));
+  }
+  return hash.digest("hex").slice(0, 10);
+}
+
+// Directories whose HTML is intentionally left out of asset versioning:
+// idea-capture-* is a private, unlisted page that must not be touched by
+// any automated pass (see CLAUDE.md), and the usual build-output/tooling
+// dirs aren't page content at all.
+const VERSIONING_SKIP_DIRS = new Set([
+  "node_modules",
+  ".git",
+  ".github",
+  "dist",
+  "supabase",
+  "scripts",
+  "assets",
+]);
+
+function findAllHtmlFiles(dir) {
+  const results = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      if (VERSIONING_SKIP_DIRS.has(entry.name) || entry.name.startsWith("idea-capture-")) continue;
+      results.push(...findAllHtmlFiles(path.join(dir, entry.name)));
+    } else if (entry.name === "index.html") {
+      results.push(path.join(dir, entry.name));
+    }
+  }
+  return results;
+}
+
+function applyAssetVersion(filePath, version) {
+  let html = fs.readFileSync(filePath, "utf8");
+  const before = html;
+  for (const rel of VERSIONED_ASSETS) {
+    const escaped = rel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const re = new RegExp(`(["'/]${escaped})(\\?v=[a-f0-9]+)?(["'])`, "g");
+    html = html.replace(re, `$1?v=${version}$3`);
+  }
+  if (html !== before) fs.writeFileSync(filePath, html, "utf8");
+}
+
+function versionAllAssets() {
+  const version = computeAssetVersion();
+  const files = findAllHtmlFiles(ROOT);
+  files.forEach((f) => applyAssetVersion(f, version));
+  console.log(`Applied asset version ?v=${version} to ${files.length} page(s).`);
+}
+
 function main() {
   const articlesByLocale = findAllArticles();
 
@@ -1172,6 +1246,8 @@ function main() {
       writeRssFeed(articlesByLocale[locale.code], locale.code);
     }
   }
+
+  versionAllAssets();
 
   console.log(`Built ${LOCALES.length} configured locale(s):`);
   for (const locale of LOCALES) {
