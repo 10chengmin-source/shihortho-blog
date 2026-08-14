@@ -837,7 +837,7 @@ function renderIndexRow(article, indexInGroup, locale) {
               <h3 class="index-title">${escapeHtml(article.title)}</h3>
               <p class="index-excerpt">${escapeHtml(article.excerpt)}</p>
               <div class="index-meta">
-                <span class="index-date">${article.updatedDate}</span>${newBadge}
+                <span class="index-date">${article.publishedDate}</span>${newBadge}
               </div>
             </div>
           </a>
