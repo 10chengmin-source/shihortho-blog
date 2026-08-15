@@ -185,7 +185,7 @@ const FAQ_ZH = [
       "這確實是很多病人最擔心的問題。脊椎手術一定有神經損傷的風險，但不同手術的風險差別很大。像是常見的退化性脊椎疾病，例如椎間盤突出、脊椎狹窄造成的神經壓迫，或脊椎滑脫，手術後發生嚴重神經損傷或癱瘓的情況其實並不常見。但如果是大型脊椎矯正、脊椎腫瘤切除，或其他較複雜的手術，神經損傷的風險就會比較高。",
       "現在手術也有術中神經監測、影像導引等工具，可以幫助醫師在手術過程中掌握神經狀況與器械的位置。不過任何手術都不可能完全沒有風險，還是要依每個人的疾病和手術內容個別評估。",
       "對一般退化性脊椎手術來說，除了神經功能之外，術後更常需要留意的，其實是傷口是否順利癒合、有沒有感染，以及做了融合手術之後骨頭能不能順利長好。這些不只是醫師要注意，也需要病人在恢復期間一起配合。",
-      "所以脊椎手術的安全，不只是手術當下有沒有傷到神經，手術後的傷口與骨頭能不能順利癒合，同樣是我們很在意的事情。",
+      "所以脊椎手術的安全，不只是手術當下有沒有傷到神經，手術後傷口恢復得好不好、骨頭能不能順利癒合，也都是很重要的事情。",
     ],
   },
   {
@@ -209,7 +209,7 @@ const FAQ_EN = [
       "This is genuinely one of the biggest worries for most patients. Spine surgery does carry a real risk of nerve injury, but that risk varies a great deal depending on the procedure. For common degenerative spine conditions — such as nerve compression from a herniated disc, spinal stenosis, or spondylolisthesis — serious nerve injury or paralysis after surgery is actually uncommon. For larger procedures such as major spinal deformity correction, spinal tumor removal, or other more complex surgeries, the risk of nerve injury is higher.",
       "Modern surgery also uses tools like intraoperative neuromonitoring and image guidance, which help the surgeon track nerve status and instrument position during the procedure. That said, no surgery can ever be entirely risk-free — the actual risk still needs to be assessed individually based on each patient's condition and the specific procedure involved.",
       "For typical degenerative spine surgery, beyond nerve function, what needs closer attention after the operation is usually whether the wound heals properly and stays free of infection, and — for fusion surgery — whether the bone fuses successfully. This isn't something only the surgeon needs to watch — it also requires the patient's cooperation during recovery.",
-      "So the safety of spine surgery isn't just about whether the nerves were injured during the procedure — how well the wound and the bone heal afterward matters just as much to us.",
+      "So the safety of spine surgery isn't just about whether the nerves were injured during the procedure — how well the wound recovers and whether the bone heals properly afterward matter just as much.",
     ],
   },
   {
@@ -233,7 +233,7 @@ const FAQ_ZH_CN = [
       "这确实是很多病人最担心的问题。脊柱手术一定有神经损伤的风险，但不同手术的风险差别很大。像是常见的退化性脊柱疾病，例如椎间盘突出、椎管狭窄造成的神经压迫，或脊柱滑脱，手术后发生严重神经损伤或瘫痪的情况其实并不常见。但如果是大型脊柱矫正、脊柱肿瘤切除，或其他较复杂的手术，神经损伤的风险就会比较高。",
       "现在手术也有术中神经监测、影像导引等工具，可以帮助医师在手术过程中掌握神经状况与器械的位置。不过任何手术都不可能完全没有风险，还是要依每个人的疾病和手术内容个别评估。",
       "对一般退化性脊柱手术来说，除了神经功能之外，术后更常需要留意的，其实是伤口是否顺利愈合、有没有感染，以及做了融合手术之后骨头能不能顺利长好。这些不只是医师要注意，也需要病人在恢复期间一起配合。",
-      "所以脊柱手术的安全，不只是手术当下有没有伤到神经，手术后的伤口与骨头能不能顺利愈合，同样是我们很在意的事情。",
+      "所以脊柱手术的安全，不只是手术当下有没有伤到神经，手术后伤口恢复得好不好、骨头能不能顺利愈合，也都是很重要的事情。",
     ],
   },
   {
@@ -257,7 +257,7 @@ const FAQ_VI = [
       "Đây thực sự là điều mà rất nhiều bệnh nhân lo lắng nhất. Phẫu thuật cột sống chắc chắn có nguy cơ tổn thương thần kinh, nhưng mức độ rủi ro khác nhau rất nhiều tùy theo loại phẫu thuật. Với các bệnh lý cột sống thoái hóa thường gặp — như chèn ép thần kinh do thoát vị đĩa đệm, hẹp ống sống, hoặc trượt đốt sống — tình trạng tổn thương thần kinh nghiêm trọng hay liệt sau mổ thực ra không phổ biến. Nhưng nếu là các ca phẫu thuật lớn như chỉnh sửa biến dạng cột sống quy mô lớn, cắt bỏ khối u cột sống, hoặc các ca phức tạp khác, thì nguy cơ tổn thương thần kinh sẽ cao hơn.",
       "Hiện nay phẫu thuật cũng có các công cụ như theo dõi thần kinh trong mổ, định vị hình ảnh, giúp bác sĩ nắm được tình trạng thần kinh và vị trí dụng cụ trong suốt quá trình phẫu thuật. Tuy nhiên không có ca phẫu thuật nào hoàn toàn không có rủi ro, vẫn cần đánh giá riêng theo từng bệnh lý và nội dung phẫu thuật của mỗi người.",
       "Đối với phẫu thuật cột sống thoái hóa thông thường, ngoài chức năng thần kinh, điều cần chú ý nhiều hơn sau mổ thực ra là vết mổ có lành tốt không, có bị nhiễm trùng không, và sau phẫu thuật hàn xương thì xương có liền tốt hay không. Đây không chỉ là điều bác sĩ cần lưu ý, mà bệnh nhân cũng cần phối hợp trong giai đoạn hồi phục.",
-      "Vì vậy, sự an toàn của phẫu thuật cột sống không chỉ nằm ở việc có tổn thương thần kinh trong lúc mổ hay không — vết mổ và xương sau mổ có lành tốt hay không cũng là điều chúng tôi rất quan tâm.",
+      "Vì vậy, sự an toàn của phẫu thuật cột sống không chỉ nằm ở việc có tổn thương thần kinh trong lúc mổ hay không — vết mổ hồi phục có tốt không, xương có liền tốt hay không sau đó cũng đều rất quan trọng.",
     ],
   },
   {
@@ -281,7 +281,7 @@ const FAQ_ID = [
       "Ini memang menjadi kekhawatiran terbesar bagi kebanyakan pasien. Operasi tulang belakang memang memiliki risiko cedera saraf, tetapi tingkat risikonya sangat bervariasi tergantung jenis operasinya. Untuk kondisi tulang belakang degeneratif yang umum — seperti penekanan saraf akibat hernia diskus, stenosis tulang belakang, atau spondilolistesis — cedera saraf serius atau kelumpuhan setelah operasi sebenarnya jarang terjadi. Namun untuk operasi besar seperti koreksi deformitas tulang belakang skala besar, pengangkatan tumor tulang belakang, atau operasi kompleks lainnya, risiko cedera saraf akan lebih tinggi.",
       "Operasi saat ini juga dilengkapi alat seperti pemantauan saraf intraoperatif dan panduan citra, yang membantu dokter memantau kondisi saraf dan posisi instrumen selama operasi berlangsung. Meski begitu, tidak ada operasi yang sepenuhnya bebas risiko — tetap perlu dievaluasi secara individual berdasarkan kondisi dan jenis operasi masing-masing pasien.",
       "Untuk operasi tulang belakang degeneratif pada umumnya, selain fungsi saraf, yang lebih perlu diperhatikan setelah operasi sebenarnya adalah apakah luka sembuh dengan baik dan bebas infeksi, serta — untuk operasi fusi — apakah tulang menyatu dengan baik. Ini bukan hanya hal yang perlu diperhatikan dokter, tetapi juga memerlukan kerja sama pasien selama masa pemulihan.",
-      "Jadi keamanan operasi tulang belakang bukan hanya soal apakah saraf terluka saat operasi berlangsung — seberapa baik luka dan tulang sembuh setelahnya juga sama pentingnya bagi kami.",
+      "Jadi keamanan operasi tulang belakang bukan hanya soal apakah saraf terluka saat operasi berlangsung — seberapa baik luka pulih dan apakah tulang menyatu dengan baik setelahnya juga sama pentingnya.",
     ],
   },
   {
