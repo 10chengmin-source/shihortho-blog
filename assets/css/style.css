@@ -811,6 +811,63 @@ main.container {
   color: var(--color-sub);
 }
 
+/* About-page FAQ section (native <details>/<summary>, no JS needed) */
+.faq-block {
+  margin: 40px 0;
+}
+
+.faq-heading {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin: 0 0 16px;
+  color: var(--color-ink);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--color-line);
+  padding: 14px 0;
+}
+
+.faq-item:first-of-type {
+  border-top: 1px solid var(--color-line);
+}
+
+.faq-question {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.faq-question::after {
+  content: "+";
+  flex-shrink: 0;
+  color: var(--color-accent);
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+
+.faq-item[open] .faq-question::after {
+  content: "\2212";
+}
+
+.faq-answer {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-sub);
+}
+
 /* Standalone confirm/unsubscribe landing pages */
 .subscribe-action-card {
   max-width: var(--reader-content-width);

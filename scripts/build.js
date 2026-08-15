@@ -114,11 +114,11 @@ const CATEGORY_LABELS_ID = {
 };
 
 const SITE_URL = "https://drstone.daemet.com";
-const SITE_NAME = "背後的力量｜石醫師的骨科札記";
-const SITE_NAME_EN = "Behind the Strength | Dr. Shih's Orthopedic Notes";
-const SITE_NAME_ZH_CN = "背后的力量｜石医师的骨科札记";
-const SITE_NAME_VI = "Sức Mạnh Đằng Sau | Nhật Ký Chỉnh Hình Của Bác Sĩ Shih";
-const SITE_NAME_ID = "Kekuatan di Baliknya | Catatan Ortopedi Dr. Shih";
+const SITE_NAME = "背後的力量｜石承民骨科醫師・脊椎外科筆記";
+const SITE_NAME_EN = "Behind the Strength | Dr. Shih's Orthopedic & Spine Surgery Notes";
+const SITE_NAME_ZH_CN = "背后的力量｜石承民骨科医师・脊柱外科笔记";
+const SITE_NAME_VI = "Sức Mạnh Đằng Sau | Ghi Chép Phẫu Thuật Cột Sống Của Bác Sĩ Shih";
+const SITE_NAME_ID = "Kekuatan di Baliknya | Catatan Bedah Tulang Belakang Dr. Shih";
 
 const DOCTOR_NAME = "石承民";
 const DOCTOR_NAME_EN = "Dr. Cheng-Min Shih";
@@ -137,32 +137,137 @@ const LANG_SWITCH_ICON_SVG =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 2.6 4.2 5.7 4.2 9s-1.4 6.4-4.2 9c-2.8-2.6-4.2-5.7-4.2-9S9.2 5.6 12 3z"/></svg>';
 
 const HOME_DESCRIPTION_ZH =
-  "石承民醫師的骨科札記，分享脊椎、關節與運動傷害相關的衛教知識、手術理念與臨床觀察。";
+  "石承民醫師，臺中榮民總醫院骨科部脊椎外科醫師，分享脊椎手術、脊椎滑脫、關節退化等骨科衛教知識與臨床經驗，協助您在治療決策前先做好準備。";
 const HOME_DESCRIPTION_EN =
-  "Dr. Cheng-Min Shih's orthopedic notes: clinical philosophy, surgical insights, and patient education on spine, joint, and sports-related conditions.";
+  "Dr. Cheng-Min Shih, orthopedic and spine surgeon at Taichung Veterans General Hospital, shares clinical insights on spine surgery, spondylolisthesis, joint conditions, and sports injuries.";
 const HOME_DESCRIPTION_ZH_CN =
-  "石承民医师的骨科札记，分享脊柱、关节与运动损伤相关的健康科普知识、手术理念与临床观察。";
+  "石承民医师，台中荣民总医院骨科部脊柱外科医师，分享脊柱手术、脊柱滑脱、关节退化等骨科科普知识与临床经验，协助您在治疗决策前先做好准备。";
 const HOME_DESCRIPTION_VI =
-  "Nhật ký chỉnh hình của Bác sĩ Shih Cheng-Min: triết lý điều trị, kinh nghiệm phẫu thuật và kiến thức chăm sóc sức khỏe về cột sống, khớp và chấn thương thể thao.";
+  "Bác sĩ Shih Cheng-Min, bác sĩ chỉnh hình - cột sống tại Bệnh viện Cựu chiến binh Đài Trung, chia sẻ kinh nghiệm lâm sàng về phẫu thuật cột sống, trượt đốt sống, thoái hóa khớp và chấn thương thể thao.";
 const HOME_DESCRIPTION_ID =
-  "Catatan ortopedi Dr. Shih Cheng-Min: filosofi perawatan, wawasan bedah, dan edukasi pasien seputar tulang belakang, sendi, dan cedera olahraga.";
+  "Dr. Shih Cheng-Min, dokter ortopedi dan tulang belakang di Rumah Sakit Umum Veteran Taichung, berbagi wawasan klinis tentang bedah tulang belakang, spondilolistesis, radang sendi, dan cedera olahraga.";
 
-const ABOUT_TITLE_ZH = `醫師介紹｜${DOCTOR_NAME} 醫師｜背後的力量`;
-const ABOUT_TITLE_EN = "About Dr. Shih | Behind the Strength";
-const ABOUT_TITLE_ZH_CN = "医师介绍｜石承民医师｜背后的力量";
-const ABOUT_TITLE_VI = "Giới Thiệu Bác Sĩ Shih | Sức Mạnh Đằng Sau";
-const ABOUT_TITLE_ID = "Tentang Dr. Shih | Kekuatan di Baliknya";
+const ABOUT_TITLE_ZH = `醫師介紹｜${DOCTOR_NAME}骨科醫師・脊椎外科主任｜背後的力量`;
+const ABOUT_TITLE_EN = "About Dr. Shih | Orthopedic & Spine Surgeon | Behind the Strength";
+const ABOUT_TITLE_ZH_CN = "医师介绍｜石承民骨科医师・脊柱外科主任｜背后的力量";
+const ABOUT_TITLE_VI = "Giới Thiệu Bác Sĩ Shih | Bác Sĩ Phẫu Thuật Cột Sống | Sức Mạnh Đằng Sau";
+const ABOUT_TITLE_ID = "Tentang Dr. Shih | Dokter Bedah Tulang Belakang | Kekuatan di Baliknya";
 
 const ABOUT_DESCRIPTION_ZH =
-  "石承民醫師，臺中榮民總醫院骨科部脊椎外科科主任，專長涵蓋各式微創、複雜及脊椎翻修手術、膝髖關節重建手術與骨質疏鬆治療。";
+  "石承民醫師，臺中榮民總醫院骨科部脊椎外科主任，為專精脊椎手術的骨科醫師，擅長脊椎滑脫、椎間盤突出等疾病的微創治療，以及複雜脊椎翻修手術、膝髖關節重建與骨質疏鬆治療。";
 const ABOUT_DESCRIPTION_EN =
-  "Dr. Cheng-Min Shih, Chief of the Division of Spine Surgery, Department of Orthopedics, Taichung Veterans General Hospital. Specializing in minimally invasive, complex, and revision spine surgery, hip and knee reconstruction, and osteoporosis care.";
+  "Dr. Cheng-Min Shih, Chief of the Division of Spine Surgery at Taichung Veterans General Hospital and orthopedic spine surgeon specializing in spondylolisthesis, minimally invasive and complex spine surgery, spinal revision surgery, hip and knee reconstruction, and osteoporosis care.";
 const ABOUT_DESCRIPTION_ZH_CN =
-  "石承民医师，台中荣民总医院骨科部脊柱外科主任，专长涵盖各类微创、复杂及脊柱翻修手术、膝髋关节重建手术与骨质疏松治疗。";
+  "石承民医师，台中荣民总医院骨科部脊柱外科主任，为专精脊柱手术的骨科医师，擅长脊柱滑脱、椎间盘突出等疾病的微创治疗，以及复杂脊柱翻修手术、膝髋关节重建与骨质疏松治疗。";
 const ABOUT_DESCRIPTION_VI =
-  "Bác sĩ Shih Cheng-Min, Trưởng khoa Phẫu thuật Cột sống, Khoa Chỉnh hình, Bệnh viện Cựu chiến binh Đài Trung. Chuyên về phẫu thuật cột sống xâm lấn tối thiểu, phức tạp và tái phẫu thuật, tái tạo khớp háng và khớp gối, cùng điều trị loãng xương.";
+  "Bác sĩ Shih Cheng-Min, Trưởng khoa Phẫu thuật Cột sống, Khoa Chỉnh hình, Bệnh viện Cựu chiến binh Đài Trung, là bác sĩ chuyên về phẫu thuật cột sống, điều trị trượt đốt sống, thoát vị đĩa đệm, phẫu thuật cột sống xâm lấn tối thiểu và tái phẫu thuật phức tạp, tái tạo khớp háng và khớp gối, cùng điều trị loãng xương.";
 const ABOUT_DESCRIPTION_ID =
-  "Dr. Shih Cheng-Min, Kepala Divisi Bedah Tulang Belakang, Departemen Ortopedi, Rumah Sakit Umum Veteran Taichung. Berfokus pada bedah tulang belakang minim sayatan, kompleks, dan revisi, rekonstruksi sendi panggul dan lutut, serta penanganan osteoporosis.";
+  "Dr. Shih Cheng-Min, Kepala Divisi Bedah Tulang Belakang, Departemen Ortopedi, Rumah Sakit Umum Veteran Taichung, adalah dokter spesialis bedah tulang belakang dengan fokus pada spondilolistesis, hernia diskus, bedah tulang belakang minim sayatan dan revisi kompleks, rekonstruksi sendi panggul dan lutut, serta penanganan osteoporosis.";
+
+// FAQPage structured data — questions must mirror the visible FAQ section
+// injected into about/index.html (BUILD:FAQ marker) exactly, since
+// Google's structured-data guidelines require FAQ markup to match the
+// on-page content it describes.
+const FAQ_HEADING_ZH = "常見問題";
+const FAQ_HEADING_EN = "Frequently Asked Questions";
+const FAQ_HEADING_ZH_CN = "常见问题";
+const FAQ_HEADING_VI = "Câu Hỏi Thường Gặp";
+const FAQ_HEADING_ID = "Pertanyaan yang Sering Diajukan";
+
+const FAQ_ZH = [
+  {
+    q: "脊椎滑脫一定需要開刀嗎？",
+    a: "不一定。多數脊椎滑脫可以先透過復健、姿勢調整與藥物控制觀察，只有在保守治療效果有限、合併神經壓迫症狀（如下肢麻痛無力）持續影響生活時，才會建議手術治療。",
+  },
+  {
+    q: "脊椎手術會很危險嗎？",
+    a: "任何手術都有風險，但在完整的術前評估與影像確認後，現在的脊椎手術（包括微創術式）風險是可以被理解與控制的。重點在於術前是否已經釐清症狀真正的來源，並選擇合適的手術方式與時機。",
+  },
+  {
+    q: "微創脊椎手術跟傳統手術有什麼不同？",
+    a: "微創脊椎手術傷口較小、恢復期通常較短，但並非所有情況都適合，是否採用需視脊椎滑脫或病灶的嚴重程度、位置與病人整體狀況而定，並非單純傷口大小的選擇。",
+  },
+  {
+    q: "如何知道自己該找脊椎外科醫師還是先觀察就好？",
+    a: "如果出現持續性下背痛、下肢放射痛麻，或走路距離明顯縮短等症狀，建議先由骨科／脊椎外科醫師評估影像與理學檢查結果，再共同討論觀察、復健或手術等後續處理方式。",
+  },
+];
+
+const FAQ_EN = [
+  {
+    q: "Does spondylolisthesis always require surgery?",
+    a: "Not always. Most cases of spondylolisthesis can first be managed with rehabilitation, posture adjustments, and medication under observation. Surgery is typically recommended only when conservative treatment has limited effect and nerve compression symptoms — such as persistent numbness or weakness in the legs — continue to affect daily life.",
+  },
+  {
+    q: "Is spine surgery dangerous?",
+    a: "Every surgery carries some risk, but with a thorough preoperative evaluation and imaging review, the risks of modern spine surgery — including minimally invasive approaches — can be understood and managed. What matters most is clarifying the true source of the symptoms beforehand and choosing the right procedure and timing.",
+  },
+  {
+    q: "What's the difference between minimally invasive and traditional spine surgery?",
+    a: "Minimally invasive spine surgery typically involves smaller incisions and a shorter recovery period, but it isn't suitable for every case. Whether it's appropriate depends on the severity and location of the condition — such as spondylolisthesis — and the patient's overall condition, not simply a preference for a smaller incision.",
+  },
+  {
+    q: "How do I know whether I should see a spine surgeon or just keep observing?",
+    a: "If you have persistent lower back pain, radiating pain or numbness in the legs, or a noticeably shorter walking distance before symptoms appear, it's worth having an orthopedic or spine surgeon evaluate your imaging and physical exam findings, so you can discuss observation, rehabilitation, or surgery together based on the actual findings.",
+  },
+];
+
+const FAQ_ZH_CN = [
+  {
+    q: "脊柱滑脱一定需要开刀吗？",
+    a: "不一定。大多数脊柱滑脱可以先通过复健、姿势调整与药物控制观察，只有在保守治疗效果有限、合并神经压迫症状（如下肢麻痛无力）持续影响生活时，才会建议手术治疗。",
+  },
+  {
+    q: "脊柱手术风险大吗？",
+    a: "任何手术都有风险，但在完整的术前评估与影像确认后，现在的脊柱手术（包括微创术式）风险是可以被理解与控制的。重点在于术前是否已经厘清症状真正的来源，并选择合适的手术方式与时机。",
+  },
+  {
+    q: "微创脊柱手术跟传统手术有什么不同？",
+    a: "微创脊柱手术伤口较小、恢复期通常较短，但并非所有情况都适合，是否采用需视脊柱滑脱或病灶的严重程度、位置与病人整体状况而定，并非单纯伤口大小的选择。",
+  },
+  {
+    q: "如何知道自己该找脊柱外科医师还是先观察就好？",
+    a: "如果出现持续性下背痛、下肢放射痛麻，或走路距离明显缩短等症状，建议先由骨科／脊柱外科医师评估影像与体格检查结果，再共同讨论观察、复健或手术等后续处理方式。",
+  },
+];
+
+const FAQ_VI = [
+  {
+    q: "Trượt đốt sống có nhất thiết phải phẫu thuật không?",
+    a: "Không nhất thiết. Phần lớn các trường hợp trượt đốt sống có thể được theo dõi trước bằng phục hồi chức năng, điều chỉnh tư thế và dùng thuốc. Phẫu thuật thường chỉ được khuyến nghị khi điều trị bảo tồn có hiệu quả hạn chế và các triệu chứng chèn ép thần kinh — như tê yếu chân kéo dài — vẫn tiếp tục ảnh hưởng đến sinh hoạt hằng ngày.",
+  },
+  {
+    q: "Phẫu thuật cột sống có nguy hiểm không?",
+    a: "Bất kỳ ca phẫu thuật nào cũng có rủi ro, nhưng sau khi đánh giá trước mổ và xem xét hình ảnh đầy đủ, rủi ro của phẫu thuật cột sống hiện đại — kể cả phương pháp xâm lấn tối thiểu — có thể được hiểu rõ và kiểm soát. Điều quan trọng nhất là làm rõ nguồn gốc thực sự của triệu chứng trước khi mổ, và lựa chọn đúng phương pháp cũng như thời điểm phẫu thuật.",
+  },
+  {
+    q: "Phẫu thuật cột sống xâm lấn tối thiểu khác gì so với phẫu thuật truyền thống?",
+    a: "Phẫu thuật cột sống xâm lấn tối thiểu thường có vết mổ nhỏ hơn và thời gian hồi phục ngắn hơn, nhưng không phải trường hợp nào cũng phù hợp. Việc áp dụng phương pháp này phụ thuộc vào mức độ nghiêm trọng và vị trí của tình trạng — như trượt đốt sống — cũng như tình trạng tổng thể của bệnh nhân, chứ không đơn thuần là lựa chọn vết mổ nhỏ.",
+  },
+  {
+    q: "Làm sao biết nên đi khám bác sĩ phẫu thuật cột sống hay chỉ cần theo dõi?",
+    a: "Nếu bạn bị đau lưng dưới kéo dài, đau hoặc tê lan xuống chân, hoặc quãng đường đi bộ trước khi xuất hiện triệu chứng ngày càng ngắn lại, nên để bác sĩ chỉnh hình hoặc bác sĩ phẫu thuật cột sống đánh giá hình ảnh và khám lâm sàng, sau đó cùng thảo luận hướng xử trí tiếp theo là theo dõi, phục hồi chức năng hay phẫu thuật.",
+  },
+];
+
+const FAQ_ID = [
+  {
+    q: "Apakah spondilolistesis selalu memerlukan operasi?",
+    a: "Tidak selalu. Sebagian besar kasus spondilolistesis dapat terlebih dahulu ditangani dengan rehabilitasi, penyesuaian postur, dan obat-obatan sambil diobservasi. Operasi biasanya baru direkomendasikan jika pengobatan konservatif kurang efektif dan gejala penekanan saraf — seperti kebas atau kelemahan pada kaki yang berlanjut — terus memengaruhi aktivitas sehari-hari.",
+  },
+  {
+    q: "Apakah operasi tulang belakang berbahaya?",
+    a: "Setiap operasi memiliki risiko, namun dengan evaluasi pra-operasi dan pemeriksaan citra medis yang menyeluruh, risiko operasi tulang belakang modern — termasuk teknik minim sayatan — dapat dipahami dan dikendalikan. Yang terpenting adalah memastikan sumber gejala yang sebenarnya sebelum operasi, serta memilih metode dan waktu operasi yang tepat.",
+  },
+  {
+    q: "Apa bedanya operasi tulang belakang minim sayatan dengan operasi konvensional?",
+    a: "Operasi tulang belakang minim sayatan umumnya memiliki sayatan lebih kecil dan masa pemulihan yang lebih singkat, tetapi tidak cocok untuk semua kondisi. Kesesuaiannya tergantung pada tingkat keparahan dan lokasi kondisi — seperti spondilolistesis — serta kondisi keseluruhan pasien, bukan sekadar preferensi sayatan yang lebih kecil.",
+  },
+  {
+    q: "Bagaimana saya tahu harus menemui dokter bedah tulang belakang atau cukup diobservasi saja?",
+    a: "Jika Anda mengalami nyeri punggung bawah yang menetap, nyeri atau kebas menjalar ke kaki, atau jarak berjalan yang semakin pendek sebelum gejala muncul, sebaiknya minta dokter ortopedi atau bedah tulang belakang mengevaluasi hasil citra medis dan pemeriksaan fisik, lalu bersama-sama mendiskusikan apakah perlu observasi, rehabilitasi, atau operasi.",
+  },
+];
 
 // Draft copy — review before shipping, matches the site's quiet,
 // fact-grounded tone (not marketing language). Same fields as
@@ -281,6 +386,8 @@ const LOCALES = [
     rssDescription: HOME_DESCRIPTION_ZH,
     aboutTitle: ABOUT_TITLE_ZH,
     aboutDescription: ABOUT_DESCRIPTION_ZH,
+    faqHeading: FAQ_HEADING_ZH,
+    faq: FAQ_ZH,
     hospitalName: "臺中榮民總醫院",
     alumniOf: ["陽明交通大學", "高雄醫學大學"],
     categoryLabels: CATEGORY_LABELS,
@@ -303,6 +410,8 @@ const LOCALES = [
     rssDescription: HOME_DESCRIPTION_EN,
     aboutTitle: ABOUT_TITLE_EN,
     aboutDescription: ABOUT_DESCRIPTION_EN,
+    faqHeading: FAQ_HEADING_EN,
+    faq: FAQ_EN,
     hospitalName: "Taichung Veterans General Hospital",
     alumniOf: ["National Yang Ming Chiao Tung University", "Kaohsiung Medical University"],
     categoryLabels: CATEGORY_LABELS_EN,
@@ -325,6 +434,8 @@ const LOCALES = [
     rssDescription: HOME_DESCRIPTION_ZH_CN,
     aboutTitle: ABOUT_TITLE_ZH_CN,
     aboutDescription: ABOUT_DESCRIPTION_ZH_CN,
+    faqHeading: FAQ_HEADING_ZH_CN,
+    faq: FAQ_ZH_CN,
     hospitalName: "台中荣民总医院",
     alumniOf: ["阳明交通大学", "高雄医学大学"],
     categoryLabels: CATEGORY_LABELS_ZH_CN,
@@ -347,6 +458,8 @@ const LOCALES = [
     rssDescription: HOME_DESCRIPTION_VI,
     aboutTitle: ABOUT_TITLE_VI,
     aboutDescription: ABOUT_DESCRIPTION_VI,
+    faqHeading: FAQ_HEADING_VI,
+    faq: FAQ_VI,
     hospitalName: "Bệnh viện Cựu chiến binh Đài Trung",
     alumniOf: ["Đại học Quốc lập Dương Minh Giao Thông", "Đại học Y khoa Cao Hùng"],
     categoryLabels: CATEGORY_LABELS_VI,
@@ -369,6 +482,8 @@ const LOCALES = [
     rssDescription: HOME_DESCRIPTION_ID,
     aboutTitle: ABOUT_TITLE_ID,
     aboutDescription: ABOUT_DESCRIPTION_ID,
+    faqHeading: FAQ_HEADING_ID,
+    faq: FAQ_ID,
     hospitalName: "Rumah Sakit Umum Veteran Taichung",
     alumniOf: ["Universitas Nasional Yang Ming Chiao Tung", "Universitas Kedokteran Kaohsiung"],
     categoryLabels: CATEGORY_LABELS_ID,
@@ -737,6 +852,20 @@ function buildAboutSeo(locale) {
     alumniOf: loc.alumniOf,
   };
   tags.push(jsonLdScript(jsonLd));
+
+  if (loc.faq && loc.faq.length) {
+    const faqJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: loc.faq.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: { "@type": "Answer", text: item.a },
+      })),
+    };
+    tags.push(jsonLdScript(faqJsonLd));
+  }
+
   return tags.join("\n  ");
 }
 
@@ -1015,6 +1144,37 @@ function injectFriendLinks(filePath, locale) {
   }
 }
 
+function renderFaqSection(localeCode) {
+  const loc = LOCALES_BY_CODE[localeCode];
+  if (!loc.faq || !loc.faq.length) return "";
+  const items = loc.faq
+    .map(
+      (item) => `        <details class="faq-item">
+          <summary class="faq-question">${escapeHtml(item.q)}</summary>
+          <p class="faq-answer">${escapeHtml(item.a)}</p>
+        </details>`
+    )
+    .join("\n");
+  return `      <div class="faq-block">
+        <h2 class="faq-heading">${escapeHtml(loc.faqHeading)}</h2>
+${items}
+      </div>`;
+}
+
+function injectFaqSection(filePath, localeCode) {
+  if (!fs.existsSync(filePath)) return;
+  let html = fs.readFileSync(filePath, "utf8");
+  const re = /<!-- BUILD:FAQ:START -->[\s\S]*?<!-- BUILD:FAQ:END -->/;
+  if (!re.test(html)) return;
+  const inner = `<!-- BUILD:FAQ:START -->\n${renderFaqSection(
+    localeCode
+  )}\n      <!-- BUILD:FAQ:END -->`;
+  const next = html.replace(re, inner);
+  if (next !== html) {
+    fs.writeFileSync(filePath, next, "utf8");
+  }
+}
+
 function renderSubscribeForm(localeCode) {
   const copy = LOCALES_BY_CODE[localeCode].subscribeCopy;
   return `      <div class="subscribe-block">
@@ -1225,6 +1385,8 @@ function main() {
     // about/media/line static pages.
     injectSubscribeForm(path.join(ROOT, locale.dir, "index.html"), locale.code);
     articlesByLocale[locale.code].forEach((a) => injectSubscribeForm(a.indexPath, locale.code));
+
+    injectFaqSection(path.join(ROOT, locale.dir, "about", "index.html"), locale.code);
   }
 
   const homeAvailability = staticPageAvailability("index.html", "");
