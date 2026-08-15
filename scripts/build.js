@@ -176,8 +176,8 @@ const FAQ_HEADING_ID = "Pertanyaan yang Sering Diajukan";
 
 const FAQ_ZH = [
   {
-    q: "脊椎滑脫一定需要開刀嗎？",
-    a: "不一定。多數脊椎滑脫可以先透過復健、姿勢調整與藥物控制觀察，只有在保守治療效果有限、合併神經壓迫症狀（如下肢麻痛無力）持續影響生活時，才會建議手術治療。",
+    q: "下背痛合併下肢麻痛，一定要開刀嗎？",
+    a: "不一定。無論是椎間盤突出、椎管狹窄或脊椎滑脫，多數情況都可以先透過復健、姿勢調整與藥物控制觀察，只有在保守治療效果有限、神經壓迫症狀（如下肢麻痛無力）持續影響生活時，才會建議手術治療。",
   },
   {
     q: "脊椎手術會很危險嗎？",
@@ -185,7 +185,7 @@ const FAQ_ZH = [
   },
   {
     q: "微創脊椎手術跟傳統手術有什麼不同？",
-    a: "微創脊椎手術傷口較小、恢復期通常較短，但並非所有情況都適合，是否採用需視脊椎滑脫或病灶的嚴重程度、位置與病人整體狀況而定，並非單純傷口大小的選擇。",
+    a: "微創脊椎手術傷口較小、恢復期通常較短，但並非所有情況都適合，是否採用需視病灶的嚴重程度、位置與病人整體狀況而定，並非單純傷口大小的選擇。",
   },
   {
     q: "如何知道自己該找脊椎外科醫師還是先觀察就好？",
@@ -195,8 +195,8 @@ const FAQ_ZH = [
 
 const FAQ_EN = [
   {
-    q: "Does spondylolisthesis always require surgery?",
-    a: "Not always. Most cases of spondylolisthesis can first be managed with rehabilitation, posture adjustments, and medication under observation. Surgery is typically recommended only when conservative treatment has limited effect and nerve compression symptoms — such as persistent numbness or weakness in the legs — continue to affect daily life.",
+    q: "Does lower back pain with leg numbness always require surgery?",
+    a: "Not always. Whether it's a herniated disc, spinal stenosis, or spondylolisthesis, most cases can first be managed with rehabilitation, posture adjustments, and medication under observation. Surgery is typically recommended only when conservative treatment has limited effect and nerve compression symptoms — such as persistent numbness or weakness in the legs — continue to affect daily life.",
   },
   {
     q: "Is spine surgery dangerous?",
@@ -204,7 +204,7 @@ const FAQ_EN = [
   },
   {
     q: "What's the difference between minimally invasive and traditional spine surgery?",
-    a: "Minimally invasive spine surgery typically involves smaller incisions and a shorter recovery period, but it isn't suitable for every case. Whether it's appropriate depends on the severity and location of the condition — such as spondylolisthesis — and the patient's overall condition, not simply a preference for a smaller incision.",
+    a: "Minimally invasive spine surgery typically involves smaller incisions and a shorter recovery period, but it isn't suitable for every case. Whether it's appropriate depends on the severity and location of the condition and the patient's overall condition, not simply a preference for a smaller incision.",
   },
   {
     q: "How do I know whether I should see a spine surgeon or just keep observing?",
@@ -214,8 +214,8 @@ const FAQ_EN = [
 
 const FAQ_ZH_CN = [
   {
-    q: "脊柱滑脱一定需要开刀吗？",
-    a: "不一定。大多数脊柱滑脱可以先通过复健、姿势调整与药物控制观察，只有在保守治疗效果有限、合并神经压迫症状（如下肢麻痛无力）持续影响生活时，才会建议手术治疗。",
+    q: "下背痛合并下肢麻痛，一定要开刀吗？",
+    a: "不一定。无论是椎间盘突出、椎管狭窄或脊柱滑脱，多数情况都可以先通过复健、姿势调整与药物控制观察，只有在保守治疗效果有限、神经压迫症状（如下肢麻痛无力）持续影响生活时，才会建议手术治疗。",
   },
   {
     q: "脊柱手术风险大吗？",
@@ -223,7 +223,7 @@ const FAQ_ZH_CN = [
   },
   {
     q: "微创脊柱手术跟传统手术有什么不同？",
-    a: "微创脊柱手术伤口较小、恢复期通常较短，但并非所有情况都适合，是否采用需视脊柱滑脱或病灶的严重程度、位置与病人整体状况而定，并非单纯伤口大小的选择。",
+    a: "微创脊柱手术伤口较小、恢复期通常较短，但并非所有情况都适合，是否采用需视病灶的严重程度、位置与病人整体状况而定，并非单纯伤口大小的选择。",
   },
   {
     q: "如何知道自己该找脊柱外科医师还是先观察就好？",
@@ -233,8 +233,8 @@ const FAQ_ZH_CN = [
 
 const FAQ_VI = [
   {
-    q: "Trượt đốt sống có nhất thiết phải phẫu thuật không?",
-    a: "Không nhất thiết. Phần lớn các trường hợp trượt đốt sống có thể được theo dõi trước bằng phục hồi chức năng, điều chỉnh tư thế và dùng thuốc. Phẫu thuật thường chỉ được khuyến nghị khi điều trị bảo tồn có hiệu quả hạn chế và các triệu chứng chèn ép thần kinh — như tê yếu chân kéo dài — vẫn tiếp tục ảnh hưởng đến sinh hoạt hằng ngày.",
+    q: "Đau lưng dưới kèm tê chân có nhất thiết phải phẫu thuật không?",
+    a: "Không nhất thiết. Dù là thoát vị đĩa đệm, hẹp ống sống hay trượt đốt sống, phần lớn các trường hợp đều có thể được theo dõi trước bằng phục hồi chức năng, điều chỉnh tư thế và dùng thuốc. Phẫu thuật thường chỉ được khuyến nghị khi điều trị bảo tồn có hiệu quả hạn chế và các triệu chứng chèn ép thần kinh — như tê yếu chân kéo dài — vẫn tiếp tục ảnh hưởng đến sinh hoạt hằng ngày.",
   },
   {
     q: "Phẫu thuật cột sống có nguy hiểm không?",
@@ -242,7 +242,7 @@ const FAQ_VI = [
   },
   {
     q: "Phẫu thuật cột sống xâm lấn tối thiểu khác gì so với phẫu thuật truyền thống?",
-    a: "Phẫu thuật cột sống xâm lấn tối thiểu thường có vết mổ nhỏ hơn và thời gian hồi phục ngắn hơn, nhưng không phải trường hợp nào cũng phù hợp. Việc áp dụng phương pháp này phụ thuộc vào mức độ nghiêm trọng và vị trí của tình trạng — như trượt đốt sống — cũng như tình trạng tổng thể của bệnh nhân, chứ không đơn thuần là lựa chọn vết mổ nhỏ.",
+    a: "Phẫu thuật cột sống xâm lấn tối thiểu thường có vết mổ nhỏ hơn và thời gian hồi phục ngắn hơn, nhưng không phải trường hợp nào cũng phù hợp. Việc áp dụng phương pháp này phụ thuộc vào mức độ nghiêm trọng và vị trí của tổn thương cũng như tình trạng tổng thể của bệnh nhân, chứ không đơn thuần là lựa chọn vết mổ nhỏ.",
   },
   {
     q: "Làm sao biết nên đi khám bác sĩ phẫu thuật cột sống hay chỉ cần theo dõi?",
@@ -252,8 +252,8 @@ const FAQ_VI = [
 
 const FAQ_ID = [
   {
-    q: "Apakah spondilolistesis selalu memerlukan operasi?",
-    a: "Tidak selalu. Sebagian besar kasus spondilolistesis dapat terlebih dahulu ditangani dengan rehabilitasi, penyesuaian postur, dan obat-obatan sambil diobservasi. Operasi biasanya baru direkomendasikan jika pengobatan konservatif kurang efektif dan gejala penekanan saraf — seperti kebas atau kelemahan pada kaki yang berlanjut — terus memengaruhi aktivitas sehari-hari.",
+    q: "Apakah nyeri punggung bawah disertai kebas kaki selalu memerlukan operasi?",
+    a: "Tidak selalu. Baik itu hernia diskus, stenosis tulang belakang, maupun spondilolistesis, sebagian besar kasus dapat terlebih dahulu ditangani dengan rehabilitasi, penyesuaian postur, dan obat-obatan sambil diobservasi. Operasi biasanya baru direkomendasikan jika pengobatan konservatif kurang efektif dan gejala penekanan saraf — seperti kebas atau kelemahan pada kaki yang berlanjut — terus memengaruhi aktivitas sehari-hari.",
   },
   {
     q: "Apakah operasi tulang belakang berbahaya?",
@@ -261,7 +261,7 @@ const FAQ_ID = [
   },
   {
     q: "Apa bedanya operasi tulang belakang minim sayatan dengan operasi konvensional?",
-    a: "Operasi tulang belakang minim sayatan umumnya memiliki sayatan lebih kecil dan masa pemulihan yang lebih singkat, tetapi tidak cocok untuk semua kondisi. Kesesuaiannya tergantung pada tingkat keparahan dan lokasi kondisi — seperti spondilolistesis — serta kondisi keseluruhan pasien, bukan sekadar preferensi sayatan yang lebih kecil.",
+    a: "Operasi tulang belakang minim sayatan umumnya memiliki sayatan lebih kecil dan masa pemulihan yang lebih singkat, tetapi tidak cocok untuk semua kondisi. Kesesuaiannya tergantung pada tingkat keparahan dan lokasi kelainan serta kondisi keseluruhan pasien, bukan sekadar preferensi sayatan yang lebih kecil.",
   },
   {
     q: "Bagaimana saya tahu harus menemui dokter bedah tulang belakang atau cukup diobservasi saja?",
