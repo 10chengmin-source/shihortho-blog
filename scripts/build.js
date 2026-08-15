@@ -180,8 +180,13 @@ const FAQ_ZH = [
     a: "不一定。無論是椎間盤突出、椎管狹窄或脊椎滑脫，多數情況都可以先透過復健、姿勢調整與藥物控制觀察，只有在保守治療效果有限、神經壓迫症狀（如下肢麻痛無力）持續影響生活時，才會建議手術治療。",
   },
   {
-    q: "脊椎手術會很危險嗎？",
-    a: "任何手術都有風險，但在完整的術前評估與影像確認後，現在的脊椎手術（包括微創術式）風險是可以被理解與控制的。重點在於術前是否已經釐清症狀真正的來源，並選擇合適的手術方式與時機。",
+    q: "脊椎手術會不會傷到神經、造成癱瘓？",
+    a: [
+      "這確實是很多病人最擔心的問題。脊椎手術一定有神經損傷的風險，但不同手術的風險差別很大。像是常見的退化性脊椎疾病，例如椎間盤突出、脊椎狹窄造成的神經壓迫，或脊椎滑脫，手術後發生嚴重神經損傷或癱瘓的情況其實並不常見。但如果是大型脊椎矯正、脊椎腫瘤切除，或其他較複雜的手術，神經損傷的風險就會比較高。",
+      "現在手術也有術中神經監測、影像導引等工具，可以幫助醫師在手術過程中掌握神經狀況與器械的位置。不過任何手術都不可能完全沒有風險，還是要依每個人的疾病和手術內容個別評估。",
+      "對一般退化性脊椎手術來說，除了神經功能之外，術後更常需要留意的，其實是傷口是否順利癒合、有沒有感染，以及做了融合手術之後骨頭能不能順利長好。這些不只是醫師要注意，也需要病人在恢復期間一起配合。",
+      "所以脊椎手術的安全，不只是手術當下有沒有傷到神經，手術後的傷口與骨頭能不能順利癒合，同樣是我們很在意的事情。",
+    ],
   },
   {
     q: "微創脊椎手術跟傳統手術有什麼不同？",
@@ -199,8 +204,13 @@ const FAQ_EN = [
     a: "Not always. Whether it's a herniated disc, spinal stenosis, or spondylolisthesis, most cases can first be managed with rehabilitation, posture adjustments, and medication under observation. Surgery is typically recommended only when conservative treatment has limited effect and nerve compression symptoms — such as persistent numbness or weakness in the legs — continue to affect daily life.",
   },
   {
-    q: "Is spine surgery dangerous?",
-    a: "Every surgery carries some risk, but with a thorough preoperative evaluation and imaging review, the risks of modern spine surgery — including minimally invasive approaches — can be understood and managed. What matters most is clarifying the true source of the symptoms beforehand and choosing the right procedure and timing.",
+    q: "Will spine surgery damage nerves or cause paralysis?",
+    a: [
+      "This is genuinely one of the biggest worries for most patients. Spine surgery does carry a real risk of nerve injury, but that risk varies a great deal depending on the procedure. For common degenerative spine conditions — such as nerve compression from a herniated disc, spinal stenosis, or spondylolisthesis — serious nerve injury or paralysis after surgery is actually uncommon. For larger procedures such as major spinal deformity correction, spinal tumor removal, or other more complex surgeries, the risk of nerve injury is higher.",
+      "Modern surgery also uses tools like intraoperative neuromonitoring and image guidance, which help the surgeon track nerve status and instrument position during the procedure. That said, no surgery can ever be entirely risk-free — the actual risk still needs to be assessed individually based on each patient's condition and the specific procedure involved.",
+      "For typical degenerative spine surgery, beyond nerve function, what needs closer attention after the operation is usually whether the wound heals properly and stays free of infection, and — for fusion surgery — whether the bone fuses successfully. This isn't something only the surgeon needs to watch — it also requires the patient's cooperation during recovery.",
+      "So the safety of spine surgery isn't just about whether the nerves were injured during the procedure — how well the wound and the bone heal afterward matters just as much to us.",
+    ],
   },
   {
     q: "What's the difference between minimally invasive and traditional spine surgery?",
@@ -218,8 +228,13 @@ const FAQ_ZH_CN = [
     a: "不一定。无论是椎间盘突出、椎管狭窄或脊柱滑脱，多数情况都可以先通过复健、姿势调整与药物控制观察，只有在保守治疗效果有限、神经压迫症状（如下肢麻痛无力）持续影响生活时，才会建议手术治疗。",
   },
   {
-    q: "脊柱手术风险大吗？",
-    a: "任何手术都有风险，但在完整的术前评估与影像确认后，现在的脊柱手术（包括微创术式）风险是可以被理解与控制的。重点在于术前是否已经厘清症状真正的来源，并选择合适的手术方式与时机。",
+    q: "脊柱手术会不会伤到神经、造成瘫痪？",
+    a: [
+      "这确实是很多病人最担心的问题。脊柱手术一定有神经损伤的风险，但不同手术的风险差别很大。像是常见的退化性脊柱疾病，例如椎间盘突出、椎管狭窄造成的神经压迫，或脊柱滑脱，手术后发生严重神经损伤或瘫痪的情况其实并不常见。但如果是大型脊柱矫正、脊柱肿瘤切除，或其他较复杂的手术，神经损伤的风险就会比较高。",
+      "现在手术也有术中神经监测、影像导引等工具，可以帮助医师在手术过程中掌握神经状况与器械的位置。不过任何手术都不可能完全没有风险，还是要依每个人的疾病和手术内容个别评估。",
+      "对一般退化性脊柱手术来说，除了神经功能之外，术后更常需要留意的，其实是伤口是否顺利愈合、有没有感染，以及做了融合手术之后骨头能不能顺利长好。这些不只是医师要注意，也需要病人在恢复期间一起配合。",
+      "所以脊柱手术的安全，不只是手术当下有没有伤到神经，手术后的伤口与骨头能不能顺利愈合，同样是我们很在意的事情。",
+    ],
   },
   {
     q: "微创脊柱手术跟传统手术有什么不同？",
@@ -237,8 +252,13 @@ const FAQ_VI = [
     a: "Không nhất thiết. Dù là thoát vị đĩa đệm, hẹp ống sống hay trượt đốt sống, phần lớn các trường hợp đều có thể được theo dõi trước bằng phục hồi chức năng, điều chỉnh tư thế và dùng thuốc. Phẫu thuật thường chỉ được khuyến nghị khi điều trị bảo tồn có hiệu quả hạn chế và các triệu chứng chèn ép thần kinh — như tê yếu chân kéo dài — vẫn tiếp tục ảnh hưởng đến sinh hoạt hằng ngày.",
   },
   {
-    q: "Phẫu thuật cột sống có nguy hiểm không?",
-    a: "Bất kỳ ca phẫu thuật nào cũng có rủi ro, nhưng sau khi đánh giá trước mổ và xem xét hình ảnh đầy đủ, rủi ro của phẫu thuật cột sống hiện đại — kể cả phương pháp xâm lấn tối thiểu — có thể được hiểu rõ và kiểm soát. Điều quan trọng nhất là làm rõ nguồn gốc thực sự của triệu chứng trước khi mổ, và lựa chọn đúng phương pháp cũng như thời điểm phẫu thuật.",
+    q: "Phẫu thuật cột sống có làm tổn thương thần kinh, gây liệt không?",
+    a: [
+      "Đây thực sự là điều mà rất nhiều bệnh nhân lo lắng nhất. Phẫu thuật cột sống chắc chắn có nguy cơ tổn thương thần kinh, nhưng mức độ rủi ro khác nhau rất nhiều tùy theo loại phẫu thuật. Với các bệnh lý cột sống thoái hóa thường gặp — như chèn ép thần kinh do thoát vị đĩa đệm, hẹp ống sống, hoặc trượt đốt sống — tình trạng tổn thương thần kinh nghiêm trọng hay liệt sau mổ thực ra không phổ biến. Nhưng nếu là các ca phẫu thuật lớn như chỉnh sửa biến dạng cột sống quy mô lớn, cắt bỏ khối u cột sống, hoặc các ca phức tạp khác, thì nguy cơ tổn thương thần kinh sẽ cao hơn.",
+      "Hiện nay phẫu thuật cũng có các công cụ như theo dõi thần kinh trong mổ, định vị hình ảnh, giúp bác sĩ nắm được tình trạng thần kinh và vị trí dụng cụ trong suốt quá trình phẫu thuật. Tuy nhiên không có ca phẫu thuật nào hoàn toàn không có rủi ro, vẫn cần đánh giá riêng theo từng bệnh lý và nội dung phẫu thuật của mỗi người.",
+      "Đối với phẫu thuật cột sống thoái hóa thông thường, ngoài chức năng thần kinh, điều cần chú ý nhiều hơn sau mổ thực ra là vết mổ có lành tốt không, có bị nhiễm trùng không, và sau phẫu thuật hàn xương thì xương có liền tốt hay không. Đây không chỉ là điều bác sĩ cần lưu ý, mà bệnh nhân cũng cần phối hợp trong giai đoạn hồi phục.",
+      "Vì vậy, sự an toàn của phẫu thuật cột sống không chỉ nằm ở việc có tổn thương thần kinh trong lúc mổ hay không — vết mổ và xương sau mổ có lành tốt hay không cũng là điều chúng tôi rất quan tâm.",
+    ],
   },
   {
     q: "Phẫu thuật cột sống xâm lấn tối thiểu khác gì so với phẫu thuật truyền thống?",
@@ -256,8 +276,13 @@ const FAQ_ID = [
     a: "Tidak selalu. Baik itu hernia diskus, stenosis tulang belakang, maupun spondilolistesis, sebagian besar kasus dapat terlebih dahulu ditangani dengan rehabilitasi, penyesuaian postur, dan obat-obatan sambil diobservasi. Operasi biasanya baru direkomendasikan jika pengobatan konservatif kurang efektif dan gejala penekanan saraf — seperti kebas atau kelemahan pada kaki yang berlanjut — terus memengaruhi aktivitas sehari-hari.",
   },
   {
-    q: "Apakah operasi tulang belakang berbahaya?",
-    a: "Setiap operasi memiliki risiko, namun dengan evaluasi pra-operasi dan pemeriksaan citra medis yang menyeluruh, risiko operasi tulang belakang modern — termasuk teknik minim sayatan — dapat dipahami dan dikendalikan. Yang terpenting adalah memastikan sumber gejala yang sebenarnya sebelum operasi, serta memilih metode dan waktu operasi yang tepat.",
+    q: "Apakah operasi tulang belakang bisa merusak saraf dan menyebabkan kelumpuhan?",
+    a: [
+      "Ini memang menjadi kekhawatiran terbesar bagi kebanyakan pasien. Operasi tulang belakang memang memiliki risiko cedera saraf, tetapi tingkat risikonya sangat bervariasi tergantung jenis operasinya. Untuk kondisi tulang belakang degeneratif yang umum — seperti penekanan saraf akibat hernia diskus, stenosis tulang belakang, atau spondilolistesis — cedera saraf serius atau kelumpuhan setelah operasi sebenarnya jarang terjadi. Namun untuk operasi besar seperti koreksi deformitas tulang belakang skala besar, pengangkatan tumor tulang belakang, atau operasi kompleks lainnya, risiko cedera saraf akan lebih tinggi.",
+      "Operasi saat ini juga dilengkapi alat seperti pemantauan saraf intraoperatif dan panduan citra, yang membantu dokter memantau kondisi saraf dan posisi instrumen selama operasi berlangsung. Meski begitu, tidak ada operasi yang sepenuhnya bebas risiko — tetap perlu dievaluasi secara individual berdasarkan kondisi dan jenis operasi masing-masing pasien.",
+      "Untuk operasi tulang belakang degeneratif pada umumnya, selain fungsi saraf, yang lebih perlu diperhatikan setelah operasi sebenarnya adalah apakah luka sembuh dengan baik dan bebas infeksi, serta — untuk operasi fusi — apakah tulang menyatu dengan baik. Ini bukan hanya hal yang perlu diperhatikan dokter, tetapi juga memerlukan kerja sama pasien selama masa pemulihan.",
+      "Jadi keamanan operasi tulang belakang bukan hanya soal apakah saraf terluka saat operasi berlangsung — seberapa baik luka dan tulang sembuh setelahnya juga sama pentingnya bagi kami.",
+    ],
   },
   {
     q: "Apa bedanya operasi tulang belakang minim sayatan dengan operasi konvensional?",
@@ -860,7 +885,10 @@ function buildAboutSeo(locale) {
       mainEntity: loc.faq.map((item) => ({
         "@type": "Question",
         name: item.q,
-        acceptedAnswer: { "@type": "Answer", text: item.a },
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: Array.isArray(item.a) ? item.a.join("\n\n") : item.a,
+        },
       })),
     };
     tags.push(jsonLdScript(faqJsonLd));
@@ -1148,12 +1176,16 @@ function renderFaqSection(localeCode) {
   const loc = LOCALES_BY_CODE[localeCode];
   if (!loc.faq || !loc.faq.length) return "";
   const items = loc.faq
-    .map(
-      (item) => `        <details class="faq-item">
+    .map((item) => {
+      const paragraphs = Array.isArray(item.a) ? item.a : [item.a];
+      const answerHtml = paragraphs
+        .map((p) => `<p class="faq-answer">${escapeHtml(p)}</p>`)
+        .join("\n          ");
+      return `        <details class="faq-item">
           <summary class="faq-question">${escapeHtml(item.q)}</summary>
-          <p class="faq-answer">${escapeHtml(item.a)}</p>
-        </details>`
-    )
+          ${answerHtml}
+        </details>`;
+    })
     .join("\n");
   return `      <div class="faq-block">
         <h2 class="faq-heading">${escapeHtml(loc.faqHeading)}</h2>

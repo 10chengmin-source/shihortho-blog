@@ -868,6 +868,10 @@ main.container {
   color: var(--color-sub);
 }
 
+.faq-answer + .faq-answer {
+  margin-top: 10px;
+}
+
 /* Standalone confirm/unsubscribe landing pages */
 .subscribe-action-card {
   max-width: var(--reader-content-width);
