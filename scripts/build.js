@@ -126,6 +126,14 @@ const DOCTOR_NAME_ZH_CN = "石承民";
 const DOCTOR_NAME_VI = "Bác sĩ Shih Cheng-Min";
 const DOCTOR_NAME_ID = "Dr. Shih Cheng-Min";
 
+const GA_MEASUREMENT_ID = "G-5S2TFQGC2L";
+
+const PRIVACY_LINK_LABEL_ZH = "隱私權政策";
+const PRIVACY_LINK_LABEL_EN = "Privacy Policy";
+const PRIVACY_LINK_LABEL_ZH_CN = "隐私权政策";
+const PRIVACY_LINK_LABEL_VI = "Chính Sách Bảo Mật";
+const PRIVACY_LINK_LABEL_ID = "Kebijakan Privasi";
+
 const DEFAULT_OG_IMAGE = "/assets/images/hero-cover.jpg";
 const DOCTOR_PORTRAIT = "/assets/images/doctor-portrait.jpg";
 
@@ -419,6 +427,7 @@ const LOCALES = [
     relatedChipStyle: "full",
     langSwitchSelfLabel: "中文",
     subscribeCopy: SUBSCRIBE_COPY_ZH,
+    privacyLinkLabel: PRIVACY_LINK_LABEL_ZH,
   },
   {
     code: "en",
@@ -443,6 +452,7 @@ const LOCALES = [
     relatedChipStyle: "code",
     langSwitchSelfLabel: "English",
     subscribeCopy: SUBSCRIBE_COPY_EN,
+    privacyLinkLabel: PRIVACY_LINK_LABEL_EN,
   },
   {
     code: "zh-cn",
@@ -467,6 +477,7 @@ const LOCALES = [
     relatedChipStyle: "full",
     langSwitchSelfLabel: "简体中文",
     subscribeCopy: SUBSCRIBE_COPY_ZH_CN,
+    privacyLinkLabel: PRIVACY_LINK_LABEL_ZH_CN,
   },
   {
     code: "vi",
@@ -491,6 +502,7 @@ const LOCALES = [
     relatedChipStyle: "full",
     langSwitchSelfLabel: "Tiếng Việt",
     subscribeCopy: SUBSCRIBE_COPY_VI,
+    privacyLinkLabel: PRIVACY_LINK_LABEL_VI,
   },
   {
     code: "id",
@@ -515,13 +527,14 @@ const LOCALES = [
     relatedChipStyle: "full",
     langSwitchSelfLabel: "Bahasa Indonesia",
     subscribeCopy: SUBSCRIBE_COPY_ID,
+    privacyLinkLabel: PRIVACY_LINK_LABEL_ID,
   },
 ];
 const LOCALES_BY_CODE = Object.fromEntries(LOCALES.map((l) => [l.code, l]));
 const DEFAULT_LOCALE = LOCALES.find((l) => l.isDefault);
 
 // Static page directories that exist once per locale (not blog articles).
-const PAGE_DIRS = new Set(["about", "media", "line"]);
+const PAGE_DIRS = new Set(["about", "media", "line", "privacy"]);
 // Everything the root (default-locale) article scan must skip: the static
 // page dirs, non-content tooling dirs, and every other locale's directory.
 const ROOT_IGNORE_DIRS = new Set([
@@ -947,6 +960,7 @@ function writeSitemap(articlesByLocale) {
     { file: path.join("about", "index.html"), suffix: "about/", priority: "0.8" },
     { file: path.join("media", "index.html"), suffix: "media/", priority: "0.6" },
     { file: path.join("line", "index.html"), suffix: "line/", priority: "0.4" },
+    { file: path.join("privacy", "index.html"), suffix: "privacy/", priority: "0.2" },
   ];
 
   const staticUrls = [];
@@ -1207,6 +1221,48 @@ function injectFaqSection(filePath, localeCode) {
   }
 }
 
+function renderGaScript() {
+  return `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${GA_MEASUREMENT_ID}');
+  </script>`;
+}
+
+function injectGaScript(filePath) {
+  if (!fs.existsSync(filePath)) return;
+  let html = fs.readFileSync(filePath, "utf8");
+  const re = /<!-- BUILD:GA:START -->[\s\S]*?<!-- BUILD:GA:END -->/;
+  if (!re.test(html)) return;
+  const inner = `<!-- BUILD:GA:START -->\n  ${renderGaScript()}\n  <!-- BUILD:GA:END -->`;
+  const next = html.replace(re, inner);
+  if (next !== html) {
+    fs.writeFileSync(filePath, next, "utf8");
+  }
+}
+
+function renderPrivacyFooterLink(localeCode) {
+  const loc = LOCALES_BY_CODE[localeCode];
+  const href = localeUrl(loc, "privacy/");
+  return `<a href="${href}" class="privacy-link">${escapeHtml(loc.privacyLinkLabel)}</a>`;
+}
+
+function injectPrivacyFooterLink(filePath, localeCode) {
+  if (!fs.existsSync(filePath)) return;
+  let html = fs.readFileSync(filePath, "utf8");
+  const re = /<!-- BUILD:PRIVACYLINK:START -->[\s\S]*?<!-- BUILD:PRIVACYLINK:END -->/;
+  if (!re.test(html)) return;
+  const inner = `<!-- BUILD:PRIVACYLINK:START -->${renderPrivacyFooterLink(
+    localeCode
+  )}<!-- BUILD:PRIVACYLINK:END -->`;
+  const next = html.replace(re, inner);
+  if (next !== html) {
+    fs.writeFileSync(filePath, next, "utf8");
+  }
+}
+
 function renderSubscribeForm(localeCode) {
   const copy = LOCALES_BY_CODE[localeCode].subscribeCopy;
   return `      <div class="subscribe-block">
@@ -1411,7 +1467,23 @@ function main() {
     injectFriendLinks(path.join(ROOT, locale.dir, "about", "index.html"), locale.code);
     injectFriendLinks(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
     injectFriendLinks(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
+    injectFriendLinks(path.join(ROOT, locale.dir, "privacy", "index.html"), locale.code);
     articlesByLocale[locale.code].forEach((a) => injectFriendLinks(a.indexPath, locale.code));
+
+    injectPrivacyFooterLink(path.join(ROOT, locale.dir, "index.html"), locale.code);
+    injectPrivacyFooterLink(path.join(ROOT, locale.dir, "about", "index.html"), locale.code);
+    injectPrivacyFooterLink(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
+    injectPrivacyFooterLink(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
+    injectPrivacyFooterLink(path.join(ROOT, locale.dir, "privacy", "index.html"), locale.code);
+    articlesByLocale[locale.code].forEach((a) => injectPrivacyFooterLink(a.indexPath, locale.code));
+    injectPrivacyFooterLink(
+      path.join(ROOT, locale.dir, "subscribe", "confirmed", "index.html"),
+      locale.code
+    );
+    injectPrivacyFooterLink(
+      path.join(ROOT, locale.dir, "subscribe", "unsubscribed", "index.html"),
+      locale.code
+    );
 
     // Homepage lower-middle + bottom of every article page only — not the
     // about/media/line static pages.
@@ -1425,6 +1497,7 @@ function main() {
   const aboutAvailability = staticPageAvailability(path.join("about", "index.html"), "about/");
   const mediaAvailability = staticPageAvailability(path.join("media", "index.html"), "media/");
   const lineAvailability = staticPageAvailability(path.join("line", "index.html"), "line/");
+  const privacyAvailability = staticPageAvailability(path.join("privacy", "index.html"), "privacy/");
   const slugMap = buildSlugMap(articlesByLocale);
 
   for (const locale of LOCALES) {
@@ -1440,6 +1513,11 @@ function main() {
       mediaAvailability
     );
     injectLangSwitch(path.join(ROOT, locale.dir, "line", "index.html"), locale.code, lineAvailability);
+    injectLangSwitch(
+      path.join(ROOT, locale.dir, "privacy", "index.html"),
+      locale.code,
+      privacyAvailability
+    );
 
     articlesByLocale[locale.code].forEach((a) => {
       const counterparts = slugMap.get(a.slug) || {};
@@ -1461,6 +1539,8 @@ function main() {
   }
 
   versionAllAssets();
+
+  findAllHtmlFiles(ROOT).forEach(injectGaScript);
 
   console.log(`Built ${LOCALES.length} configured locale(s):`);
   for (const locale of LOCALES) {

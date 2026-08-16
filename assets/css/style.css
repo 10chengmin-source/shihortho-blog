@@ -1201,6 +1201,19 @@ main.container {
   margin: 0 0 8px;
 }
 
+.privacy-link {
+  display: inline-block;
+  margin: 0 0 8px;
+  font-size: 0.72rem;
+  color: var(--color-sub);
+  text-decoration: none;
+  opacity: 0.75;
+}
+
+.privacy-link:hover {
+  text-decoration: underline;
+}
+
 .site-footer .credit a {
   color: var(--color-accent);
 }
