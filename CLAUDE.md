@@ -64,6 +64,28 @@ the `SessionStart` hook fail silently/harmlessly — they must never block
 other work. When in doubt about an article's actual status, run
 `npm run notifications:pending` rather than trusting conversation history.
 
+# Facebook post text (manual, no API)
+
+Automating posts to the "背後的力量" Facebook Page via the Graph API was
+attempted and abandoned: Meta requires Business Verification (submitting
+official documents and passing manual review) to unlock the
+`pages_manage_posts` permission, which is more overhead than the user wants
+right now. The Meta developer app and Business Portfolio created during
+that attempt still exist but nothing is wired to them — do not try to
+resume that automation path unless the user explicitly asks to revisit it.
+
+Instead, whenever a new article is published, draft a ready-to-copy
+Facebook post as part of the same conversation where the email-notification
+question is asked (see "The three-way publish decision" above) — this is a
+separate question from that one, not a replacement for it. Ask the user
+whether they also want a Facebook post drafted for this article. If yes,
+write a short zh (Traditional Chinese) post: a 1–3 sentence hook plus the
+canonical article URL, matching the site's plain, non-promotional,
+fact-grounded tone (same voice as the article excerpts and the About page
+philosophy section) — no marketing language, no superlatives. Present it in
+a fenced code block so the user can copy-paste it directly into Facebook
+themselves. Do not attempt to post it via any tool or browser automation.
+
 # Mobile article-idea capture
 
 A private, unlisted page at a random 128-bit path (not linked from any
