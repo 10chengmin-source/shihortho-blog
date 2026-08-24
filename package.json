@@ -8,6 +8,7 @@
     "dist": "node scripts/prepare-dist.js",
     "notifications:pending": "node --env-file=.env.local scripts/notifications-pending.js",
     "ideas:pending": "node --env-file=.env.local scripts/ideas-pending.js",
+    "views:report": "node --env-file=.env.local scripts/view-report-send.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
