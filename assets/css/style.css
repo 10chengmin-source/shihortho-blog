@@ -671,10 +671,9 @@ main.container {
 }
 
 .booking-page-card-note {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--color-sub);
-  opacity: 0.85;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .booking-page-card-arrow {
@@ -703,6 +702,10 @@ main.container {
 
   .booking-page-card-schedule {
     font-size: 0.95rem;
+  }
+
+  .booking-page-card-note {
+    font-size: 0.9rem;
   }
 
   .booking-page-card-arrow {
