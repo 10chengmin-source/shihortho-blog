@@ -670,6 +670,13 @@ main.container {
   color: var(--color-sub);
 }
 
+.booking-page-card-note {
+  font-size: 0.78rem;
+  color: var(--color-sub);
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
 .booking-page-card-arrow {
   flex-shrink: 0;
   font-size: 1.8rem;
