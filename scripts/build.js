@@ -1525,7 +1525,6 @@ function main() {
     injectFriendLinks(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
     injectFriendLinks(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
     injectFriendLinks(path.join(ROOT, locale.dir, "privacy", "index.html"), locale.code);
-    injectFriendLinks(path.join(ROOT, locale.dir, "booking", "index.html"), locale.code);
     articlesByLocale[locale.code].forEach((a) => injectFriendLinks(a.indexPath, locale.code));
 
     injectPrivacyFooterLink(path.join(ROOT, locale.dir, "index.html"), locale.code);
@@ -1583,7 +1582,6 @@ function main() {
     injectBookingSwitch(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
     injectBookingSwitch(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
     injectBookingSwitch(path.join(ROOT, locale.dir, "privacy", "index.html"), locale.code);
-    injectBookingSwitch(path.join(ROOT, locale.dir, "booking", "index.html"), locale.code);
 
     articlesByLocale[locale.code].forEach((a) => {
       const counterparts = slugMap.get(a.slug) || {};
