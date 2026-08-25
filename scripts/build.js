@@ -137,6 +137,15 @@ const PRIVACY_LINK_LABEL_ID = "Kebijakan Privasi";
 const DEFAULT_OG_IMAGE = "/assets/images/hero-cover.jpg";
 const DOCTOR_PORTRAIT = "/assets/images/doctor-portrait.jpg";
 
+// Doctor-specific deep links into each hospital's own registration system —
+// no session/cookie state required, so these stay valid indefinitely (unlike
+// e.g. reg.bch.org.tw's DoctorList.jsp entry point, which embeds a
+// short-lived jsessionid and 500s without one).
+const VGHTC_BOOKING_URL =
+  "https://www.vghtc.gov.tw/DoctorInfoDetail/5994?stampId=5192E&OPDSECTION=ORTH";
+const BCH_BOOKING_URL =
+  "https://reg.bch.org.tw/WebReg/ym/reg/Reg?act=reg&div=C107&doctor_no=119616&drspway=X&divName=%B0%A9%AC%EC";
+
 // Inline SVG globe icon for the lang-switch toggle, replacing a generic 🌐
 // emoji — no external/paid icon set involved (project constraint: no
 // paid icon packages), just a simple currentColor line icon that matches
@@ -422,6 +431,9 @@ const LOCALES = [
     faqHeading: FAQ_HEADING_ZH,
     faq: FAQ_ZH,
     hospitalName: "臺中榮民總醫院",
+    bookingToggleLabel: "門診掛號",
+    hospitalNameShort: "台中榮總",
+    secondHospitalNameShort: "正德醫院",
     alumniOf: ["陽明交通大學", "高雄醫學大學"],
     categoryLabels: CATEGORY_LABELS,
     relatedChipStyle: "full",
@@ -447,6 +459,9 @@ const LOCALES = [
     faqHeading: FAQ_HEADING_EN,
     faq: FAQ_EN,
     hospitalName: "Taichung Veterans General Hospital",
+    bookingToggleLabel: "Book an Appointment",
+    hospitalNameShort: "Taichung VGH",
+    secondHospitalNameShort: "Cheng Te Hospital",
     alumniOf: ["National Yang Ming Chiao Tung University", "Kaohsiung Medical University"],
     categoryLabels: CATEGORY_LABELS_EN,
     relatedChipStyle: "code",
@@ -472,6 +487,9 @@ const LOCALES = [
     faqHeading: FAQ_HEADING_ZH_CN,
     faq: FAQ_ZH_CN,
     hospitalName: "台中荣民总医院",
+    bookingToggleLabel: "门诊挂号",
+    hospitalNameShort: "台中荣总",
+    secondHospitalNameShort: "佛教正德医院",
     alumniOf: ["阳明交通大学", "高雄医学大学"],
     categoryLabels: CATEGORY_LABELS_ZH_CN,
     relatedChipStyle: "full",
@@ -497,6 +515,9 @@ const LOCALES = [
     faqHeading: FAQ_HEADING_VI,
     faq: FAQ_VI,
     hospitalName: "Bệnh viện Cựu chiến binh Đài Trung",
+    bookingToggleLabel: "Đặt Lịch Khám",
+    hospitalNameShort: "BV Cựu Chiến Binh Đài Trung",
+    secondHospitalNameShort: "BV Cheng Te",
     alumniOf: ["Đại học Quốc lập Dương Minh Giao Thông", "Đại học Y khoa Cao Hùng"],
     categoryLabels: CATEGORY_LABELS_VI,
     relatedChipStyle: "full",
@@ -522,6 +543,9 @@ const LOCALES = [
     faqHeading: FAQ_HEADING_ID,
     faq: FAQ_ID,
     hospitalName: "Rumah Sakit Umum Veteran Taichung",
+    bookingToggleLabel: "Buat Janji Temu",
+    hospitalNameShort: "RS Veteran Taichung",
+    secondHospitalNameShort: "RS Cheng Te",
     alumniOf: ["Universitas Nasional Yang Ming Chiao Tung", "Universitas Kedokteran Kaohsiung"],
     categoryLabels: CATEGORY_LABELS_ID,
     relatedChipStyle: "full",
@@ -1345,6 +1369,37 @@ function injectLangSwitch(filePath, currentLocaleCode, availability) {
   }
 }
 
+function renderBookingSwitch(localeCode) {
+  const loc = LOCALES_BY_CODE[localeCode];
+  return `<div class="booking-switch">
+        <button type="button" class="booking-switch-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="booking-switch-menu">${escapeHtml(
+          loc.bookingToggleLabel
+        )}<span class="booking-switch-caret" aria-hidden="true">&#9662;</span></button>
+        <div class="booking-switch-menu" id="booking-switch-menu">
+          <a href="${VGHTC_BOOKING_URL}" target="_blank" rel="noopener">${escapeHtml(
+            loc.hospitalNameShort
+          )}</a>
+          <a href="${BCH_BOOKING_URL}" target="_blank" rel="noopener">${escapeHtml(
+            loc.secondHospitalNameShort
+          )}</a>
+        </div>
+      </div>`;
+}
+
+function injectBookingSwitch(filePath, localeCode) {
+  if (!fs.existsSync(filePath)) return;
+  let html = fs.readFileSync(filePath, "utf8");
+  const re = /<!-- BUILD:BOOKING:START -->[\s\S]*?<!-- BUILD:BOOKING:END -->/;
+  if (!re.test(html)) return;
+  const inner = `<!-- BUILD:BOOKING:START -->${renderBookingSwitch(
+    localeCode
+  )}<!-- BUILD:BOOKING:END -->`;
+  const next = html.replace(re, inner);
+  if (next !== html) {
+    fs.writeFileSync(filePath, next, "utf8");
+  }
+}
+
 // Computes a {localeCode: relativeUrl} map for one static page type (home,
 // about, media, or line) by checking which locales actually have that file.
 function staticPageAvailability(pageFile, suffix) {
@@ -1388,6 +1443,7 @@ const VERSIONED_ASSETS = [
   "assets/js/adaptive-reading.js",
   "assets/js/mobile-nav.js",
   "assets/js/lang-switch.js",
+  "assets/js/booking-switch.js",
   "assets/images/hero-cover.jpg",
   "assets/images/hero-cover.webp",
 ];
@@ -1519,6 +1575,12 @@ function main() {
       privacyAvailability
     );
 
+    injectBookingSwitch(path.join(ROOT, locale.dir, "index.html"), locale.code);
+    injectBookingSwitch(path.join(ROOT, locale.dir, "about", "index.html"), locale.code);
+    injectBookingSwitch(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
+    injectBookingSwitch(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
+    injectBookingSwitch(path.join(ROOT, locale.dir, "privacy", "index.html"), locale.code);
+
     articlesByLocale[locale.code].forEach((a) => {
       const counterparts = slugMap.get(a.slug) || {};
       const availability = {};
@@ -1526,6 +1588,7 @@ function main() {
         if (counterparts[l.code]) availability[l.code] = `/${counterparts[l.code].dir}/`;
       }
       injectLangSwitch(a.indexPath, locale.code, availability);
+      injectBookingSwitch(a.indexPath, locale.code);
     });
   }
 
