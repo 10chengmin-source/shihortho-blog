@@ -651,6 +651,26 @@ main.container {
   transform: translateY(-1px);
 }
 
+/* Filled instead of outlined -- reads as a distinctly different action
+   from the two registration-system links above it. */
+.booking-page-card--site {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.booking-page-card--site .booking-page-card-hospital,
+.booking-page-card--site .booking-page-card-schedule,
+.booking-page-card--site .booking-page-card-arrow {
+  color: var(--color-accent-ink);
+}
+
+.booking-page-card--site:hover,
+.booking-page-card--site:active {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  filter: brightness(1.08);
+}
+
 .booking-page-card-text {
   display: flex;
   flex-direction: column;
