@@ -558,7 +558,7 @@ const LOCALES_BY_CODE = Object.fromEntries(LOCALES.map((l) => [l.code, l]));
 const DEFAULT_LOCALE = LOCALES.find((l) => l.isDefault);
 
 // Static page directories that exist once per locale (not blog articles).
-const PAGE_DIRS = new Set(["about", "media", "line", "privacy"]);
+const PAGE_DIRS = new Set(["about", "media", "line", "privacy", "booking"]);
 // Everything the root (default-locale) article scan must skip: the static
 // page dirs, non-content tooling dirs, and every other locale's directory.
 const ROOT_IGNORE_DIRS = new Set([
@@ -985,6 +985,7 @@ function writeSitemap(articlesByLocale) {
     { file: path.join("media", "index.html"), suffix: "media/", priority: "0.6" },
     { file: path.join("line", "index.html"), suffix: "line/", priority: "0.4" },
     { file: path.join("privacy", "index.html"), suffix: "privacy/", priority: "0.2" },
+    { file: path.join("booking", "index.html"), suffix: "booking/", priority: "0.3" },
   ];
 
   const staticUrls = [];
@@ -1524,6 +1525,7 @@ function main() {
     injectFriendLinks(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
     injectFriendLinks(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
     injectFriendLinks(path.join(ROOT, locale.dir, "privacy", "index.html"), locale.code);
+    injectFriendLinks(path.join(ROOT, locale.dir, "booking", "index.html"), locale.code);
     articlesByLocale[locale.code].forEach((a) => injectFriendLinks(a.indexPath, locale.code));
 
     injectPrivacyFooterLink(path.join(ROOT, locale.dir, "index.html"), locale.code);
@@ -1531,6 +1533,7 @@ function main() {
     injectPrivacyFooterLink(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
     injectPrivacyFooterLink(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
     injectPrivacyFooterLink(path.join(ROOT, locale.dir, "privacy", "index.html"), locale.code);
+    injectPrivacyFooterLink(path.join(ROOT, locale.dir, "booking", "index.html"), locale.code);
     articlesByLocale[locale.code].forEach((a) => injectPrivacyFooterLink(a.indexPath, locale.code));
     injectPrivacyFooterLink(
       path.join(ROOT, locale.dir, "subscribe", "confirmed", "index.html"),
@@ -1580,6 +1583,7 @@ function main() {
     injectBookingSwitch(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
     injectBookingSwitch(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
     injectBookingSwitch(path.join(ROOT, locale.dir, "privacy", "index.html"), locale.code);
+    injectBookingSwitch(path.join(ROOT, locale.dir, "booking", "index.html"), locale.code);
 
     articlesByLocale[locale.code].forEach((a) => {
       const counterparts = slugMap.get(a.slug) || {};
