@@ -432,7 +432,7 @@ const LOCALES = [
     faq: FAQ_ZH,
     hospitalName: "臺中榮民總醫院",
     bookingToggleLabel: "門診掛號",
-    hospitalNameShort: "台中榮總（週一・週四上午）",
+    hospitalNameShort: "臺中榮總（週一・週四上午）",
     secondHospitalNameShort: "正德醫院（週五下午）",
     alumniOf: ["陽明交通大學", "高雄醫學大學"],
     categoryLabels: CATEGORY_LABELS,
