@@ -1138,6 +1138,26 @@ main.container {
   margin: 2.4em 0;
 }
 
+.post-content table {
+  width: 100%;
+  margin: 1.6em 0;
+  border-collapse: collapse;
+  font-size: calc(var(--reader-font-size) * 0.92);
+}
+
+.post-content th,
+.post-content td {
+  padding: 10px 14px;
+  border: 1px solid var(--color-line);
+  text-align: left;
+}
+
+.post-content th {
+  background: var(--color-surface-raised);
+  color: var(--color-sub);
+  font-weight: 700;
+}
+
 .back-link {
   display: inline-block;
   margin-bottom: 24px;
