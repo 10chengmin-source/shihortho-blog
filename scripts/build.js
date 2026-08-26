@@ -136,6 +136,12 @@ const PRIVACY_LINK_LABEL_ID = "Kebijakan Privasi";
 
 const DEFAULT_OG_IMAGE = "/assets/images/hero-cover.jpg";
 const DOCTOR_PORTRAIT = "/assets/images/doctor-portrait.jpg";
+// Referenced as sameAs on the WebSite/Physician JSON-LD so Google's entity
+// resolution has an explicit signal that this site and the Facebook Page are
+// the same brand — helps a new domain "borrow" recognition from an
+// established Page for brand-name queries, instead of Google treating them
+// as two disconnected/competing results.
+const FACEBOOK_PAGE_URL = "https://www.facebook.com/profile.php?id=61581620385517";
 
 // Doctor-specific deep links into each hospital's own registration system —
 // no session/cookie state required, so these stay valid indefinitely (unlike
@@ -870,6 +876,7 @@ function buildHomeSeo(locale) {
     url,
     description: loc.homeDescription,
     inLanguage: loc.inLanguage,
+    sameAs: [FACEBOOK_PAGE_URL],
     publisher: {
       "@type": "Physician",
       name: loc.doctorName,
@@ -912,6 +919,7 @@ function buildAboutSeo(locale) {
     medicalSpecialty: "https://schema.org/Orthopedic",
     worksFor: { "@type": "Hospital", name: loc.hospitalName },
     alumniOf: loc.alumniOf,
+    sameAs: [FACEBOOK_PAGE_URL],
   };
   tags.push(jsonLdScript(jsonLd));
 
