@@ -216,7 +216,7 @@ const FAQ_ZH = [
     a: "微創脊椎手術傷口較小、恢復期通常較短，但並非所有情況都適合，是否採用需視病灶的嚴重程度、位置與病人整體狀況而定，並非單純傷口大小的選擇。",
   },
   {
-    q: "如何知道自己該找脊椎外科醫師還是先觀察就好？",
+    q: "什麼時候該看骨科？",
     a: "如果出現持續性下背痛、下肢放射痛麻，或走路距離明顯縮短等症狀，建議由具有脊椎專長的骨科或外科醫師進一步評估，綜合症狀、理學檢查與影像結果，再共同討論觀察、復健、藥物治療或手術等後續處理方式。",
   },
 ];
@@ -240,7 +240,7 @@ const FAQ_EN = [
     a: "Minimally invasive spine surgery typically involves smaller incisions and a shorter recovery period, but it isn't suitable for every case. Whether it's appropriate depends on the severity and location of the condition and the patient's overall condition, not simply a preference for a smaller incision.",
   },
   {
-    q: "How do I know whether I should see a spine surgeon or just keep observing?",
+    q: "When should I see an orthopedic doctor?",
     a: "If you have persistent lower back pain, radiating pain or numbness in the legs, or a noticeably shorter walking distance before symptoms appear, it's worth having a further evaluation by an orthopedic or surgical doctor with spine expertise -- combining your symptoms, physical exam, and imaging findings -- so you can discuss observation, rehabilitation, medication, or surgery together based on the actual findings.",
   },
 ];
@@ -264,7 +264,7 @@ const FAQ_ZH_CN = [
     a: "微创脊柱手术伤口较小、恢复期通常较短，但并非所有情况都适合，是否采用需视病灶的严重程度、位置与病人整体状况而定，并非单纯伤口大小的选择。",
   },
   {
-    q: "如何知道自己该找脊柱外科医师还是先观察就好？",
+    q: "什么时候该看骨科？",
     a: "如果出现持续性下背痛、下肢放射痛麻，或走路距离明显缩短等症状，建议由具有脊柱专长的骨科或外科医师进一步评估，综合症状、体格检查与影像结果，再共同讨论观察、复健、药物治疗或手术等后续处理方式。",
   },
 ];
@@ -288,7 +288,7 @@ const FAQ_VI = [
     a: "Phẫu thuật cột sống xâm lấn tối thiểu thường có vết mổ nhỏ hơn và thời gian hồi phục ngắn hơn, nhưng không phải trường hợp nào cũng phù hợp. Việc áp dụng phương pháp này phụ thuộc vào mức độ nghiêm trọng và vị trí của tổn thương cũng như tình trạng tổng thể của bệnh nhân, chứ không đơn thuần là lựa chọn vết mổ nhỏ.",
   },
   {
-    q: "Làm sao biết nên đi khám bác sĩ phẫu thuật cột sống hay chỉ cần theo dõi?",
+    q: "Khi nào nên đi khám bác sĩ chỉnh hình?",
     a: "Nếu bạn bị đau lưng dưới kéo dài, đau hoặc tê lan xuống chân, hoặc quãng đường đi bộ trước khi xuất hiện triệu chứng ngày càng ngắn lại, nên được bác sĩ chỉnh hình hoặc bác sĩ ngoại khoa có chuyên môn về cột sống đánh giá thêm, kết hợp triệu chứng, khám lâm sàng và hình ảnh, sau đó cùng thảo luận hướng xử trí tiếp theo là theo dõi, phục hồi chức năng, dùng thuốc hay phẫu thuật.",
   },
 ];
@@ -312,7 +312,7 @@ const FAQ_ID = [
     a: "Operasi tulang belakang minim sayatan umumnya memiliki sayatan lebih kecil dan masa pemulihan yang lebih singkat, tetapi tidak cocok untuk semua kondisi. Kesesuaiannya tergantung pada tingkat keparahan dan lokasi kelainan serta kondisi keseluruhan pasien, bukan sekadar preferensi sayatan yang lebih kecil.",
   },
   {
-    q: "Bagaimana saya tahu harus menemui dokter bedah tulang belakang atau cukup diobservasi saja?",
+    q: "Kapan sebaiknya saya periksa ke dokter ortopedi?",
     a: "Jika Anda mengalami nyeri punggung bawah yang menetap, nyeri atau kebas menjalar ke kaki, atau jarak berjalan yang semakin pendek sebelum gejala muncul, sebaiknya diperiksa lebih lanjut oleh dokter ortopedi atau bedah yang memiliki keahlian di bidang tulang belakang, dengan mempertimbangkan gejala, pemeriksaan fisik, dan hasil pencitraan secara menyeluruh, lalu bersama-sama mendiskusikan apakah perlu observasi, rehabilitasi, obat-obatan, atau operasi.",
   },
 ];
