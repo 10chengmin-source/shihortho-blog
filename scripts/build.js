@@ -411,6 +411,46 @@ const SUBSCRIBE_COPY_ID = {
   backLink: "Kembali ke beranda",
 };
 
+const SHARE_COPY_ZH = {
+  fb: "分享到 Facebook",
+  line: "分享到 LINE",
+  copy: "複製連結",
+  copied: "已複製連結",
+  more: "更多分享方式",
+};
+
+const SHARE_COPY_EN = {
+  fb: "Share on Facebook",
+  line: "Share on LINE",
+  copy: "Copy link",
+  copied: "Link copied",
+  more: "More options",
+};
+
+const SHARE_COPY_ZH_CN = {
+  fb: "分享到 Facebook",
+  line: "分享到 LINE",
+  copy: "复制链接",
+  copied: "已复制链接",
+  more: "更多分享方式",
+};
+
+const SHARE_COPY_VI = {
+  fb: "Chia sẻ lên Facebook",
+  line: "Chia sẻ qua LINE",
+  copy: "Sao chép liên kết",
+  copied: "Đã sao chép liên kết",
+  more: "Thêm cách chia sẻ",
+};
+
+const SHARE_COPY_ID = {
+  fb: "Bagikan ke Facebook",
+  line: "Bagikan ke LINE",
+  copy: "Salin tautan",
+  copied: "Tautan disalin",
+  more: "Opsi lainnya",
+};
+
 // Every locale-aware function in this file reads from LOCALES instead of
 // hand-duplicating a branch per language. To add a locale: add an entry
 // here, create its directory with the same shape as en/, and re-run the
@@ -445,6 +485,7 @@ const LOCALES = [
     relatedChipStyle: "full",
     langSwitchSelfLabel: "中文",
     subscribeCopy: SUBSCRIBE_COPY_ZH,
+    shareCopy: SHARE_COPY_ZH,
     privacyLinkLabel: PRIVACY_LINK_LABEL_ZH,
   },
   {
@@ -473,6 +514,7 @@ const LOCALES = [
     relatedChipStyle: "code",
     langSwitchSelfLabel: "English",
     subscribeCopy: SUBSCRIBE_COPY_EN,
+    shareCopy: SHARE_COPY_EN,
     privacyLinkLabel: PRIVACY_LINK_LABEL_EN,
   },
   {
@@ -501,6 +543,7 @@ const LOCALES = [
     relatedChipStyle: "full",
     langSwitchSelfLabel: "简体中文",
     subscribeCopy: SUBSCRIBE_COPY_ZH_CN,
+    shareCopy: SHARE_COPY_ZH_CN,
     privacyLinkLabel: PRIVACY_LINK_LABEL_ZH_CN,
   },
   {
@@ -529,6 +572,7 @@ const LOCALES = [
     relatedChipStyle: "full",
     langSwitchSelfLabel: "Tiếng Việt",
     subscribeCopy: SUBSCRIBE_COPY_VI,
+    shareCopy: SHARE_COPY_VI,
     privacyLinkLabel: PRIVACY_LINK_LABEL_VI,
   },
   {
@@ -557,6 +601,7 @@ const LOCALES = [
     relatedChipStyle: "full",
     langSwitchSelfLabel: "Bahasa Indonesia",
     subscribeCopy: SUBSCRIBE_COPY_ID,
+    shareCopy: SHARE_COPY_ID,
     privacyLinkLabel: PRIVACY_LINK_LABEL_ID,
   },
 ];
@@ -1406,6 +1451,54 @@ function injectSubscribeForm(filePath, localeCode) {
   }
 }
 
+function renderShareButtons(url, title, localeCode) {
+  const copy = LOCALES_BY_CODE[localeCode].shareCopy;
+  const encodedUrl = encodeURIComponent(url);
+  return `      <div class="share-block">
+        <div class="share-buttons">
+          <a class="share-btn share-btn-fb" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" rel="noopener" aria-label="${escapeHtml(
+    copy.fb
+  )}">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94Z"/></svg>
+          </a>
+          <a class="share-btn share-btn-line" href="https://social-plugins.line.me/lineit/share?url=${encodedUrl}" target="_blank" rel="noopener" aria-label="${escapeHtml(
+    copy.line
+  )}">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 5.69 2 10.24c0 4.08 3.55 7.5 8.35 8.15.33.07.77.22.88.5.1.26.07.66.03.92l-.14.86c-.04.26-.2 1 .88.55 1.08-.46 5.82-3.43 7.94-5.87C21.4 13.85 22 12.11 22 10.24 22 5.69 17.52 2 12 2Zm-3.6 10.9H6.9a.32.32 0 0 1-.32-.32V8.85c0-.18.14-.32.32-.32.18 0 .32.14.32.32v3.42h1.18c.18 0 .32.14.32.32 0 .18-.14.31-.32.31Zm1.6 0a.32.32 0 0 1-.32-.32V8.85c0-.18.14-.32.32-.32.17 0 .32.14.32.32v3.73c0 .18-.15.32-.32.32Zm4.4 0a.31.31 0 0 1-.26-.13L12 10.35v2.23c0 .18-.14.32-.32.32a.32.32 0 0 1-.32-.32V8.85c0-.15.1-.27.24-.31.14-.03.29.02.37.14l2.14 2.42V8.85c0-.18.14-.32.32-.32.17 0 .32.14.32.32v3.73c0 .14-.1.27-.24.31a.3.3 0 0 1-.09.01Zm2.98 0h-1.9a.32.32 0 0 1-.32-.32V8.85c0-.18.14-.32.32-.32h1.9c.18 0 .32.14.32.32 0 .18-.14.31-.32.31h-1.58v.9h1.58c.18 0 .32.15.32.32 0 .18-.14.32-.32.32h-1.58v.9h1.58c.18 0 .32.14.32.32 0 .18-.14.32-.32.32Z"/></svg>
+          </a>
+          <button type="button" class="share-btn share-btn-copy" data-copy-url="${escapeHtml(
+            url
+          )}" data-copied-text="${escapeHtml(copy.copied)}" aria-label="${escapeHtml(copy.copy)}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+          <button type="button" class="share-btn share-btn-native" data-share-url="${escapeHtml(
+            url
+          )}" data-share-title="${escapeHtml(title)}" aria-label="${escapeHtml(
+    copy.more
+  )}" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/></svg>
+          </button>
+        </div>
+        <span class="share-status" role="status" aria-live="polite"></span>
+      </div>`;
+}
+
+function injectShareButtons(filePath, url, title, localeCode) {
+  if (!fs.existsSync(filePath)) return;
+  let html = fs.readFileSync(filePath, "utf8");
+  const re = /<!-- BUILD:SHARE:START -->[\s\S]*?<!-- BUILD:SHARE:END -->/;
+  if (!re.test(html)) return;
+  const inner = `<!-- BUILD:SHARE:START -->\n${renderShareButtons(
+    url,
+    title,
+    localeCode
+  )}\n      <!-- BUILD:SHARE:END -->`;
+  const next = html.replace(re, inner);
+  if (next !== html) {
+    fs.writeFileSync(filePath, next, "utf8");
+  }
+}
+
 // availability is a sparse {localeCode: relativeUrl} map for this exact
 // page (a static page or a specific article's counterparts). A locale
 // missing from the map renders as a disabled, unclickable entry instead of
@@ -1527,6 +1620,7 @@ const VERSIONED_ASSETS = [
   "assets/js/mobile-nav.js",
   "assets/js/lang-switch.js",
   "assets/js/booking-switch.js",
+  "assets/js/share.js",
   "assets/images/hero-cover.jpg",
   "assets/images/hero-cover.webp",
 ];
@@ -1630,6 +1724,16 @@ function main() {
     // about/media/line static pages.
     injectSubscribeForm(path.join(ROOT, locale.dir, "index.html"), locale.code);
     articlesByLocale[locale.code].forEach((a) => injectSubscribeForm(a.indexPath, locale.code));
+
+    injectShareButtons(
+      path.join(ROOT, locale.dir, "index.html"),
+      localeUrl(locale),
+      locale.siteName,
+      locale.code
+    );
+    articlesByLocale[locale.code].forEach((a) =>
+      injectShareButtons(a.indexPath, `${SITE_URL}/${a.dir}/`, a.title, locale.code)
+    );
 
     injectFaqSection(path.join(ROOT, locale.dir, "about", "index.html"), locale.code);
   }
