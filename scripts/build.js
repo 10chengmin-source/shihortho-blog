@@ -1484,6 +1484,11 @@ function renderShareIconButtons(url, title, localeCode, variant) {
   const lineTitle = isMenu ? "" : ` title="${escapeHtml(copy.line)}"`;
   const copyTitle = isMenu ? "" : ` title="${escapeHtml(copy.copy)}"`;
   const moreTitle = isMenu ? "" : ` title="${escapeHtml(copy.more)}"`;
+  // sharer.php is Meta's only sanctioned share entry point for third-party
+  // sites -- unlike LINE, Facebook does not document any URL that deep
+  // links into the native app's compose/share UI, so whether this opens
+  // the FB app or a web view on iOS is entirely up to Facebook's own
+  // Universal Links config, not something fixable from here.
   return `<a class="share-btn share-btn-fb" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" rel="noopener" aria-label="${escapeHtml(
     copy.fb
   )}"${fbTitle}>
