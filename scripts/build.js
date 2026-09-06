@@ -734,6 +734,17 @@ function updateArticleCategoryLabel(article, labels) {
   }
 }
 
+function updateArticlePostDate(article, code) {
+  let html = fs.readFileSync(article.indexPath, "utf8");
+  const re = /(<span class="post-date">)[^<]*(<\/span>)/;
+  if (!re.test(html)) return;
+  const label = formatRelativeDate(article.publishedDate, code);
+  const next = html.replace(re, `$1${label}$2`);
+  if (next !== html) {
+    fs.writeFileSync(article.indexPath, next, "utf8");
+  }
+}
+
 function updateArticleUpdatedMarker(article) {
   let html = fs.readFileSync(article.indexPath, "utf8");
   const re = /<!-- BUILD:UPDATED:START -->[\s\S]*?<!-- BUILD:UPDATED:END -->/;
@@ -1041,7 +1052,7 @@ function renderIndexRow(article, indexInGroup, locale) {
               <h3 class="index-title">${escapeHtml(article.title)}</h3>
               <p class="index-excerpt">${escapeHtml(article.excerpt)}</p>
               <div class="index-meta">
-                <span class="index-date">${article.publishedDate}</span>${newBadge}
+                <span class="index-date">${formatRelativeDate(article.publishedDate, locale)}</span>${newBadge}
               </div>
             </div>
           </a>
@@ -1098,6 +1109,69 @@ const NEW_BADGE_LABEL = {
   vi: "Mới",
   id: "Baru",
 };
+
+// Relative-time labels instead of exact dates: most articles were backfilled
+// on the same handful of dates when the site launched, so showing raw dates
+// made unrelated articles look suspiciously simultaneous. Relative phrasing
+// only conveys roughly how fresh a post is, and recomputes on every build so
+// it never needs manual upkeep as time passes.
+const RELATIVE_DATE_LABEL = {
+  zh: {
+    today: "今天發布",
+    yesterday: "昨天發布",
+    days: (n) => `${n}天前發布`,
+    weeks: (n) => `${n}週前發布`,
+    months: (n) => `${n}個月前發布`,
+    years: (n) => `${n}年前發布`,
+  },
+  en: {
+    today: "Published today",
+    yesterday: "Published yesterday",
+    days: (n) => `Published ${n} day${n === 1 ? "" : "s"} ago`,
+    weeks: (n) => `Published ${n} week${n === 1 ? "" : "s"} ago`,
+    months: (n) => `Published ${n} month${n === 1 ? "" : "s"} ago`,
+    years: (n) => `Published ${n} year${n === 1 ? "" : "s"} ago`,
+  },
+  "zh-cn": {
+    today: "今天发布",
+    yesterday: "昨天发布",
+    days: (n) => `${n}天前发布`,
+    weeks: (n) => `${n}周前发布`,
+    months: (n) => `${n}个月前发布`,
+    years: (n) => `${n}年前发布`,
+  },
+  vi: {
+    today: "Đăng hôm nay",
+    yesterday: "Đăng hôm qua",
+    days: (n) => `Đăng ${n} ngày trước`,
+    weeks: (n) => `Đăng ${n} tuần trước`,
+    months: (n) => `Đăng ${n} tháng trước`,
+    years: (n) => `Đăng ${n} năm trước`,
+  },
+  id: {
+    today: "Diterbitkan hari ini",
+    yesterday: "Diterbitkan kemarin",
+    days: (n) => `Diterbitkan ${n} hari yang lalu`,
+    weeks: (n) => `Diterbitkan ${n} minggu yang lalu`,
+    months: (n) => `Diterbitkan ${n} bulan yang lalu`,
+    years: (n) => `Diterbitkan ${n} tahun yang lalu`,
+  },
+};
+
+function formatRelativeDate(publishedDate, code) {
+  if (!publishedDate) return "";
+  const then = new Date(`${publishedDate}T00:00:00+08:00`);
+  if (Number.isNaN(then.getTime())) return "";
+  const diffDays = Math.max(0, Math.floor((Date.now() - then.getTime()) / (24 * 60 * 60 * 1000)));
+
+  const t = RELATIVE_DATE_LABEL[code] || RELATIVE_DATE_LABEL.zh;
+  if (diffDays <= 0) return t.today;
+  if (diffDays === 1) return t.yesterday;
+  if (diffDays < 7) return t.days(diffDays);
+  if (diffDays < 30) return t.weeks(Math.floor(diffDays / 7));
+  if (diffDays < 365) return t.months(Math.floor(diffDays / 30));
+  return t.years(Math.floor(diffDays / 365));
+}
 
 function pickRelated(article, allArticles, count = 3) {
   const others = allArticles.filter((a) => a !== article);
@@ -1518,6 +1592,7 @@ function main() {
     const articles = articlesByLocale[locale.code];
     articles.forEach(updateArticleUpdatedMarker);
     articles.forEach((a) => updateArticleCategoryLabel(a, locale.categoryLabels));
+    articles.forEach((a) => updateArticlePostDate(a, locale.code));
     updateHomepageCards(
       articles,
       path.join(ROOT, locale.dir, "index.html"),
