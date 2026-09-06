@@ -1701,6 +1701,15 @@ const VERSIONED_ASSETS = [
   "assets/js/share.js",
   "assets/images/hero-cover.jpg",
   "assets/images/hero-cover.webp",
+  "assets/images/logomark.png",
+  "assets/images/logomark-small.png",
+  "assets/images/favicon-16x16.png",
+  "assets/images/favicon-16x16-dark.png",
+  "assets/images/favicon-32x32.png",
+  "assets/images/favicon-32x32-dark.png",
+  "assets/images/favicon-192x192.png",
+  "assets/images/favicon-192x192-dark.png",
+  "assets/images/apple-touch-icon.png",
 ];
 
 function computeAssetVersion() {
