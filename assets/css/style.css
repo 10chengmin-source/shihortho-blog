@@ -1061,14 +1061,16 @@ main.container {
 .site-share-toggle {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
+  gap: 6px;
+  min-height: 44px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-sub);
+  padding: 4px 14px;
   border: 1px solid var(--color-line);
   border-radius: 999px;
   background: transparent;
-  color: var(--color-sub);
   cursor: pointer;
   transition: border-color 0.15s ease, color 0.15s ease;
 }
@@ -1079,8 +1081,9 @@ main.container {
 }
 
 .site-share-toggle svg {
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
 }
 
 .site-share-menu {
@@ -1725,8 +1728,8 @@ main.container {
 
 .site-header.nav-collapsed .site-share-toggle {
   width: 100%;
-  border-radius: var(--radius);
   justify-content: center;
+  text-align: center;
 }
 
 .site-header.nav-collapsed .site-share-menu {
@@ -1860,8 +1863,8 @@ main.container {
 
   .site-share-toggle {
     width: 100%;
-    border-radius: var(--radius);
     justify-content: center;
+    text-align: center;
   }
 
   .site-share-menu {
