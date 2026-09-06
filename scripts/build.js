@@ -217,7 +217,7 @@ const FAQ_ZH = [
   },
   {
     q: "如何知道自己該找脊椎外科醫師還是先觀察就好？",
-    a: "如果出現持續性下背痛、下肢放射痛麻，或走路距離明顯縮短等症狀，建議先由骨科／脊椎外科醫師評估影像與理學檢查結果，再共同討論觀察、復健或手術等後續處理方式。",
+    a: "如果出現持續性下背痛、下肢放射痛麻，或走路距離明顯縮短等症狀，建議由具有脊椎專長的骨科或外科醫師進一步評估，綜合症狀、理學檢查與影像結果，再共同討論觀察、復健、藥物治療或手術等後續處理方式。",
   },
 ];
 
@@ -241,7 +241,7 @@ const FAQ_EN = [
   },
   {
     q: "How do I know whether I should see a spine surgeon or just keep observing?",
-    a: "If you have persistent lower back pain, radiating pain or numbness in the legs, or a noticeably shorter walking distance before symptoms appear, it's worth having an orthopedic or spine surgeon evaluate your imaging and physical exam findings, so you can discuss observation, rehabilitation, or surgery together based on the actual findings.",
+    a: "If you have persistent lower back pain, radiating pain or numbness in the legs, or a noticeably shorter walking distance before symptoms appear, it's worth having a further evaluation by an orthopedic or surgical doctor with spine expertise -- combining your symptoms, physical exam, and imaging findings -- so you can discuss observation, rehabilitation, medication, or surgery together based on the actual findings.",
   },
 ];
 
@@ -265,7 +265,7 @@ const FAQ_ZH_CN = [
   },
   {
     q: "如何知道自己该找脊柱外科医师还是先观察就好？",
-    a: "如果出现持续性下背痛、下肢放射痛麻，或走路距离明显缩短等症状，建议先由骨科／脊柱外科医师评估影像与体格检查结果，再共同讨论观察、复健或手术等后续处理方式。",
+    a: "如果出现持续性下背痛、下肢放射痛麻，或走路距离明显缩短等症状，建议由具有脊柱专长的骨科或外科医师进一步评估，综合症状、体格检查与影像结果，再共同讨论观察、复健、药物治疗或手术等后续处理方式。",
   },
 ];
 
@@ -289,7 +289,7 @@ const FAQ_VI = [
   },
   {
     q: "Làm sao biết nên đi khám bác sĩ phẫu thuật cột sống hay chỉ cần theo dõi?",
-    a: "Nếu bạn bị đau lưng dưới kéo dài, đau hoặc tê lan xuống chân, hoặc quãng đường đi bộ trước khi xuất hiện triệu chứng ngày càng ngắn lại, nên để bác sĩ chỉnh hình hoặc bác sĩ phẫu thuật cột sống đánh giá hình ảnh và khám lâm sàng, sau đó cùng thảo luận hướng xử trí tiếp theo là theo dõi, phục hồi chức năng hay phẫu thuật.",
+    a: "Nếu bạn bị đau lưng dưới kéo dài, đau hoặc tê lan xuống chân, hoặc quãng đường đi bộ trước khi xuất hiện triệu chứng ngày càng ngắn lại, nên được bác sĩ chỉnh hình hoặc bác sĩ ngoại khoa có chuyên môn về cột sống đánh giá thêm, kết hợp triệu chứng, khám lâm sàng và hình ảnh, sau đó cùng thảo luận hướng xử trí tiếp theo là theo dõi, phục hồi chức năng, dùng thuốc hay phẫu thuật.",
   },
 ];
 
@@ -313,7 +313,7 @@ const FAQ_ID = [
   },
   {
     q: "Bagaimana saya tahu harus menemui dokter bedah tulang belakang atau cukup diobservasi saja?",
-    a: "Jika Anda mengalami nyeri punggung bawah yang menetap, nyeri atau kebas menjalar ke kaki, atau jarak berjalan yang semakin pendek sebelum gejala muncul, sebaiknya minta dokter ortopedi atau bedah tulang belakang mengevaluasi hasil citra medis dan pemeriksaan fisik, lalu bersama-sama mendiskusikan apakah perlu observasi, rehabilitasi, atau operasi.",
+    a: "Jika Anda mengalami nyeri punggung bawah yang menetap, nyeri atau kebas menjalar ke kaki, atau jarak berjalan yang semakin pendek sebelum gejala muncul, sebaiknya diperiksa lebih lanjut oleh dokter ortopedi atau bedah yang memiliki keahlian di bidang tulang belakang, dengan mempertimbangkan gejala, pemeriksaan fisik, dan hasil pencitraan secara menyeluruh, lalu bersama-sama mendiskusikan apakah perlu observasi, rehabilitasi, obat-obatan, atau operasi.",
   },
 ];
 
