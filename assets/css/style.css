@@ -973,25 +973,20 @@ main.container {
   color: var(--color-sub);
 }
 
-.share-block {
-  margin: 32px 0;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
+/* Compact icon-only row, inline in .post-meta next to author/date. */
 .share-buttons {
-  display: flex;
-  gap: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .share-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   border-radius: 999px;
   border: 1px solid var(--color-line);
@@ -1008,8 +1003,13 @@ main.container {
 }
 
 .share-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.share-btn-label {
+  display: none;
 }
 
 .share-btn-fb {
@@ -1024,10 +1024,127 @@ main.container {
   color: #fff;
 }
 
-.share-status {
-  font-size: 0.82rem;
+.share-btn-copy.is-copied {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Idle state is explained by the aria-label/title attribute (native
+   tooltip); the "copied" confirmation needs to be visible without hover,
+   since the whole point is confirming a tap on a touch device -- so it's a
+   small CSS-only bubble driven by the data-copied-label attribute rather
+   than a permanent on-screen label (this row sits inline with the compact
+   category/author/date meta text and has no room to spare). */
+.share-btn-copy.is-copied::after {
+  content: attr(data-copied-label);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 9px;
+  border-radius: 4px;
+  background: var(--color-ink);
+  color: var(--color-bg);
+  font-size: 0.72rem;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Site-wide "share this site" dropdown in the homepage nav, right next to
+   the LINE CTA -- same open/close pattern as .lang-switch/.booking-switch. */
+.site-share {
+  position: relative;
+}
+
+.site-share-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: transparent;
   color: var(--color-sub);
-  min-height: 1.2em;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.site-share-toggle:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.site-share-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.site-share-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  min-width: 180px;
+  padding: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  flex-direction: column;
+  gap: 2px;
+}
+
+.site-share.is-open .site-share-menu {
+  display: flex;
+}
+
+/* Inside the dropdown there's room to spare, so buttons become full-width
+   text rows (icon + visible label) matching .booking-switch-menu/
+   .lang-switch-menu items, instead of the compact circles used inline. */
+.site-share-menu .share-btn {
+  width: auto;
+  height: auto;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-sub);
+}
+
+.site-share-menu .share-btn:hover {
+  background: var(--color-surface-raised);
+  color: var(--color-ink);
+  transform: none;
+}
+
+.site-share-menu .share-btn-fb {
+  color: #1877f2;
+}
+
+.site-share-menu .share-btn-line {
+  color: var(--color-line-brand);
+}
+
+.site-share-menu .share-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.site-share-menu .share-btn-label {
+  display: inline;
+}
+
+.site-share-menu .share-btn-copy.is-copied::after {
+  content: none;
 }
 
 /* About-page FAQ section (native <details>/<summary>, no JS needed) */
@@ -1602,6 +1719,27 @@ main.container {
   text-align: center;
 }
 
+.site-header.nav-collapsed .site-share {
+  order: -1;
+}
+
+.site-header.nav-collapsed .site-share-toggle {
+  width: 100%;
+  border-radius: var(--radius);
+  justify-content: center;
+}
+
+.site-header.nav-collapsed .site-share-menu {
+  display: none;
+  position: static;
+  box-shadow: none;
+  margin-top: 4px;
+}
+
+.site-header.nav-collapsed .site-share.is-open .site-share-menu {
+  display: flex;
+}
+
 @media (max-width: 640px) {
   :root {
     --reader-post-padding-x: 20px;
@@ -1714,5 +1852,26 @@ main.container {
   .lang-switch-menu a,
   .lang-switch-menu span {
     text-align: center;
+  }
+
+  .site-share {
+    order: -1;
+  }
+
+  .site-share-toggle {
+    width: 100%;
+    border-radius: var(--radius);
+    justify-content: center;
+  }
+
+  .site-share-menu {
+    display: none;
+    position: static;
+    box-shadow: none;
+    margin-top: 4px;
+  }
+
+  .site-share.is-open .site-share-menu {
+    display: flex;
   }
 }
