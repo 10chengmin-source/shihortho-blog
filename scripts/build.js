@@ -1812,7 +1812,18 @@ function main() {
     injectSubscribeForm(path.join(ROOT, locale.dir, "index.html"), locale.code);
     articlesByLocale[locale.code].forEach((a) => injectSubscribeForm(a.indexPath, locale.code));
 
+    // Site-share is a nav-level "share this site" control, consistent with
+    // lang-switch/booking-switch which appear on every page with a full
+    // nav -- articles, about, media, line, privacy. booking and the bare
+    // subscribe/confirmed|unsubscribed pages have no nav at all, so they're
+    // skipped (injectSiteShare no-ops if the marker isn't present anyway).
     injectSiteShare(path.join(ROOT, locale.dir, "index.html"), locale.code);
+    injectSiteShare(path.join(ROOT, locale.dir, "about", "index.html"), locale.code);
+    injectSiteShare(path.join(ROOT, locale.dir, "media", "index.html"), locale.code);
+    injectSiteShare(path.join(ROOT, locale.dir, "line", "index.html"), locale.code);
+    injectSiteShare(path.join(ROOT, locale.dir, "privacy", "index.html"), locale.code);
+    articlesByLocale[locale.code].forEach((a) => injectSiteShare(a.indexPath, locale.code));
+
     articlesByLocale[locale.code].forEach((a) =>
       injectShareButtons(a.indexPath, `${SITE_URL}/${a.dir}/`, a.title, locale.code)
     );
