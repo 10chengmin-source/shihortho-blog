@@ -199,8 +199,8 @@ const FAQ_HEADING_ID = "Pertanyaan yang Sering Diajukan";
 
 const FAQ_ZH = [
   {
-    q: "臺中榮總門診（週一、週四上午）常常要等很久嗎？",
-    a: "我在臺中榮總的門診如非臨時會議或緊急手術，通常會持續看診到傍晚。如果您的號碼比較後面，可以先追蹤看診進度，改在下午再前來，不需要一早就在現場久候。",
+    q: "石醫師是上午門診，但我下午才有空，還能給石醫師評估嗎？",
+    a: "當然可以，別擔心。如果沒有臨時會議或緊急手術，我上午的門診通常會持續看診到傍晚，所以下午還是能看到我。如果您只有下午方便，或者號碼比較後面，都可以留意一下看診進度，抓時間再過來，不用一大早就到現場苦等。",
   },
   {
     q: "下背痛合併下肢麻痛，一定要開刀嗎？",
@@ -227,8 +227,8 @@ const FAQ_ZH = [
 
 const FAQ_EN = [
   {
-    q: "Does the Taichung VGH clinic (Mon/Thu mornings) usually involve a long wait?",
-    a: "My Monday and Thursday morning clinic at Taichung Veterans General Hospital often runs all the way into the evening unless there's an unexpected meeting or emergency surgery. If your number is further back, you can track the queue progress and plan to come in the afternoon instead, rather than waiting around from early morning.",
+    q: "Dr. Shih only has morning clinic hours, but I'm only free in the afternoon -- can I still be seen by him?",
+    a: "Of course -- no need to worry. Unless there's an unexpected meeting or emergency surgery, my morning clinic usually runs all the way into the evening, so you can still be seen in the afternoon. If afternoon is more convenient for you, or your number is further back, just keep an eye on the queue progress and time your arrival accordingly, rather than showing up first thing in the morning.",
   },
   {
     q: "Does lower back pain with leg numbness always require surgery?",
@@ -255,8 +255,8 @@ const FAQ_EN = [
 
 const FAQ_ZH_CN = [
   {
-    q: "台中荣总门诊（周一、周四上午）常常要等很久吗？",
-    a: "我在台中荣总的门诊如非临时会议或紧急手术，通常会持续看诊到傍晚。如果您的号码比较后面，可以先追踪看诊进度，改在下午再前来，不需要一早就在现场久候。",
+    q: "石医师是上午门诊，但我下午才有空，还能给石医师评估吗？",
+    a: "当然可以，别担心。如果没有临时会议或紧急手术，我上午的门诊通常会持续看诊到傍晚，所以下午还是能看到我。如果您只有下午方便，或者号码比较后面，都可以留意一下看诊进度，抓时间再过来，不用一大早就到现场苦等。",
   },
   {
     q: "下背痛合并下肢麻痛，一定要开刀吗？",
@@ -283,8 +283,8 @@ const FAQ_ZH_CN = [
 
 const FAQ_VI = [
   {
-    q: "Phòng khám tại Bệnh viện Cựu chiến binh Đài Trung (sáng thứ Hai, thứ Năm) có phải chờ lâu không?",
-    a: "Phòng khám sáng thứ Hai và thứ Năm của tôi tại Bệnh viện Cựu chiến binh Đài Trung thường kéo dài đến tận chiều tối, trừ khi có họp đột xuất hoặc phẫu thuật cấp cứu. Nếu số thứ tự của bạn ở phía sau, bạn có thể theo dõi tiến độ khám và đến vào buổi chiều thay vì phải chờ từ sáng sớm.",
+    q: "Bác sĩ Shih chỉ khám buổi sáng, nhưng tôi chỉ có thời gian vào buổi chiều, vậy tôi có thể được bác sĩ khám không?",
+    a: "Hoàn toàn được, bạn không cần lo lắng. Nếu không có họp đột xuất hay phẫu thuật cấp cứu, phòng khám buổi sáng của tôi thường kéo dài đến tận chiều tối, nên buổi chiều bạn vẫn có thể gặp tôi. Nếu bạn chỉ thuận tiện vào buổi chiều, hoặc số thứ tự của bạn ở phía sau, bạn có thể theo dõi tiến độ khám để canh giờ đến, không cần phải chờ từ sáng sớm.",
   },
   {
     q: "Đau lưng dưới kèm tê chân có nhất thiết phải phẫu thuật không?",
@@ -311,8 +311,8 @@ const FAQ_VI = [
 
 const FAQ_ID = [
   {
-    q: "Apakah praktik di RS Veteran Taichung (Senin, Kamis pagi) biasanya harus menunggu lama?",
-    a: "Praktik saya pada Senin dan Kamis pagi di Rumah Sakit Umum Veteran Taichung sering berlangsung hingga sore, kecuali ada rapat mendadak atau operasi darurat. Jika nomor antrean Anda berada di bagian belakang, Anda bisa memantau perkembangan antrean dan datang pada sore hari, tanpa perlu menunggu sejak pagi-pagi.",
+    q: "Dr. Shih hanya praktik pagi, tapi saya hanya punya waktu di sore hari, apakah saya masih bisa diperiksa oleh Dr. Shih?",
+    a: "Tentu saja, tidak perlu khawatir. Selama tidak ada rapat mendadak atau operasi darurat, praktik pagi saya biasanya berlangsung hingga sore, sehingga Anda tetap bisa diperiksa di sore hari. Jika Anda hanya sempat di sore hari, atau nomor antrean Anda berada di bagian belakang, Anda bisa memantau perkembangan antrean untuk mengatur waktu kedatangan, tanpa perlu menunggu sejak pagi-pagi.",
   },
   {
     q: "Apakah nyeri punggung bawah disertai kebas kaki selalu memerlukan operasi?",
