@@ -200,7 +200,7 @@ const FAQ_HEADING_ID = "Pertanyaan yang Sering Diajukan";
 const FAQ_ZH = [
   {
     q: "石醫師是上午門診，但我下午才有空，還能給石醫師評估嗎？",
-    a: "可以的，請不必擔心。如非臨時會議或緊急手術，我上午的門診通常會持續看診到傍晚，下午仍可為您評估。如果您只有下午方便，或號碼排序較後，建議留意看診進度後再前來，不必一早到場久候。",
+    a: "可以的，請不必擔心。除非須出席重要會議或臨時有緊急手術，我上午的門診通常會持續看診到傍晚，下午仍可為您評估。如果您只有下午方便，或號碼排序較後，建議留意看診進度後再前來，不必一早到場久候。",
   },
   {
     q: "下背痛合併下肢麻痛，一定要開刀嗎？",
@@ -228,7 +228,7 @@ const FAQ_ZH = [
 const FAQ_EN = [
   {
     q: "Dr. Shih only has morning clinic hours, but I'm only free in the afternoon -- can I still be seen by him?",
-    a: "You're welcome to come in the afternoon. Unless there's an unexpected meeting or emergency surgery, my morning clinic usually runs through to the evening, so I'm still able to see you then. If the afternoon suits you better, or your number is further back, it's best to check the queue progress before heading in, rather than waiting from early morning.",
+    a: "You're welcome to come in the afternoon. Unless I need to attend an important meeting or there's an emergency surgery on short notice, my morning clinic usually runs through to the evening, so I'm still able to see you then. If the afternoon suits you better, or your number is further back, it's best to check the queue progress before heading in, rather than waiting from early morning.",
   },
   {
     q: "Does lower back pain with leg numbness always require surgery?",
@@ -256,7 +256,7 @@ const FAQ_EN = [
 const FAQ_ZH_CN = [
   {
     q: "石医师是上午门诊，但我下午才有空，还能给石医师评估吗？",
-    a: "可以的，请不必担心。如非临时会议或紧急手术，我上午的门诊通常会持续看诊到傍晚，下午仍可为您评估。如果您只有下午方便，或号码排序较后，建议留意看诊进度后再前来，不必一早到场久候。",
+    a: "可以的，请不必担心。除非须出席重要会议或临时有紧急手术，我上午的门诊通常会持续看诊到傍晚，下午仍可为您评估。如果您只有下午方便，或号码排序较后，建议留意看诊进度后再前来，不必一早到场久候。",
   },
   {
     q: "下背痛合并下肢麻痛，一定要开刀吗？",
@@ -284,7 +284,7 @@ const FAQ_ZH_CN = [
 const FAQ_VI = [
   {
     q: "Bác sĩ Shih chỉ khám buổi sáng, nhưng tôi chỉ có thời gian vào buổi chiều, vậy tôi có thể được bác sĩ khám không?",
-    a: "Được, bạn không cần lo lắng. Nếu không có họp đột xuất hay phẫu thuật cấp cứu, phòng khám buổi sáng của tôi thường kéo dài đến chiều tối, nên buổi chiều tôi vẫn có thể khám cho bạn. Nếu bạn chỉ thuận tiện vào buổi chiều, hoặc số thứ tự của bạn ở phía sau, nên theo dõi tiến độ khám trước khi đến, không cần chờ từ sáng sớm.",
+    a: "Được, bạn không cần lo lắng. Trừ khi tôi cần tham dự một cuộc họp quan trọng hoặc có phẫu thuật cấp cứu đột xuất, phòng khám buổi sáng của tôi thường kéo dài đến chiều tối, nên buổi chiều tôi vẫn có thể khám cho bạn. Nếu bạn chỉ thuận tiện vào buổi chiều, hoặc số thứ tự của bạn ở phía sau, nên theo dõi tiến độ khám trước khi đến, không cần chờ từ sáng sớm.",
   },
   {
     q: "Đau lưng dưới kèm tê chân có nhất thiết phải phẫu thuật không?",
@@ -312,7 +312,7 @@ const FAQ_VI = [
 const FAQ_ID = [
   {
     q: "Dr. Shih hanya praktik pagi, tapi saya hanya punya waktu di sore hari, apakah saya masih bisa diperiksa oleh Dr. Shih?",
-    a: "Tentu, Anda tidak perlu khawatir. Selama tidak ada rapat mendadak atau operasi darurat, praktik pagi saya biasanya berlangsung hingga sore, sehingga saya tetap dapat memeriksa Anda di sore hari. Jika Anda hanya sempat di sore hari, atau nomor antrean Anda berada di bagian belakang, sebaiknya pantau perkembangan antrean sebelum datang, tanpa perlu menunggu sejak pagi-pagi.",
+    a: "Tentu, Anda tidak perlu khawatir. Kecuali saya perlu menghadiri rapat penting atau ada operasi darurat mendadak, praktik pagi saya biasanya berlangsung hingga sore, sehingga saya tetap dapat memeriksa Anda di sore hari. Jika Anda hanya sempat di sore hari, atau nomor antrean Anda berada di bagian belakang, sebaiknya pantau perkembangan antrean sebelum datang, tanpa perlu menunggu sejak pagi-pagi.",
   },
   {
     q: "Apakah nyeri punggung bawah disertai kebas kaki selalu memerlukan operasi?",
