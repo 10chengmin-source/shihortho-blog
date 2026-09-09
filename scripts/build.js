@@ -199,6 +199,10 @@ const FAQ_HEADING_ID = "Pertanyaan yang Sering Diajukan";
 
 const FAQ_ZH = [
   {
+    q: "臺中榮總門診（週一、週四上午）常常要等很久嗎？",
+    a: "我在臺中榮總的門診如非臨時會議或緊急手術，通常會持續看診到傍晚。如果您的號碼比較後面，可以先追蹤看診進度，改在下午再前來，不需要一早就在現場久候。",
+  },
+  {
     q: "下背痛合併下肢麻痛，一定要開刀嗎？",
     a: "不一定。無論是椎間盤突出、椎管狹窄或脊椎滑脫，多數情況都可以先透過復健、姿勢調整與藥物控制觀察，只有在保守治療效果有限、神經壓迫症狀（如下肢麻痛無力）持續影響生活時，才會建議手術治療。",
   },
@@ -222,6 +226,10 @@ const FAQ_ZH = [
 ];
 
 const FAQ_EN = [
+  {
+    q: "Does the Taichung VGH clinic (Mon/Thu mornings) usually involve a long wait?",
+    a: "My Monday and Thursday morning clinic at Taichung Veterans General Hospital often runs all the way into the evening unless there's an unexpected meeting or emergency surgery. If your number is further back, you can track the queue progress and plan to come in the afternoon instead, rather than waiting around from early morning.",
+  },
   {
     q: "Does lower back pain with leg numbness always require surgery?",
     a: "Not always. Whether it's a herniated disc, spinal stenosis, or spondylolisthesis, most cases can first be managed with rehabilitation, posture adjustments, and medication under observation. Surgery is typically recommended only when conservative treatment has limited effect and nerve compression symptoms — such as persistent numbness or weakness in the legs — continue to affect daily life.",
@@ -247,6 +255,10 @@ const FAQ_EN = [
 
 const FAQ_ZH_CN = [
   {
+    q: "台中荣总门诊（周一、周四上午）常常要等很久吗？",
+    a: "我在台中荣总的门诊如非临时会议或紧急手术，通常会持续看诊到傍晚。如果您的号码比较后面，可以先追踪看诊进度，改在下午再前来，不需要一早就在现场久候。",
+  },
+  {
     q: "下背痛合并下肢麻痛，一定要开刀吗？",
     a: "不一定。无论是椎间盘突出、椎管狭窄或脊柱滑脱，多数情况都可以先通过复健、姿势调整与药物控制观察，只有在保守治疗效果有限、神经压迫症状（如下肢麻痛无力）持续影响生活时，才会建议手术治疗。",
   },
@@ -271,6 +283,10 @@ const FAQ_ZH_CN = [
 
 const FAQ_VI = [
   {
+    q: "Phòng khám tại Bệnh viện Cựu chiến binh Đài Trung (sáng thứ Hai, thứ Năm) có phải chờ lâu không?",
+    a: "Phòng khám sáng thứ Hai và thứ Năm của tôi tại Bệnh viện Cựu chiến binh Đài Trung thường kéo dài đến tận chiều tối, trừ khi có họp đột xuất hoặc phẫu thuật cấp cứu. Nếu số thứ tự của bạn ở phía sau, bạn có thể theo dõi tiến độ khám và đến vào buổi chiều thay vì phải chờ từ sáng sớm.",
+  },
+  {
     q: "Đau lưng dưới kèm tê chân có nhất thiết phải phẫu thuật không?",
     a: "Không nhất thiết. Dù là thoát vị đĩa đệm, hẹp ống sống hay trượt đốt sống, phần lớn các trường hợp đều có thể được theo dõi trước bằng phục hồi chức năng, điều chỉnh tư thế và dùng thuốc. Phẫu thuật thường chỉ được khuyến nghị khi điều trị bảo tồn có hiệu quả hạn chế và các triệu chứng chèn ép thần kinh — như tê yếu chân kéo dài — vẫn tiếp tục ảnh hưởng đến sinh hoạt hằng ngày.",
   },
@@ -294,6 +310,10 @@ const FAQ_VI = [
 ];
 
 const FAQ_ID = [
+  {
+    q: "Apakah praktik di RS Veteran Taichung (Senin, Kamis pagi) biasanya harus menunggu lama?",
+    a: "Praktik saya pada Senin dan Kamis pagi di Rumah Sakit Umum Veteran Taichung sering berlangsung hingga sore, kecuali ada rapat mendadak atau operasi darurat. Jika nomor antrean Anda berada di bagian belakang, Anda bisa memantau perkembangan antrean dan datang pada sore hari, tanpa perlu menunggu sejak pagi-pagi.",
+  },
   {
     q: "Apakah nyeri punggung bawah disertai kebas kaki selalu memerlukan operasi?",
     a: "Tidak selalu. Baik itu hernia diskus, stenosis tulang belakang, maupun spondilolistesis, sebagian besar kasus dapat terlebih dahulu ditangani dengan rehabilitasi, penyesuaian postur, dan obat-obatan sambil diobservasi. Operasi biasanya baru direkomendasikan jika pengobatan konservatif kurang efektif dan gejala penekanan saraf — seperti kebas atau kelemahan pada kaki yang berlanjut — terus memengaruhi aktivitas sehari-hari.",
