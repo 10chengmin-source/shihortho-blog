@@ -904,6 +904,176 @@ a {
   }
 }
 
+/* Hero story + clean list — announcement/surgery sections. */
+.team-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 48px;
+}
+
+.team-main {
+  display: block;
+  text-decoration: none;
+}
+
+.team-main img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+}
+
+.team-main-meta {
+  font-size: 0.78rem;
+  color: var(--color-amber);
+  letter-spacing: 0.05em;
+  margin: 0 0 8px;
+}
+
+.team-main-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.team-main-excerpt {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  color: var(--color-sub);
+}
+
+.team-main-read {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.82rem;
+  color: var(--color-accent);
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.team-list a {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--color-line);
+  text-decoration: none;
+}
+
+.team-list a:first-child {
+  padding-top: 0;
+}
+
+.team-list a:last-child {
+  border-bottom: none;
+}
+
+.team-list-meta {
+  font-size: 0.78rem;
+  color: var(--color-amber);
+  letter-spacing: 0.05em;
+  margin: 0 0 6px;
+}
+
+.team-list-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.team-list-arrow {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+@media (max-width: 900px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Three-column divided text grid — education section. */
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.education-grid a {
+  display: block;
+  padding-right: 28px;
+  border-right: 1px solid var(--color-line);
+  text-decoration: none;
+}
+
+.education-grid a:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.education-topic {
+  display: inline-block;
+  font-size: 0.82rem;
+  color: var(--color-accent);
+  border-bottom: 1px solid var(--color-line);
+  padding-bottom: 5px;
+  margin-bottom: 18px;
+}
+
+.education-grid h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.education-grid p {
+  margin: 12px 0 0;
+  font-size: 0.85rem;
+  color: var(--color-sub);
+}
+
+.education-read {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.82rem;
+  color: var(--color-accent);
+}
+
+@media (max-width: 900px) {
+  .education-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .education-grid a {
+    padding-right: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--color-line);
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+  }
+
+  .education-grid a:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

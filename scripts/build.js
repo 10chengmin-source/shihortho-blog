@@ -1271,6 +1271,116 @@ ${restHtml}
     </section>`;
 }
 
+// One large "hero" story plus a clean list of the rest — used for
+// announcement/surgery, matching the stonecare-preview's team-grid design
+// rather than reusing the philosophy section's magazine grid everywhere.
+function renderTeamSection(group, locale) {
+  const eyebrows = CATEGORY_EYEBROW[locale] || CATEGORY_CODES;
+  const code = eyebrows[group.key] || eyebrows.uncategorized;
+  const readLabel = READ_LABEL[locale] || READ_LABEL.zh;
+  const [main, ...rest] = group.articles;
+
+  const mainHtml = main
+    ? `      <a class="team-main" href="/${main.dir}/">
+${main.heroImage ? `        <img src="${main.heroImage}" alt="" loading="lazy" />\n` : ""}        <p class="team-main-meta">${escapeHtml(code)} · ${formatRelativeDate(main.publishedDate, locale)}</p>
+        <h3 class="team-main-title">${escapeHtml(main.title)}</h3>
+        <p class="team-main-excerpt">${escapeHtml(main.excerpt)}</p>
+        <span class="team-main-read">${escapeHtml(readLabel)} ↗</span>
+      </a>`
+    : "";
+
+  const listHtml = rest.length
+    ? `      <div class="team-list">
+${rest
+  .map(
+    (article) => `        <a href="/${article.dir}/">
+          <div>
+            <p class="team-list-meta">${formatRelativeDate(article.publishedDate, locale)}</p>
+            <h3 class="team-list-title">${escapeHtml(article.title)}</h3>
+          </div>
+          <span class="team-list-arrow" aria-hidden="true">↗</span>
+        </a>`
+  )
+  .join("\n")}
+      </div>`
+    : "";
+
+  return `    <section class="category-section" id="${escapeHtml(group.key)}">
+      <span class="section-eyebrow">${escapeHtml(code)}</span>
+      <h2 class="section-title">${escapeHtml(group.label)}</h2>
+      <div class="team-grid">
+${mainHtml}
+${listHtml}
+      </div>
+    </section>`;
+}
+
+// Short (2-4 word) topic micro-labels shown above each card's title in the
+// education section's 3-column grid — curated per article/locale rather
+// than reusing the category eyebrow, matching the stonecare-preview's own
+// hand-picked labels. An article without an entry here just omits the
+// label; it still renders fine in the grid.
+const EDUCATION_TOPIC_LABELS = {
+  "20260802-symptom-location-vs-source": {
+    zh: "症狀與原因",
+    en: "Symptoms & Causes",
+    "zh-cn": "症状与原因",
+    vi: "Triệu Chứng & Nguyên Nhân",
+    id: "Gejala & Penyebab",
+  },
+  "20260802-why-xray-with-mri": {
+    zh: "檢查與診斷",
+    en: "Tests & Diagnosis",
+    "zh-cn": "检查与诊断",
+    vi: "Xét Nghiệm & Chẩn Đoán",
+    id: "Pemeriksaan & Diagnosis",
+  },
+  "20260802-when-pain-affects-life": {
+    zh: "疼痛與生活",
+    en: "Pain & Daily Life",
+    "zh-cn": "疼痛与生活",
+    vi: "Đau & Cuộc Sống",
+    id: "Nyeri & Kehidupan",
+  },
+};
+
+// Three-column divided text grid — used for education, matching the
+// stonecare-preview's education-band design rather than the photo-led
+// featured-grid (these articles rarely have a hero photo, so a photo-led
+// card layout would mostly render empty image slots).
+function renderEducationSection(group, locale) {
+  const eyebrows = CATEGORY_EYEBROW[locale] || CATEGORY_CODES;
+  const code = eyebrows[group.key] || eyebrows.uncategorized;
+  const readLabel = READ_LABEL[locale] || READ_LABEL.zh;
+  const [gridItems, rest] = [group.articles.slice(0, 3), group.articles.slice(3)];
+
+  const gridHtml = gridItems
+    .map((article) => {
+      const topic = EDUCATION_TOPIC_LABELS[article.slug] && EDUCATION_TOPIC_LABELS[article.slug][locale];
+      return `        <a href="/${article.dir}/">
+${topic ? `          <span class="education-topic">${escapeHtml(topic)}</span>\n` : ""}          <h3>${escapeHtml(article.title)}</h3>
+          <p>${escapeHtml(article.excerpt)}</p>
+          <span class="education-read">${escapeHtml(readLabel)} ↗</span>
+        </a>`;
+    })
+    .join("\n");
+
+  const restHtml = rest.length
+    ? `      <div class="index-list">
+${rest.map((article, i) => renderIndexRow(article, i + gridItems.length + 1, locale)).join("\n")}
+      </div>`
+    : "";
+
+  return `    <section class="category-section" id="${escapeHtml(group.key)}">
+      <span class="section-eyebrow">${escapeHtml(code)}</span>
+      <h2 class="section-title">${escapeHtml(group.label)}</h2>
+      <div class="education-grid">
+${gridHtml}
+      </div>
+${restHtml}
+    </section>`;
+}
+
 const RELATED_HEADING = {
   zh: "延伸閱讀",
   en: "Further Reading",
@@ -1807,8 +1917,23 @@ function updateHomepageCards(articles, indexPath, labels, locale) {
     throw new Error(`BUILD:CARDS markers not found in ${indexPath}`);
   }
   const groups = groupByCategory(articles, labels);
+  // Each category gets the layout that actually suits its content, rather
+  // than one template reused everywhere: "philosophy" is the magazine-style
+  // featured grid, "announcement"/"surgery" are a hero story + clean list,
+  // "education" is a three-column text grid (these articles rarely have a
+  // photo). Anything else, or a section too short to fill its layout,
+  // falls back to the plain list.
+  const SECTION_RENDERERS = {
+    philosophy: renderFeaturedSection,
+    announcement: renderTeamSection,
+    surgery: renderTeamSection,
+    education: renderEducationSection,
+  };
   const sectionsHtml = groups
-    .map((group) => (group.articles.length >= 2 ? renderFeaturedSection(group, locale) : renderSection(group, locale)))
+    .map((group) => {
+      const renderer = group.articles.length >= 2 ? SECTION_RENDERERS[group.key] : null;
+      return renderer ? renderer(group, locale) : renderSection(group, locale);
+    })
     .join("\n\n");
   const replacement = `<!-- BUILD:CARDS:START -->\n${sectionsHtml}\n    <!-- BUILD:CARDS:END -->`;
   const next = html.replace(re, replacement);
