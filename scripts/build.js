@@ -1236,8 +1236,9 @@ ${side.heroImage ? `          <img src="${side.heroImage}" alt="" loading="lazy"
 
   const quoteHtml = quote
     ? `        <a class="side-story quote-story" href="/${quote.dir}/">
-          <p class="side-story-meta">${escapeHtml(readLabel)}</p>
+${quote.heroImage ? `          <img src="${quote.heroImage}" alt="" loading="lazy" />\n` : ""}          <p class="side-story-meta">${formatRelativeDate(quote.publishedDate, locale)}</p>
           <h3 class="quote-story-title">${escapeHtml(quote.title)}</h3>
+          <p class="side-story-excerpt">${escapeHtml(quote.excerpt)}</p>
         </a>`
     : "";
 
