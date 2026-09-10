@@ -1807,7 +1807,7 @@ function updateHomepageCards(articles, indexPath, labels, locale) {
   }
   const groups = groupByCategory(articles, labels);
   const sectionsHtml = groups
-    .map((group, i) => (i === 0 ? renderFeaturedSection(group, locale) : renderSection(group, locale)))
+    .map((group) => (group.articles.length >= 2 ? renderFeaturedSection(group, locale) : renderSection(group, locale)))
     .join("\n\n");
   const replacement = `<!-- BUILD:CARDS:START -->\n${sectionsHtml}\n    <!-- BUILD:CARDS:END -->`;
   const next = html.replace(re, replacement);
