@@ -1,19 +1,27 @@
 :root {
   --wide-max: 1100px;
-  --color-bg: #10151b;
-  --color-bg-rgb: 16, 21, 27;
-  --color-surface: #182029;
-  --color-surface-raised: #1d2630;
-  --color-ink: #eef2f4;
-  --color-sub: #8b98a3;
-  --color-line: #2a3540;
-  --color-accent: #29c48f;
-  --color-accent-ink: #0b1310;
-  --color-amber: #e8b84b;
+  /* 2026-09 redesign palette: deep ink-green ("墨綠色") replacing the prior
+     teal-night theme, ported from the stonecare-preview design. Dark mode's
+     button/card fills use a separate, darker --color-accent-fill from
+     --color-accent (used for links/icons/borders) because the lighter sage
+     accent doesn't hold enough contrast under white button text — light mode
+     doesn't need the split since its ink-green accent already contrasts
+     fine filled. */
+  --color-bg: #142421;
+  --color-bg-rgb: 20, 36, 33;
+  --color-surface: #20372f;
+  --color-surface-raised: #1c3029;
+  --color-ink: #edf2e9;
+  --color-sub: #b9c9c2;
+  --color-line: #3b5148;
+  --color-accent: #77bba0;
+  --color-accent-fill: #245f4a;
+  --color-accent-ink: #ffffff;
+  --color-amber: #d7bc86;
   --color-line-brand: #06c755;
   --radius: 6px;
-  --font-serif: "Noto Serif TC", "PingFang TC", serif;
-  --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system,
+  --font-serif: "Noto Serif TC", "PMingLiU", "PingFang TC", serif;
+  --font-sans: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", -apple-system,
     BlinkMacSystemFont, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
 
@@ -84,16 +92,17 @@ html[lang="id"] {
    same "precise/clinical" direction the dark theme was chosen for). Only the
    palette changes; layout and components are shared. */
 html[data-color-mode="light"] {
-  --color-bg: #f5f7f8;
-  --color-bg-rgb: 245, 247, 248;
+  --color-bg: #faf9f5;
+  --color-bg-rgb: 250, 249, 245;
   --color-surface: #ffffff;
-  --color-surface-raised: #eef1f3;
-  --color-ink: #14181c;
-  --color-sub: #55606a;
-  --color-line: #d8dee2;
-  --color-accent: #066b4a;
+  --color-surface-raised: #edf1e9;
+  --color-ink: #1d3934;
+  --color-sub: #50615b;
+  --color-line: #d8dfd8;
+  --color-accent: #165b48;
+  --color-accent-fill: #165b48;
   --color-accent-ink: #ffffff;
-  --color-amber: #96690a;
+  --color-amber: #907445;
 }
 
 /* No-JS fallback: the bootstrap <script> in <head> is what normally sets
@@ -105,16 +114,17 @@ html[data-color-mode="light"] {
    path once that attribute is present. */
 @media (prefers-color-scheme: light) {
   html:not([data-color-mode]) {
-    --color-bg: #f5f7f8;
-    --color-bg-rgb: 245, 247, 248;
+    --color-bg: #faf9f5;
+    --color-bg-rgb: 250, 249, 245;
     --color-surface: #ffffff;
-    --color-surface-raised: #eef1f3;
-    --color-ink: #14181c;
-    --color-sub: #55606a;
-    --color-line: #d8dee2;
-    --color-accent: #066b4a;
+    --color-surface-raised: #edf1e9;
+    --color-ink: #1d3934;
+    --color-sub: #50615b;
+    --color-line: #d8dfd8;
+    --color-accent: #165b48;
+    --color-accent-fill: #165b48;
     --color-accent-ink: #ffffff;
-    --color-amber: #96690a;
+    --color-amber: #907445;
   }
 }
 
@@ -379,7 +389,7 @@ a {
   gap: 6px;
   min-height: 44px;
   font: inherit;
-  background: var(--color-accent);
+  background: var(--color-accent-fill);
   color: var(--color-accent-ink);
   font-weight: 700;
   padding: 9px 20px;
@@ -464,80 +474,428 @@ a {
   background: var(--color-ink);
 }
 
-/* Hero (homepage). The cover photo is toned dark so it reads as one of the
-   site's own dark editorial panels rather than a pasted-in banner; the title
-   is real HTML (not baked into the image), so every locale shows its own
-   translated headline over the same photo. The panel is intentionally a
-   fixed dark treatment in both color modes — like a photo inset, not a
-   themed surface — so hero-title/hero-subtitle use fixed light colors below
-   rather than the --color-ink/--color-sub tokens that flip in light mode. */
+/* Hero (homepage). 2026-09 redesign: a split portrait+copy panel (ported
+   from the stonecare-preview design) replacing the previous single banner
+   photo with an overlay title. Unlike the old fixed-dark overlay, this
+   panel uses the normal --color-* tokens throughout, since the photo no
+   longer needs to carry light text directly on top of it in every mode. */
 .hero {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-amber);
-  box-shadow: 0 1px 24px rgba(232, 184, 75, 0.12);
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding: 48px 24px 40px;
+  max-width: var(--wide-max);
+  margin: 0 auto;
 }
 
-.hero-img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.hero-content {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 46%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 5% 0 2%;
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  font-weight: 600;
+  margin: 0 0 14px;
 }
 
 .hero-title {
   font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: clamp(1.3rem, 3.6vw, 2.5rem);
-  line-height: 1.3;
-  margin: 0 0 10px;
-  color: #f2f6f4;
+  font-weight: 500;
+  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  margin: 0;
+  color: var(--color-ink);
   text-wrap: balance;
   word-break: keep-all;
 }
 
-.hero-subtitle {
+.hero-title em {
+  font-style: normal;
+  color: var(--color-accent);
+}
+
+.hero-intro {
+  margin: 20px 0 0;
+  font-size: 1rem;
+  line-height: 1.95;
+  color: var(--color-sub);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  align-items: center;
+  margin-top: 26px;
+}
+
+.hero-actions .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 12px 22px;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.hero-actions .button:hover {
+  background: var(--color-accent-fill);
+  color: var(--color-accent-ink);
+}
+
+.hero-actions .text-link {
+  font-size: 0.85rem;
+  color: var(--color-sub);
+  text-decoration: none;
+}
+
+.hero-actions .text-link:hover {
+  color: var(--color-accent);
+}
+
+.hero-signature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.hero-signature-rule {
+  width: 32px;
+  height: 1px;
+  background: var(--color-amber);
+  flex-shrink: 0;
+}
+
+.hero-signature-name {
   font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: 0.12em;
+  margin-right: 8px;
+}
+
+.hero-signature-role {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--color-sub);
+}
+
+.hero-visual {
+  position: relative;
+  height: 460px;
+  overflow: hidden;
+  border-radius: 2px 64px 2px 2px;
+  background: var(--color-surface-raised);
+}
+
+.hero-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+}
+
+.hero-visual-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 56px 26px 22px;
+  background: linear-gradient(transparent, rgba(10, 22, 20, 0.85));
+  color: #fff;
+}
+
+.hero-visual-caption span {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  letter-spacing: 0.1em;
+}
+
+.hero-visual-caption small {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: #dbe7e1;
+  margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-top: 36px;
+  }
+
+  .hero-visual {
+    height: 340px;
+    order: -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 28px 20px 32px;
+  }
+
+  .hero-visual {
+    height: 300px;
+    border-radius: 2px 40px 2px 2px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+/* Clinic-notice bar (homepage). A slim inline strip, distinct from the
+   boxed .notice-banner card used on /line/ — it's meant to read as a
+   lightweight pointer to the full announcement article, not a standalone
+   callout. */
+.notice-bar {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  max-width: var(--wide-max);
+  margin: 0 auto;
+  padding: 20px 24px;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  flex-wrap: wrap;
+}
+
+.notice-bar-label {
+  flex-shrink: 0;
+  border: 1px solid var(--color-line);
+  color: var(--color-accent);
+  font-size: 0.78rem;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+.notice-bar-text {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.notice-bar-text strong {
+  display: block;
+  font-size: 0.92rem;
   font-weight: 500;
-  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+  color: var(--color-ink);
+}
+
+.notice-bar-text p {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  color: var(--color-sub);
+}
+
+.notice-bar-link {
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  color: var(--color-accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.notice-bar-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .notice-bar {
+    padding: 16px 20px;
+    gap: 12px;
+  }
+}
+
+/* Featured-story grid (homepage's first/philosophy section only) — one
+   large story, two side stories, and one full-width "under" story, echoing
+   the varied image/text sizing from the redesign brief rather than the
+   uniform .index-list rows every other section still uses. */
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 32px;
+  max-width: var(--wide-max);
+  margin: 0 auto;
+}
+
+.feature-story {
+  display: block;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  text-decoration: none;
+}
+
+.feature-story-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-story-image img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+.feature-story-badge {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  background: var(--color-accent-fill);
+  color: var(--color-accent-ink);
+  font-size: 0.76rem;
+  padding: 3px 11px;
+}
+
+.feature-story-body {
+  padding: 22px 24px 26px;
+}
+
+.feature-story-meta {
+  font-size: 0.78rem;
+  color: var(--color-amber);
+  letter-spacing: 0.05em;
+  margin: 0 0 8px;
+}
+
+.feature-story-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1.5;
   margin: 0;
-  color: #9fc3b3;
-  letter-spacing: 0.01em;
+  color: var(--color-ink);
 }
 
-/* Hospital affiliation — a credibility signal that must be visible on the
-   homepage itself, not just after clicking through to About/booking. */
-.hero-hospital {
-  font-family: var(--font-mono);
-  font-size: clamp(0.68rem, 1.1vw, 0.78rem);
-  letter-spacing: 0.04em;
-  margin: 14px 0 0;
-  color: #7fa396;
+.feature-story-excerpt {
+  margin: 12px 0 0;
+  font-size: 0.88rem;
+  color: var(--color-sub);
 }
 
-@media (max-width: 760px) {
-  .hero-content {
-    position: static;
-    width: auto;
-    /* Fixed dark, not var(--color-bg) — that flips to near-white in light
-       mode, which would make the fixed-light hero-title/subtitle colors
-       above nearly invisible against it. Same panel-not-a-surface logic as
-       the desktop overlay, just stacked instead of absolutely positioned. */
-    background: #10151b;
-    padding: 24px 24px 28px;
+.feature-story-read {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.82rem;
+  color: var(--color-accent);
+}
+
+.side-stories {
+  display: grid;
+  gap: 20px;
+}
+
+.side-story {
+  display: block;
+  text-decoration: none;
+}
+
+.side-story img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  margin-bottom: 14px;
+}
+
+.side-story-meta {
+  font-size: 0.78rem;
+  color: var(--color-amber);
+  letter-spacing: 0.05em;
+  margin: 0 0 6px;
+}
+
+.side-story-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.side-story-excerpt {
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  color: var(--color-sub);
+}
+
+.quote-story {
+  border-top: 1px solid var(--color-line);
+  padding-top: 20px;
+}
+
+.quote-story-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.under-story {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 0;
+  margin-top: 22px;
+  border-bottom: 1px solid var(--color-line);
+  text-decoration: none;
+}
+
+.under-story-label {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  color: var(--color-sub);
+}
+
+.under-story-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.under-story-arrow {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+@media (max-width: 900px) {
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .side-stories {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .side-stories {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-story-title {
+    font-size: 1.25rem;
   }
 }
 
@@ -654,8 +1012,8 @@ main.container {
 /* Filled instead of outlined -- reads as a distinctly different action
    from the two registration-system links above it. */
 .booking-page-card--site {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
+  background: var(--color-accent-fill);
+  border-color: var(--color-accent-fill);
 }
 
 .booking-page-card--site .booking-page-card-hospital,
@@ -666,8 +1024,8 @@ main.container {
 
 .booking-page-card--site:hover,
 .booking-page-card--site:active {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
+  border-color: var(--color-accent-fill);
+  background: var(--color-accent-fill);
   filter: brightness(1.08);
 }
 
@@ -870,7 +1228,7 @@ main.container {
   display: inline-block;
   padding: 1px 9px;
   border-radius: 999px;
-  background: var(--color-accent);
+  background: var(--color-accent-fill);
   color: var(--color-accent-ink);
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -946,9 +1304,9 @@ main.container {
 
 .subscribe-submit {
   padding: 10px 20px;
-  border: 1px solid var(--color-accent);
+  border: 1px solid var(--color-accent-fill);
   border-radius: var(--radius);
-  background: var(--color-accent);
+  background: var(--color-accent-fill);
   color: var(--color-accent-ink);
   font: inherit;
   font-size: 0.9rem;
@@ -1272,20 +1630,53 @@ main.container {
 }
 
 .profile-photo-frame {
-  border: 1px solid var(--color-amber);
-  box-shadow: 0 0 0 5px var(--color-bg), 0 0 28px rgba(232, 184, 75, 0.15);
-  padding: 6px;
-  background: var(--color-surface);
+  overflow: hidden;
+  border-radius: 4px 48px 4px 4px;
 }
 
+/* Asymmetric single rounded corner — the same signature shape as the
+   homepage's .hero-visual portrait — replacing the old plain rectangular
+   amber-bordered frame, which read as a generic box rather than a
+   deliberate design choice. */
 .profile-photo {
   width: 100%;
   height: auto;
   display: block;
+  border-radius: 4px 48px 4px 4px;
 }
 
 .profile-header h1 {
   margin: 0 0 8px;
+}
+
+/* Table of contents (about page). Ported from the stonecare-preview
+   design — a quick-jump box right under the photo, for pages with enough
+   h2 sections to benefit from an at-a-glance outline. */
+.article-toc {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 24px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  margin: 28px 0;
+  font-size: 0.92rem;
+}
+
+.article-toc strong {
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 6px;
+}
+
+.article-toc a {
+  display: block;
+  padding: 8px 0;
+  min-height: 44px;
+  line-height: 28px;
+  color: var(--color-accent);
+  text-decoration: none;
+  border-top: 1px solid var(--color-line);
 }
 
 .post-category {
@@ -1622,8 +2013,8 @@ main.container {
 }
 
 .reading-settings button[aria-pressed="true"] {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
+  background: var(--color-accent-fill);
+  border-color: var(--color-accent-fill);
   color: var(--color-accent-ink);
   font-weight: 600;
 }
