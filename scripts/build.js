@@ -758,10 +758,15 @@ function findArticlesIn(baseDir, ignoreDirs, dirPrefix) {
     // philosophy/education pieces) simply render without a thumbnail —
     // deliberately not auto-generating a placeholder for those.
     let thumbnail = null;
+    let heroImage = null;
     const heroMatch = html.match(/class="post-hero-img"[\s\S]*?src="\/assets\/images\/([^"]+)\.jpg"/);
     if (heroMatch) {
       const thumbPath = path.join(ROOT, "assets", "images", `${heroMatch[1]}-thumb.jpg`);
       if (fs.existsSync(thumbPath)) thumbnail = `/assets/images/${heroMatch[1]}-thumb.jpg`;
+      // Full-size hero photo, for the homepage featured-grid's larger crops
+      // (see renderFeaturedSection) — distinct from `thumbnail` above, which
+      // is the small pre-cropped 100x70 used by the plain .index-list rows.
+      heroImage = `/assets/images/${heroMatch[1]}.jpg`;
     }
 
     articles.push({
@@ -778,6 +783,7 @@ function findArticlesIn(baseDir, ignoreDirs, dirPrefix) {
       manualOrder,
       isNew,
       thumbnail,
+      heroImage,
     });
   }
 
@@ -1170,6 +1176,97 @@ function renderSection(group, locale) {
       <div class="index-list">
 ${rowsHtml}
       </div>
+    </section>`;
+}
+
+// "Read the article" microcopy for the homepage featured-grid (see
+// renderFeaturedSection below) — the .index-list rows elsewhere don't need
+// this since the whole row is already an obvious link, but the feature-grid
+// cards are dense enough (image + meta + title + excerpt) to want an
+// explicit read affordance at the end, matching the stonecare-preview design.
+const READ_LABEL = {
+  zh: "閱讀文章",
+  en: "Read the article",
+  "zh-cn": "阅读文章",
+  vi: "Đọc bài viết",
+  id: "Baca artikel",
+};
+
+const MORE_READING_LABEL = {
+  zh: "更多文章",
+  en: "More reading",
+  "zh-cn": "更多文章",
+  vi: "Đọc thêm",
+  id: "Baca lainnya",
+};
+
+function renderFeaturedSection(group, locale) {
+  const eyebrows = CATEGORY_EYEBROW[locale] || CATEGORY_CODES;
+  const code = eyebrows[group.key] || eyebrows.uncategorized;
+  const readLabel = READ_LABEL[locale] || READ_LABEL.zh;
+  const moreLabel = MORE_READING_LABEL[locale] || MORE_READING_LABEL.zh;
+  const [main, side, quote, under, ...rest] = group.articles;
+
+  const mainHtml = main
+    ? `      <a class="feature-story" href="/${main.dir}/">
+${
+  main.heroImage
+    ? `        <div class="feature-story-image">
+          <img src="${main.heroImage}" alt="" loading="lazy" />
+          <span class="feature-story-badge">${escapeHtml(code)}</span>
+        </div>
+`
+    : ""
+}        <div class="feature-story-body">
+          <p class="feature-story-meta">${escapeHtml(code)} · ${formatRelativeDate(main.publishedDate, locale)}</p>
+          <h3 class="feature-story-title">${escapeHtml(main.title)}</h3>
+          <p class="feature-story-excerpt">${escapeHtml(main.excerpt)}</p>
+          <span class="feature-story-read">${escapeHtml(readLabel)} ↗</span>
+        </div>
+      </a>`
+    : "";
+
+  const sideHtml = side
+    ? `        <a class="side-story" href="/${side.dir}/">
+${side.heroImage ? `          <img src="${side.heroImage}" alt="" loading="lazy" />\n` : ""}          <p class="side-story-meta">${formatRelativeDate(side.publishedDate, locale)}</p>
+          <h3 class="side-story-title">${escapeHtml(side.title)}</h3>
+          <p class="side-story-excerpt">${escapeHtml(side.excerpt)}</p>
+        </a>`
+    : "";
+
+  const quoteHtml = quote
+    ? `        <a class="side-story quote-story" href="/${quote.dir}/">
+          <p class="side-story-meta">${escapeHtml(readLabel)}</p>
+          <h3 class="quote-story-title">${escapeHtml(quote.title)}</h3>
+        </a>`
+    : "";
+
+  const underHtml = under
+    ? `      <a class="under-story" href="/${under.dir}/">
+        <span class="under-story-label">${escapeHtml(moreLabel)}</span>
+        <span class="under-story-title">${escapeHtml(under.title)}</span>
+        <span class="under-story-arrow" aria-hidden="true">↗</span>
+      </a>`
+    : "";
+
+  const restHtml = rest.length
+    ? `      <div class="index-list">
+${rest.map((article, i) => renderIndexRow(article, i + (group.articles.length - rest.length) + 1, locale)).join("\n")}
+      </div>`
+    : "";
+
+  return `    <section class="category-section" id="${escapeHtml(group.key)}">
+      <span class="section-eyebrow">${escapeHtml(code)}</span>
+      <h2 class="section-title">${escapeHtml(group.label)}</h2>
+      <div class="featured-grid">
+${mainHtml}
+        <div class="side-stories">
+${sideHtml}
+${quoteHtml}
+        </div>
+      </div>
+${underHtml}
+${restHtml}
     </section>`;
 }
 
@@ -1709,7 +1806,9 @@ function updateHomepageCards(articles, indexPath, labels, locale) {
     throw new Error(`BUILD:CARDS markers not found in ${indexPath}`);
   }
   const groups = groupByCategory(articles, labels);
-  const sectionsHtml = groups.map((group) => renderSection(group, locale)).join("\n\n");
+  const sectionsHtml = groups
+    .map((group, i) => (i === 0 ? renderFeaturedSection(group, locale) : renderSection(group, locale)))
+    .join("\n\n");
   const replacement = `<!-- BUILD:CARDS:START -->\n${sectionsHtml}\n    <!-- BUILD:CARDS:END -->`;
   const next = html.replace(re, replacement);
   if (next !== html) {
@@ -1736,6 +1835,8 @@ const VERSIONED_ASSETS = [
   "assets/js/share.js",
   "assets/images/hero-cover.jpg",
   "assets/images/hero-cover.webp",
+  "assets/images/doctor-portrait.jpg",
+  "assets/images/doctor-portrait.webp",
   "assets/images/logomark.png",
   "assets/images/logomark-small.png",
   "assets/images/favicon-16x16.png",
