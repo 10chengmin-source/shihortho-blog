@@ -1646,6 +1646,36 @@ main.container {
   margin: 0 0 8px;
 }
 
+/* Table of contents (about page). Ported from the stonecare-preview
+   design — a quick-jump box right under the photo, for pages with enough
+   h2 sections to benefit from an at-a-glance outline. */
+.article-toc {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 24px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  margin: 28px 0;
+  font-size: 0.92rem;
+}
+
+.article-toc strong {
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 6px;
+}
+
+.article-toc a {
+  display: block;
+  padding: 8px 0;
+  min-height: 44px;
+  line-height: 28px;
+  color: var(--color-accent);
+  text-decoration: none;
+  border-top: 1px solid var(--color-line);
+}
+
 .post-category {
   display: inline-block;
   font-family: var(--font-mono);
