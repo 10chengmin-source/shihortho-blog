@@ -1630,16 +1630,19 @@ main.container {
 }
 
 .profile-photo-frame {
-  border: 1px solid var(--color-amber);
-  box-shadow: 0 0 0 5px var(--color-bg), 0 0 28px rgba(232, 184, 75, 0.15);
-  padding: 6px;
-  background: var(--color-surface);
+  overflow: hidden;
+  border-radius: 4px 48px 4px 4px;
 }
 
+/* Asymmetric single rounded corner — the same signature shape as the
+   homepage's .hero-visual portrait — replacing the old plain rectangular
+   amber-bordered frame, which read as a generic box rather than a
+   deliberate design choice. */
 .profile-photo {
   width: 100%;
   height: auto;
   display: block;
+  border-radius: 4px 48px 4px 4px;
 }
 
 .profile-header h1 {
