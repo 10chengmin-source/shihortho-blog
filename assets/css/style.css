@@ -2309,6 +2309,80 @@ main.container {
   display: flex;
 }
 
+/* Booking + LINE stay in the header row (not inside the closed hamburger
+   menu) when the nav collapses above the phone breakpoint — mobile-nav.js
+   lifts them out of .site-nav into .header-actions. See the comment above
+   liftActions() there for why. */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.header-actions + .nav-toggle {
+  margin-left: 0;
+}
+
+.header-actions .line-cta {
+  padding: 9px 20px;
+  font-size: 0.85rem;
+  background: transparent;
+  color: var(--color-line-brand);
+  border: 1px solid var(--color-line-brand);
+}
+
+.header-actions .line-cta:hover {
+  background: var(--color-line-brand);
+  color: #fff;
+}
+
+/* The collapsed-menu rules above turn .booking-switch into a full-width
+   in-menu block; inside .header-actions it is a normal header button with a
+   floating dropdown, so undo those. */
+.site-header.nav-collapsed .header-actions .booking-switch {
+  order: 0;
+}
+
+.site-header.nav-collapsed .header-actions .booking-switch-toggle {
+  width: auto;
+  margin-top: 0;
+}
+
+.site-header.nav-collapsed .header-actions .booking-switch-menu {
+  position: absolute;
+  margin-top: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.site-header.nav-collapsed .header-actions .booking-switch-menu a {
+  text-align: left;
+}
+
+.site-header.actions-wrap .nav-toggle {
+  margin-left: auto;
+}
+
+.site-header.actions-wrap .header-actions {
+  order: 5;
+  flex-basis: 100%;
+  margin-left: 0;
+}
+
+.site-header.actions-wrap .header-actions .booking-switch {
+  flex: 1;
+}
+
+.site-header.nav-collapsed.actions-wrap .header-actions .booking-switch-toggle,
+.site-header.actions-wrap .header-actions .line-cta {
+  width: 100%;
+  justify-content: center;
+}
+
+.site-header.actions-wrap .header-actions .line-cta {
+  flex: 1;
+}
+
 @media (max-width: 640px) {
   :root {
     --reader-post-padding-x: 20px;

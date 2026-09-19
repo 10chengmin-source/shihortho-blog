@@ -64,18 +64,63 @@
       return true;
     }
 
+    // Booking and LINE are the two actions a patient came for, so when the
+    // nav collapses on a tablet/desktop-width screen they must not vanish
+    // into the closed menu (the en/vi/id labels are wide enough that this is
+    // the normal state up to ~1700px). Instead they are lifted out of the
+    // nav into a .header-actions bar that stays in the header row next to
+    // the hamburger, and are put back in their original nav position when
+    // the full nav fits again. Phone widths keep the pure-CSS behavior.
+    var actions = document.createElement("div");
+    actions.className = "header-actions";
+    var moved = [];
+    var anchor = nav.querySelector(".lang-switch");
+
+    function liftActions() {
+      if (moved.length) return;
+      var wanted = [nav.querySelector(".booking-switch"), nav.querySelector(".line-cta")];
+      for (var i = 0; i < wanted.length; i++) {
+        if (wanted[i]) {
+          actions.appendChild(wanted[i]);
+          moved.push(wanted[i]);
+        }
+      }
+      if (moved.length) header.querySelector(".container").insertBefore(actions, toggle);
+    }
+
+    function restoreActions() {
+      if (!moved.length) return;
+      for (var i = 0; i < moved.length; i++) nav.insertBefore(moved[i], anchor);
+      moved = [];
+      if (actions.parentNode) actions.parentNode.removeChild(actions);
+      header.classList.remove("actions-wrap");
+    }
+
+    // If logo + actions + hamburger can't share one row (narrow tablet),
+    // the actions take their own full-width row under the logo instead of
+    // pushing the hamburger onto a row by itself.
+    function actionsFitBesideLogo() {
+      var logo = header.querySelector(".logo");
+      var mid = logo.offsetTop + logo.offsetHeight / 2;
+      return Math.abs(toggle.offsetTop + toggle.offsetHeight / 2 - mid) <= 4;
+    }
+
     function updateCollapse() {
       if (window.innerWidth <= MOBILE_BREAKPOINT) {
         // Pure CSS handles this range; avoid fighting it with the class.
+        restoreActions();
         header.classList.remove("nav-collapsed");
         return;
       }
       // Measure with the collapsed layout off, so the nav is laid out as a
       // normal inline row (wrapping allowed) and its true natural width is
       // visible to fitsOnOneLine()'s temporary nowrap probe.
+      restoreActions();
       header.classList.remove("nav-collapsed");
       if (!fitsOnOneLine()) {
         header.classList.add("nav-collapsed");
+        liftActions();
+        if (!actionsFitBesideLogo()) header.classList.add("actions-wrap");
       } else {
         setOpen(false);
       }
