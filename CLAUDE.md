@@ -104,3 +104,109 @@ they say to drop it) mark it with `scripts/ideas-mark-processed.js <id>` so
 it stops resurfacing. `npm run ideas:pending` checks manually. Unlike
 notification decisions, there's no 3-way choice here — an idea just stays
 unprocessed until someone acts on it.
+
+# AI-writing audit (permanent copy rule)
+
+This is a medical site under a real physician's name. Every piece of public
+copy must read like a person wrote it: direct, concrete, no template. These
+rules apply to every new or edited page, article, FAQ, button, CTA, banner,
+SEO description, image caption, and social/FB draft, in every locale
+(zh / en / zh-cn / vi / id). Never publish, commit, or hand over copy that has
+not been through this audit.
+
+## Before any copy change is committed
+
+1. Run `node scripts/copy-audit.js scan` (whole site) or
+   `node scripts/copy-audit.js file <draft>` (a draft). It only lists
+   *candidates*; the real check is reading the text. Do not rely on literal
+   matching: a reworded or reordered version of the same "build a contrast,
+   then lift to a moral" template counts.
+2. Check: banned patterns below; near-equivalent contrast templates;
+   abstract uplift with no content behind it; several consecutive sentences
+   with the same tidy rhythm; ChatGPT/Claude-style cadence; whether a
+   plainer, more concrete sentence works; whether the rewrite changed a
+   medical fact.
+3. Fix first, then commit.
+
+## Banned Chinese patterns (and close variants)
+
+這不是……而是…… / 從來不只是…… / 不只是……更是…… / 真正重要的不是…… /
+重點不在……而在…… / 與其說是……不如說是…… / 看似……其實…… /
+表面上……背後其實…… / 你以為……其實…… / 很多人以為……但真正…… /
+問題從來不是…… / 答案從來不在…… / 真正的關鍵在於…… / 真正值得思考的是…… /
+真正需要被看見的是…… / 真正改變的是…… / 重要的從來都不是…… /
+我們需要的不只是…… / 所謂的……其實是…… / 說到底…… / 到最後你會發現…… /
+也許我們該重新思考…… / 這背後反映的是…… / 這件事提醒我們…… /
+更深一層來看…… / 如果只看到……就太可惜了 / 別急著…… / 先別急著下結論 /
+值得注意的是…… / 值得一提的是…… / 不能忽略的是…… / 更值得關注的是…… /
+某種程度上…… / 換個角度看…… / 我們常常忽略…… / 很多時候…… /
+有時候真正需要的…… / 不是因為……而是因為…… / 不是所有……都…… /
+不是每一個……都…… / 這也正是為什麼…… / 這正是……的原因 /
+這背後，其實有一個很簡單的道理 / 乍看之下…… / 當你開始理解…… /
+你會發現…… / 這件事比想像中更複雜 / 事情沒有那麼簡單 / 故事要從……說起
+
+Also avoid abstract uplift lines with no content behind them, e.g. 我們談的其實是選擇 /
+最後回到人的本質 / 科技的盡頭仍然是人 / 醫療的核心始終是信任.
+
+## Banned English patterns (and close variants)
+
+It's not about X. It's about Y. / This isn't just X. It's Y. / It's more than
+just X. / The real question is… / The real challenge is… / What really matters
+is… / At its core… / At the end of the day… / The key takeaway is… / The
+bottom line is… / Here's the thing… / Let that sink in. / Think about that. /
+You might think X, but… / On the surface…, but… / It may seem like X, but… /
+The truth is… / Here's the truth… / The reality is… / What most people miss
+is… / What no one tells you is… / The part nobody talks about is… / This
+changes everything. / That's where the magic happens. / That's the game
+changer. / This is where things get interesting. / And that's exactly why… /
+This is precisely why… / The deeper issue is… / If you look closely… / Step
+back for a moment… / Let's unpack this. / Let's break it down. / Let's dive
+in. / Here's why. / Here's what you need to know. / The answer may surprise
+you. / It's simpler than you think. / It's more complicated than it looks. /
+In today's fast-changing world… / In an era of… / Now more than ever… / As we
+navigate… / The future is not X. It is Y. / The future belongs to… / This is
+not the end. It's the beginning. / Because ultimately… / Ultimately, it comes
+down to… / When all is said and done… / The lesson here is simple… / The
+message is clear… / One thing is clear…
+
+Do not stack abstract corporate words: journey, transformation, meaningful,
+powerful, redefine, reimagine, unlock, elevate, empower, reshape,
+game-changing, groundbreaking, seamless, innovative, holistic, impactful.
+They are not banned outright, but delete or rewrite them when no concrete
+fact backs them up.
+
+## How to rewrite
+
+Go straight to the content. Prefer concrete people, situations, problems,
+treatments, steps, and results. Few abstract value judgments. No manufactured
+drama, no needless contrast, no slogan-style punchline pretending to be deep.
+Keep a natural human rhythm. Chinese should be natural and concise, not
+translated-sounding; English should read like a physician or medical
+institution wrote it, not a LinkedIn motivational post. Do not add typos,
+filler words, or unprofessional phrasing just to sound less like AI.
+
+## Medical content
+
+- Never add medical facts, efficacy, success rates, risk figures, recovery
+  times, or comparisons that are not in the source.
+- Never make a cautious medical statement more certain, add unsourced study
+  conclusions, or exaggerate surgical outcomes.
+- If a sentence has both a copy problem and a medical-fact problem, change
+  only the language; leave the medical claim and flag it for the doctor.
+- If unsure whether something is medical content, keep the original wording
+  and flag it.
+
+## Exceptions
+
+If a banned pattern seems genuinely the best wording somewhere, do not use it.
+Tell the user which pattern, on which page, why, and why a direct wording is
+worse, and wait for explicit approval. Without approval, always use another
+wording.
+
+## Process preference for bulk copy changes
+
+For a site-wide copy sweep, first list every proposed change (file, original,
+issue type, suggested text) for the user to tick. Apply only what they select,
+and keep zh / zh-cn / en / vi / id consistent. Text the user wrote or
+approved verbatim is flagged, not silently rewritten. Never touch the private
+`idea-capture-*` page.
