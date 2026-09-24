@@ -1950,6 +1950,9 @@ function updateHomepageCards(articles, indexPath, labels, locale) {
 // cache immediately without needing to touch Cloudflare's cache settings.
 const VERSIONED_ASSETS = [
   "assets/css/style.css",
+  "assets/css/media-page.css",
+  "assets/fonts/NotoSerifTC-Medium-subset.woff2",
+  "assets/fonts/NotoSerifTC-SemiBold-subset.woff2",
   "assets/js/supabase-config.js",
   "assets/js/counter.js",
   "assets/js/subscribe.js",

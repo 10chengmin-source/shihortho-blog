@@ -49,15 +49,43 @@
   --reader-post-padding-x: 20px;
 }
 
+/* Self-hosted, subsetted Noto Serif TC (headings, site name, section
+   titles on the zh-Hant pages only — see the html[lang] --font-serif
+   overrides below and assets/fonts/README.md for what's in the subset and
+   why). font-display: swap avoids invisible-text-until-loaded; the
+   fallback stack in --font-serif renders immediately either way. */
+@font-face {
+  font-family: "Noto Serif TC";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/NotoSerifTC-Medium-subset.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Serif TC";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/fonts/NotoSerifTC-SemiBold-subset.woff2") format("woff2");
+}
+
 /* Per-locale article typography. Only these tokens change — everything else
    (nav, cards, footer, buttons) is locale-agnostic and untouched. Traditional
    and Simplified Chinese read comfortably narrower, measured in characters
    (em); Latin scripts read comfortably wider, measured in ch. */
+/* --font-serif is also set per html[lang] here, not just the reader-*
+   tokens. Only zh-Hant actually references the self-hosted Noto Serif TC
+   @font-face below (its family name is "Noto Serif TC", matched here) —
+   zh-CN gets its own Simplified-appropriate system stack, and en/vi/id get
+   a plain Latin serif, so no locale downloads or renders a CJK font its
+   script doesn't need. See assets/fonts/README.md for the subset. */
 html[lang="zh-Hant"] {
   --reader-font-size-base: 1.125rem;
   --reader-line-height-base: 1.85;
   --reader-content-width-base: 33em;
   --reader-paragraph-gap-base: 1.35em;
+  --font-serif: "Noto Serif TC", "PMingLiU", "PingFang TC", serif;
 }
 
 html[lang="zh-CN"] {
@@ -65,6 +93,7 @@ html[lang="zh-CN"] {
   --reader-line-height-base: 1.82;
   --reader-content-width-base: 34em;
   --reader-paragraph-gap-base: 1.35em;
+  --font-serif: "Noto Serif SC", "Songti SC", "Source Han Serif SC", "SimSun", serif;
 }
 
 html[lang="en"] {
@@ -72,6 +101,7 @@ html[lang="en"] {
   --reader-line-height-base: 1.7;
   --reader-content-width-base: 64ch;
   --reader-paragraph-gap-base: 1.3em;
+  --font-serif: Georgia, "Noto Serif", "Times New Roman", serif;
 }
 
 html[lang="vi"] {
@@ -79,6 +109,7 @@ html[lang="vi"] {
   --reader-line-height-base: 1.78;
   --reader-content-width-base: 60ch;
   --reader-paragraph-gap-base: 1.3em;
+  --font-serif: Georgia, "Noto Serif", "Times New Roman", serif;
 }
 
 html[lang="id"] {
@@ -86,6 +117,7 @@ html[lang="id"] {
   --reader-line-height-base: 1.72;
   --reader-content-width-base: 64ch;
   --reader-paragraph-gap-base: 1.3em;
+  --font-serif: Georgia, "Noto Serif", "Times New Roman", serif;
 }
 
 /* Cool, clean off-white palette (deliberately not warm cream — matches the
