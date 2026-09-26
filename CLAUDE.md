@@ -1,3 +1,102 @@
+# English design system (en/ locale only)
+
+`/en/` has its own visual design, separate from zh/zh-cn/vi/id: white
+background, dark-navy/blue accent, system-ui sans-serif everywhere (no
+Georgia, no CJK font), name-as-headline hero/about pages, and a reading-rail
+sidebar on articles. It shares every template, script and BUILD-marker
+mechanism with the other locales — nothing about the content pipeline
+forked — it is purely a CSS reskin plus a handful of English-only markup
+additions. Never touch zh/zh-cn/vi/id's design while working on English.
+
+## How it works
+
+- **`assets/css/english.css`** is the only file that carries the visual
+  design. It is linked only from `en/**/*.html` (right after
+  `style.css`), and every rule inside it is scoped under `html[lang="en"]`
+  so it cannot leak onto another locale even if a class name collides.
+  Almost the entire reskin works by overriding the same `--color-*`,
+  `--font-serif`/`--font-mono`/`--font-sans`, `--radius` and `--wide-max`
+  custom properties every shared component already reads — so most of
+  style.css's components (`.feature-story`, `.team-grid`,
+  `.education-grid`, `.faq-block`, `.related-articles`, `.subscribe-block`,
+  media-page.css's `.media-*` classes, etc.) reskin for free with zero
+  markup changes. Only add a hard-coded color/font value to english.css if
+  overriding a token genuinely can't reach it.
+- **CSS comments in this file must never contain a literal `*/` inside the
+  prose** (e.g. writing "color-*/font-*" as shorthand) — that string
+  prematurely closes the comment and silently corrupts everything parsed
+  after it until the next real `*/`, with no error in the browser console.
+  This exact bug shipped once during the 2026-09 redesign (the entire
+  design-token block silently failed to parse) — always write out words
+  like "and" instead of using `*/` as a separator inside a comment.
+- Nav never collapses into a hamburger on English pages: the
+  `<button class="nav-toggle">` element is simply omitted from `en/`
+  page markup (it's still present on every other locale), so
+  `assets/js/mobile-nav.js` no-ops there (it early-returns when the toggle
+  is missing) and english.css just keeps `.site-nav` visible and wrapping
+  at every width instead.
+- The doctor's name ("Cheng-Min Shih") must stay on one line, with "MD,
+  PhD" attached, at any width including 320px — done with
+  `container-type: inline-size` on the hero/profile wrapper and a
+  `clamp(1.7rem, 8.5cqi, 3.4rem)` font-size on the heading, plus
+  `.full-name { white-space: nowrap }`. This makes the name immune to
+  reading-level font scaling, since it never reads `--reader-font-size`.
+  If you ever see it wrap or overflow, check the CSS file actually parsed
+  first (see the `*/` bug above) before assuming the sizing math is wrong.
+- English articles are wrapped in `.article-layout > .article-rail +
+  article.post` (a small reading-rail sidebar, hidden below 1050px) —
+  the other locales' articles are not.
+- English shows relative dates as "Latest" / "Within the last 2 weeks" /
+  "Within the last month" / "N months ago", computed against the single
+  most-recently-published English article (`EN_LATEST_DATE` in
+  `scripts/build.js`, recomputed on every build). Other locales keep their
+  own "Published N days/weeks/months ago" wording — the two are separate
+  code paths (`formatEnRelativeLabel` vs `formatRelativeDate`) and must
+  stay that way. The per-article date is a
+  `<time class="post-date" datetime="…" data-published="…"
+  data-latest="…">` (not a plain `<span>` like other locales); homepage
+  cards wrap their date the same way. `assets/js/relative-dates.js`
+  (English pages only) refreshes these client-side on load so the label
+  stays correct between builds; its thresholds must stay in sync with
+  `formatEnRelativeLabel` in `scripts/build.js` if either changes.
+- English articles show an estimated read time (`estimateReadTime()` in
+  `scripts/build.js`, ~200 wpm over the article's own `.post-content`
+  text), recomputed on every build from a `<span class="post-read-time">`
+  marker — never hand-write this number, the build always overwrites it.
+
+## Adding or editing an English article
+
+The homepage's philosophy/education/surgery/announcement sections,
+related-articles, category label, FAQ, sitemap, RSS, hreflang and canonical
+tags are all regenerated automatically from the article's own `<meta
+name="article:*">` tags on every `npm run build` — exactly like every other
+locale, no separate English article list to maintain. What you must include
+by hand when creating a new `en/<slug>/index.html`:
+
+1. Copy the chrome (head boilerplate, `<link>` to `english.css` right after
+   `style.css`, header/nav *without* a `.nav-toggle` button, footer) from
+   the most recently published English article rather than an older one,
+   in case the design has moved on.
+2. Wrap the `<article class="post">` in
+   `<div class="article-layout"><aside class="article-rail">…</aside>
+   <article class="post">…</article></div>` — see any existing English
+   article for the rail's exact contents (eyebrow, category, author link,
+   "All notes" link). `<span class="article-rail-category">` takes the
+   same text as `.post-category` and both update together on every build.
+3. Give the post-date a `<time class="post-date" datetime="YYYY-MM-DD"
+   data-published="YYYY-MM-DD" data-latest="YYYY-MM-DD">Latest</time>` (the
+   `data-latest` value and the label text are both overwritten on the next
+   build, so the initial value barely matters) and add
+   `<span class="post-read-time">Approx. N min read</span>` right after it
+   (also build-recomputed).
+4. Add `<script src="/assets/js/relative-dates.js" defer></script>` next to
+   the other end-of-body scripts.
+5. Only publish the English version once translation and the existing
+   medical-content review have both cleared it (same rule as every other
+   locale — see the article-notification workflow below); if English isn't
+   ready yet, say so and don't publish a placeholder or Chinese text under
+   an English URL.
+
 # Article notification workflow
 
 This project has an article-notification subscription system (Supabase Edge

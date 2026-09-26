@@ -237,23 +237,23 @@ const FAQ_ZH = [
 
 const FAQ_EN = [
   {
-    q: "Dr. Shih only has morning clinic hours, but I'm only free in the afternoon -- can I still be seen by him?",
+    q: "Dr. Shih only has morning clinic hours, but I'm only free in the afternoon. Can I still be seen by him?",
     a: [
-      "Of course -- there's no need to worry. Unless I have an important meeting that day or need to handle an unexpected emergency surgery, my morning clinic usually runs all the way into the evening, so I'm still able to see you in the afternoon.",
+      "Of course. There's no need to worry. Unless I have an important meeting that day or need to handle an unexpected emergency surgery, my morning clinic usually runs all the way into the evening, so I'm still able to see you in the afternoon.",
       "If the afternoon works better for you, or your registration number is further back, you're welcome to check the day's queue progress first and time your arrival accordingly, to avoid a long wait.",
     ],
   },
   {
     q: "Does lower back pain with leg numbness always require surgery?",
-    a: "Not always. Whether it's a herniated disc, spinal stenosis, or spondylolisthesis, most cases can first be managed with rehabilitation, posture adjustments, and medication under observation. Surgery is typically recommended only when conservative treatment has limited effect and nerve compression symptoms — such as persistent numbness or weakness in the legs — continue to affect daily life.",
+    a: "Not always. Whether it's a herniated disc, spinal stenosis, or spondylolisthesis, most cases can first be managed with rehabilitation, posture adjustments, and medication under observation. Surgery is typically recommended only when conservative treatment has limited effect and nerve compression symptoms, such as persistent numbness or weakness in the legs, continue to affect daily life.",
   },
   {
     q: "Will spine surgery damage nerves or cause paralysis?",
     a: [
-      "This is genuinely one of the biggest worries for most patients. Spine surgery does carry a real risk of nerve injury, but that risk varies a great deal depending on the procedure. For common degenerative spine conditions — such as nerve compression from a herniated disc, spinal stenosis, or spondylolisthesis — serious nerve injury or paralysis after surgery is actually uncommon. For larger procedures such as major spinal deformity correction, spinal tumor removal, or other more complex surgeries, the risk of nerve injury is higher.",
-      "Modern surgery also uses tools like intraoperative neuromonitoring and image guidance, which help the surgeon track nerve status and instrument position during the procedure. That said, no surgery can ever be entirely risk-free — the actual risk still needs to be assessed individually based on each patient's condition and the specific procedure involved.",
-      "For typical degenerative spine surgery, beyond nerve function, what needs closer attention after the operation is usually whether the wound heals properly and stays free of infection, and — for fusion surgery — whether the bone fuses successfully. This isn't something only the surgeon needs to watch — it also requires the patient's cooperation during recovery.",
-      "So the safety of spine surgery isn't just about whether the nerves were injured during the procedure — how well the wound recovers and whether the bone heals properly afterward matter just as much.",
+      "This is genuinely one of the biggest worries for most patients. Spine surgery does carry a real risk of nerve injury, but that risk varies a great deal depending on the procedure. For common degenerative spine conditions (such as nerve compression from a herniated disc, spinal stenosis, or spondylolisthesis), serious nerve injury or paralysis after surgery is actually uncommon. For larger procedures such as major spinal deformity correction, spinal tumor removal, or other more complex surgeries, the risk of nerve injury is higher.",
+      "Modern surgery also uses tools like intraoperative neuromonitoring and image guidance, which help the surgeon track nerve status and instrument position during the procedure. That said, no surgery can ever be entirely risk-free. The actual risk still needs to be assessed individually based on each patient's condition and the specific procedure involved.",
+      "For typical degenerative spine surgery, beyond nerve function, what needs closer attention after the operation is usually whether the wound heals properly and stays free of infection, and, for fusion surgery, whether the bone fuses successfully. This isn't something only the surgeon needs to watch; it also requires the patient's cooperation during recovery.",
+      "So the safety of spine surgery isn't just about whether the nerves were injured during the procedure. How well the wound recovers and whether the bone heals properly afterward matter just as much.",
     ],
   },
   {
@@ -262,7 +262,7 @@ const FAQ_EN = [
   },
   {
     q: "When should I see an orthopedic doctor?",
-    a: "If you have persistent lower back pain, radiating pain or numbness in the legs, or a noticeably shorter walking distance before symptoms appear, it's worth having a further evaluation by an orthopedic or surgical doctor with spine expertise -- combining your symptoms, physical exam, and imaging findings -- so you can discuss observation, rehabilitation, medication, or surgery together based on the actual findings.",
+    a: "If you have persistent lower back pain, radiating pain or numbness in the legs, or a noticeably shorter walking distance before symptoms appear, it's worth having a further evaluation by an orthopedic or surgical doctor with spine expertise, combining your symptoms, physical exam, and imaging findings so you can discuss observation, rehabilitation, medication, or surgery together based on the actual findings.",
   },
 ];
 
@@ -826,7 +826,10 @@ function findAllArticles() {
 function updateArticleCategoryLabel(article, labels) {
   let html = fs.readFileSync(article.indexPath, "utf8");
   const label = labels[article.category] || labels.uncategorized;
-  const re = /(<span class="post-category">)[^<]*(<\/span>)/;
+  // Matches both the inline .post-meta category span (every locale) and the
+  // English .article-rail's own category line (same text, different spot in
+  // the layout) — "g" so both update together from one source of truth.
+  const re = /(<span class="(?:post-category|article-rail-category)">)[^<]*(<\/span>)/g;
   if (!re.test(html)) return;
   const next = html.replace(re, `$1${label}$2`);
   if (next !== html) {
@@ -836,9 +839,20 @@ function updateArticleCategoryLabel(article, labels) {
 
 function updateArticlePostDate(article, code) {
   let html = fs.readFileSync(article.indexPath, "utf8");
+  const label = formatRelativeDate(article.publishedDate, code);
+  if (code === "en") {
+    // English post-date is a <time> element carrying data-published/
+    // data-latest for assets/js/relative-dates.js to refresh client-side;
+    // datetime/data-published never change, only data-latest and the label.
+    const re =
+      /(<time class="post-date" datetime="[^"]*" data-published="[^"]*" data-latest=")[^"]*("\s*>)[^<]*(<\/time>)/;
+    if (!re.test(html)) return;
+    const next = html.replace(re, `$1${EN_LATEST_DATE || article.publishedDate}$2${label}$3`);
+    if (next !== html) fs.writeFileSync(article.indexPath, next, "utf8");
+    return;
+  }
   const re = /(<span class="post-date">)[^<]*(<\/span>)/;
   if (!re.test(html)) return;
-  const label = formatRelativeDate(article.publishedDate, code);
   const next = html.replace(re, `$1${label}$2`);
   if (next !== html) {
     fs.writeFileSync(article.indexPath, next, "utf8");
@@ -1229,7 +1243,7 @@ ${
 `
     : ""
 }        <div class="feature-story-body">
-          <p class="feature-story-meta">${escapeHtml(code)} · ${formatRelativeDate(main.publishedDate, locale)}</p>
+          <p class="feature-story-meta">${escapeHtml(code)} · ${dateMarkup(main, locale)}</p>
           <h3 class="feature-story-title">${escapeHtml(main.title)}</h3>
           <p class="feature-story-excerpt">${escapeHtml(main.excerpt)}</p>
           <span class="feature-story-read">${escapeHtml(readLabel)} ↗</span>
@@ -1239,7 +1253,7 @@ ${
 
   const sideHtml = side
     ? `        <a class="side-story" href="/${side.dir}/">
-${side.heroImage ? `          <img src="${side.heroImage}" alt="" loading="lazy" />\n` : ""}          <p class="side-story-meta">${formatRelativeDate(side.publishedDate, locale)}</p>
+${side.heroImage ? `          <img src="${side.heroImage}" alt="" loading="lazy" />\n` : ""}          <p class="side-story-meta">${dateMarkup(side, locale)}</p>
           <h3 class="side-story-title">${escapeHtml(side.title)}</h3>
           <p class="side-story-excerpt">${escapeHtml(side.excerpt)}</p>
         </a>`
@@ -1247,7 +1261,7 @@ ${side.heroImage ? `          <img src="${side.heroImage}" alt="" loading="lazy"
 
   const quoteHtml = quote
     ? `        <a class="side-story quote-story" href="/${quote.dir}/">
-${quote.heroImage ? `          <img src="${quote.heroImage}" alt="" loading="lazy" />\n` : ""}          <p class="side-story-meta">${formatRelativeDate(quote.publishedDate, locale)}</p>
+${quote.heroImage ? `          <img src="${quote.heroImage}" alt="" loading="lazy" />\n` : ""}          <p class="side-story-meta">${dateMarkup(quote, locale)}</p>
           <h3 class="quote-story-title">${escapeHtml(quote.title)}</h3>
           <p class="side-story-excerpt">${escapeHtml(quote.excerpt)}</p>
         </a>`
@@ -1293,7 +1307,7 @@ function renderTeamSection(group, locale) {
 
   const mainHtml = main
     ? `      <a class="team-main" href="/${main.dir}/">
-${main.heroImage ? `        <img src="${main.heroImage}" alt="" loading="lazy" />\n` : ""}        <p class="team-main-meta">${escapeHtml(code)} · ${formatRelativeDate(main.publishedDate, locale)}</p>
+${main.heroImage ? `        <img src="${main.heroImage}" alt="" loading="lazy" />\n` : ""}        <p class="team-main-meta">${escapeHtml(code)} · ${dateMarkup(main, locale)}</p>
         <h3 class="team-main-title">${escapeHtml(main.title)}</h3>
         <p class="team-main-excerpt">${escapeHtml(main.excerpt)}</p>
         <span class="team-main-read">${escapeHtml(readLabel)} ↗</span>
@@ -1306,7 +1320,7 @@ ${rest
   .map(
     (article) => `        <a href="/${article.dir}/">
           <div>
-            <p class="team-list-meta">${formatRelativeDate(article.publishedDate, locale)}</p>
+            <p class="team-list-meta">${dateMarkup(article, locale)}</p>
             <h3 class="team-list-title">${escapeHtml(article.title)}</h3>
           </div>
           <span class="team-list-arrow" aria-hidden="true">↗</span>
@@ -1464,6 +1478,7 @@ const RELATIVE_DATE_LABEL = {
 
 function formatRelativeDate(publishedDate, code) {
   if (!publishedDate) return "";
+  if (code === "en") return formatEnRelativeLabel(publishedDate);
   const then = new Date(`${publishedDate}T00:00:00+08:00`);
   if (Number.isNaN(then.getTime())) return "";
   const diffDays = Math.max(0, Math.floor((Date.now() - then.getTime()) / (24 * 60 * 60 * 1000)));
@@ -1475,6 +1490,79 @@ function formatRelativeDate(publishedDate, code) {
   if (diffDays < 30) return t.weeks(Math.floor(diffDays / 7));
   if (diffDays < 365) return t.months(Math.floor(diffDays / 30));
   return t.years(Math.floor(diffDays / 365));
+}
+
+// English-only date presentation, requested separately from the other
+// locales' "Published N days/weeks/months ago" wording: Latest / Within the
+// last 2 weeks / Within the last month / N months ago, computed against the
+// single most-recently-published English article site-wide (not per
+// category — matches every category's cards all referencing the same
+// EN_LATEST_DATE). Mirrors assets/js/relative-dates.js's client-side copy of
+// the same thresholds exactly, so the build-time text (always correct,
+// works with no JS) and the client refresh (keeps it correct between
+// builds) never disagree.
+let EN_LATEST_DATE = null;
+
+function formatEnRelativeLabel(publishedDate) {
+  if (!publishedDate) return "";
+  if (EN_LATEST_DATE && publishedDate === EN_LATEST_DATE) return "Latest";
+  const then = new Date(`${publishedDate}T12:00:00`);
+  if (Number.isNaN(then.getTime())) return "";
+  const now = new Date();
+  const days = Math.max(
+    0,
+    Math.floor(
+      (Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) -
+        Date.UTC(then.getFullYear(), then.getMonth(), then.getDate())) /
+        86400000
+    )
+  );
+  if (days <= 14) return "Within the last 2 weeks";
+  if (days < 30) return "Within the last month";
+  if (days < 60) return "1 month ago";
+  if (days < 365) return `${Math.floor(days / 30)} months ago`;
+  const years = Math.floor(days / 365);
+  return years === 1 ? "1 year ago" : `${years} years ago`;
+}
+
+// ~200 wpm silent-reading estimate over the article's own visible text (the
+// same convention most publications use for "N min read"), computed fresh
+// every build from whatever the article body actually contains — so a
+// future article gets a correct estimate automatically instead of needing
+// one typed in by hand. English-only per the design brief; other locales
+// don't show a reading-time figure.
+function estimateReadTime(html) {
+  const match = html.match(/<div class="post-content">([\s\S]*?)<\/div>\s*(?:<!-- BUILD:RELATED|<\/article>)/);
+  const contentHtml = match ? match[1] : html;
+  const text = contentHtml
+    .replace(/<script[\s\S]*?<\/script>/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&[a-z#0-9]+;/gi, " ");
+  const words = text.split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.round(words / 200));
+  return `Approx. ${minutes} min read`;
+}
+
+function updateArticleReadTime(article) {
+  let html = fs.readFileSync(article.indexPath, "utf8");
+  const re = /(<span class="post-read-time">)[^<]*(<\/span>)/;
+  if (!re.test(html)) return;
+  const label = estimateReadTime(html);
+  const next = html.replace(re, `$1${label}$2`);
+  if (next !== html) {
+    fs.writeFileSync(article.indexPath, next, "utf8");
+  }
+}
+
+// Homepage-card date markup: plain text for every locale except English,
+// which wraps it in a <time data-published data-latest> so
+// assets/js/relative-dates.js can refresh "Within the last 2 weeks" / "N
+// months ago" client-side between builds, exactly like the per-article
+// <time class="post-date">.
+function dateMarkup(article, locale) {
+  const label = formatRelativeDate(article.publishedDate, locale);
+  if (locale !== "en") return escapeHtml(label);
+  return `<time datetime="${article.publishedDate}" data-published="${article.publishedDate}" data-latest="${EN_LATEST_DATE || article.publishedDate}">${escapeHtml(label)}</time>`;
 }
 
 function pickRelated(article, allArticles, count = 3) {
@@ -1613,7 +1701,7 @@ function renderFaqSection(localeCode) {
     })
     .join("\n");
   return `      <div class="faq-block">
-        <h2 class="faq-heading">${escapeHtml(loc.faqHeading)}</h2>
+        <h2 class="faq-heading" id="section-5">${escapeHtml(loc.faqHeading)}</h2>
 ${items}
       </div>`;
 }
@@ -1879,6 +1967,13 @@ function injectLangSwitch(filePath, currentLocaleCode, availability) {
 
 function renderBookingSwitch(localeCode) {
   const loc = LOCALES_BY_CODE[localeCode];
+  // English only: a third entry pointing at /en/booking/, the new minimal
+  // clinic-information page the redesign adds for that locale. Other
+  // locales keep their existing two-link dropdown unchanged.
+  const infoLink =
+    localeCode === "en"
+      ? `\n          <a href="${localeUrl(loc, "booking/")}">Clinic information →</a>`
+      : "";
   return `<div class="booking-switch">
         <button type="button" class="booking-switch-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="booking-switch-menu">${escapeHtml(
           loc.bookingToggleLabel
@@ -1889,7 +1984,7 @@ function renderBookingSwitch(localeCode) {
           )}</a>
           <a href="${BCH_BOOKING_URL}" target="_blank" rel="noopener">${escapeHtml(
             loc.secondHospitalNameShort
-          )}</a>
+          )}</a>${infoLink}
         </div>
       </div>`;
 }
@@ -1962,6 +2057,7 @@ function updateHomepageCards(articles, indexPath, labels, locale) {
 const VERSIONED_ASSETS = [
   "assets/css/style.css",
   "assets/css/media-page.css",
+  "assets/css/english.css",
   "assets/fonts/NotoSerifTC-Medium-subset.woff2",
   "assets/fonts/NotoSerifTC-SemiBold-subset.woff2",
   "assets/js/supabase-config.js",
@@ -1973,6 +2069,7 @@ const VERSIONED_ASSETS = [
   "assets/js/lang-switch.js",
   "assets/js/booking-switch.js",
   "assets/js/share.js",
+  "assets/js/relative-dates.js",
   "assets/images/hero-cover.jpg",
   "assets/images/hero-cover.webp",
   "assets/images/doctor-portrait.jpg",
@@ -2045,11 +2142,19 @@ function versionAllAssets() {
 function main() {
   const articlesByLocale = findAllArticles();
 
+  if (articlesByLocale.en && articlesByLocale.en.length) {
+    EN_LATEST_DATE = articlesByLocale.en.reduce(
+      (max, a) => (a.publishedDate > max ? a.publishedDate : max),
+      articlesByLocale.en[0].publishedDate
+    );
+  }
+
   for (const locale of LOCALES) {
     const articles = articlesByLocale[locale.code];
     articles.forEach(updateArticleUpdatedMarker);
     articles.forEach((a) => updateArticleCategoryLabel(a, locale.categoryLabels));
     articles.forEach((a) => updateArticlePostDate(a, locale.code));
+    if (locale.code === "en") articles.forEach(updateArticleReadTime);
     updateHomepageCards(
       articles,
       path.join(ROOT, locale.dir, "index.html"),
