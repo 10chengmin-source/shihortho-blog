@@ -1856,6 +1856,15 @@ main.container {
   margin: 0 0 8px;
 }
 
+/* English name + credentials under the Chinese heading, for anyone
+   cross-checking against the IntechOpen chapter or an international
+   society roster under the English form of the name. */
+.profile-name-en {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-sub);
+}
+
 /* Table of contents (about page). Ported from the stonecare-preview
    design — a quick-jump box right under the photo, for pages with enough
    h2 sections to benefit from an at-a-glance outline. */

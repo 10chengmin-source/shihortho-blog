@@ -125,6 +125,13 @@ const DOCTOR_NAME_EN = "Dr. Cheng-Min Shih";
 const DOCTOR_NAME_ZH_CN = "石承民";
 const DOCTOR_NAME_VI = "Bác sĩ Shih Cheng-Min";
 const DOCTOR_NAME_ID = "Dr. Shih Cheng-Min";
+// English form of the name, for structured-data alternateName on the zh /
+// zh-cn Physician entries — so someone searching in English still resolves
+// to the same person/page (e.g. cross-checking the IntechOpen chapter,
+// which is published under this English form). Not shown on-page there;
+// the English-locale pages already use the English name as their primary
+// heading and don't need this field.
+const DOCTOR_NAME_EN_ALT = "Cheng-Min Shih, MD, PhD";
 
 const GA_MEASUREMENT_ID = "G-5S2TFQGC2L";
 
@@ -510,6 +517,7 @@ const LOCALES = [
     rssLanguage: "zh-tw",
     siteName: SITE_NAME,
     doctorName: DOCTOR_NAME,
+    doctorAlternateName: DOCTOR_NAME_EN_ALT,
     homeDescription: HOME_DESCRIPTION_ZH,
     rssDescription: HOME_DESCRIPTION_ZH,
     aboutTitle: ABOUT_TITLE_ZH,
@@ -568,6 +576,7 @@ const LOCALES = [
     rssLanguage: "zh-cn",
     siteName: SITE_NAME_ZH_CN,
     doctorName: DOCTOR_NAME_ZH_CN,
+    doctorAlternateName: DOCTOR_NAME_EN_ALT,
     homeDescription: HOME_DESCRIPTION_ZH_CN,
     rssDescription: HOME_DESCRIPTION_ZH_CN,
     aboutTitle: ABOUT_TITLE_ZH_CN,
@@ -982,6 +991,7 @@ function buildHomeSeo(locale) {
     publisher: {
       "@type": "Physician",
       name: loc.doctorName,
+      ...(loc.doctorAlternateName ? { alternateName: loc.doctorAlternateName } : {}),
       medicalSpecialty: "https://schema.org/Orthopedic",
       image: SITE_URL + DOCTOR_PORTRAIT,
       url,
@@ -1016,6 +1026,7 @@ function buildAboutSeo(locale) {
     "@context": "https://schema.org",
     "@type": "Physician",
     name: loc.doctorName,
+    ...(loc.doctorAlternateName ? { alternateName: loc.doctorAlternateName } : {}),
     image,
     url,
     medicalSpecialty: "https://schema.org/Orthopedic",
