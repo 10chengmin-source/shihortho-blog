@@ -1856,6 +1856,17 @@ main.container {
   margin: 0 0 8px;
 }
 
+/* The name column next to the fixed 220px photo is only ~260-300px wide
+   (narrower still for vi, whose reader-content-width is tighter) — too
+   narrow for the full Latin-script name at the article-title size inherited
+   from .post-header h1, so it wrapped even with the non-breaking hyphen fix.
+   Chinese locales fit fine at the original size and are left untouched. */
+html[lang="en"] .profile-header h1,
+html[lang="vi"] .profile-header h1,
+html[lang="id"] .profile-header h1 {
+  font-size: 1.4rem;
+}
+
 /* English name + credentials under the Chinese heading, for anyone
    cross-checking against the IntechOpen chapter or an international
    society roster under the English form of the name. */
