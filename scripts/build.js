@@ -77,12 +77,27 @@ const CATEGORY_LABELS = {
   uncategorized: "最新文章",
 };
 
+// Homepage section headings (<h2>). Distinct from CATEGORY_CHIP_LABELS_EN
+// below, which is the shorter text shown as the per-article category tag —
+// a 2026-09 US English copy pass found "Dr. Shih's Philosophy of Care" etc.
+// read fine as a page heading but too long/formal for a small inline tag.
 const CATEGORY_LABELS_EN = {
-  philosophy: "Dr. Shih's Philosophy of Care",
-  announcement: "Practice News",
-  surgery: "Surgical Notes",
-  education: "Orthopedic Insights",
-  story: "Clinical Stories",
+  philosophy: "My approach to care",
+  announcement: "Practice news",
+  surgery: "Surgical notes",
+  education: "Understanding orthopedic conditions",
+  story: "Clinical stories",
+  uncategorized: "Latest",
+};
+
+// Per-article category tag (.post-category / .article-rail-category) and
+// homepage card tag — shorter than the section heading above by design.
+const CATEGORY_CHIP_LABELS_EN = {
+  philosophy: "Approach to care",
+  announcement: "Practice news",
+  surgery: "Surgery",
+  education: "Patient education",
+  story: "Clinical stories",
   uncategorized: "Latest",
 };
 
@@ -139,7 +154,7 @@ const DOCTOR_NAME_EN_ALT = "Cheng-Min Shih, MD, PhD";
 const GA_MEASUREMENT_ID = "G-5S2TFQGC2L";
 
 const PRIVACY_LINK_LABEL_ZH = "隱私權政策";
-const PRIVACY_LINK_LABEL_EN = "Privacy Policy";
+const PRIVACY_LINK_LABEL_EN = "Privacy policy";
 const PRIVACY_LINK_LABEL_ZH_CN = "隐私权政策";
 const PRIVACY_LINK_LABEL_VI = "Chính Sách Bảo Mật";
 const PRIVACY_LINK_LABEL_ID = "Kebijakan Privasi";
@@ -172,7 +187,7 @@ const LANG_SWITCH_ICON_SVG =
 const HOME_DESCRIPTION_ZH =
   "石承民醫師，臺中榮民總醫院骨科部脊椎外科醫師，分享脊椎手術、脊椎滑脫、關節退化等骨科衛教知識與臨床經驗，協助您在治療決策前先做好準備。";
 const HOME_DESCRIPTION_EN =
-  "Dr. Cheng-Min Shih, orthopedic and spine surgeon at Taichung Veterans General Hospital, shares clinical insights on spine surgery, spondylolisthesis, joint conditions, and sports injuries.";
+  "Dr. Cheng-Min Shih shares insights on spine and joint care, treatment decisions, and everyday medical practice at Taichung Veterans General Hospital.";
 const HOME_DESCRIPTION_ZH_CN =
   "石承民医师，台中荣民总医院骨科部脊柱外科医师，分享脊柱手术、脊柱滑脱、关节退化等骨科科普知识与临床经验，协助您在治疗决策前先做好准备。";
 const HOME_DESCRIPTION_VI =
@@ -181,7 +196,7 @@ const HOME_DESCRIPTION_ID =
   "Dr. Shih Cheng-Min, dokter ortopedi dan tulang belakang di Rumah Sakit Umum Veteran Taichung, berbagi wawasan klinis tentang bedah tulang belakang, spondilolistesis, radang sendi, dan cedera olahraga.";
 
 const ABOUT_TITLE_ZH = `醫師介紹｜${DOCTOR_NAME}骨科醫師・脊椎外科主任｜背後的力量`;
-const ABOUT_TITLE_EN = "About Dr. Shih | Orthopedic & Spine Surgeon | Behind the Strength";
+const ABOUT_TITLE_EN = "About Dr. Cheng-Min Shih | Orthopedic & Spine Surgeon | Behind the Strength";
 const ABOUT_TITLE_ZH_CN = "医师介绍｜石承民骨科医师・脊柱外科主任｜背后的力量";
 const ABOUT_TITLE_VI = "Giới Thiệu Bác Sĩ Shih | Bác Sĩ Phẫu Thuật Cột Sống | Sức Mạnh Đằng Sau";
 const ABOUT_TITLE_ID = "Tentang Dr. Shih | Dokter Bedah Tulang Belakang | Kekuatan di Baliknya";
@@ -189,7 +204,7 @@ const ABOUT_TITLE_ID = "Tentang Dr. Shih | Dokter Bedah Tulang Belakang | Kekuat
 const ABOUT_DESCRIPTION_ZH =
   "石承民醫師，臺中榮民總醫院骨科部脊椎外科主任，為專精脊椎手術的骨科醫師，擅長脊椎滑脫、椎間盤突出等疾病的微創治療，以及複雜脊椎翻修手術、膝髖關節重建與骨質疏鬆治療。";
 const ABOUT_DESCRIPTION_EN =
-  "Dr. Cheng-Min Shih, Chief of the Division of Spine Surgery at Taichung Veterans General Hospital and orthopedic spine surgeon specializing in spondylolisthesis, minimally invasive and complex spine surgery, spinal revision surgery, hip and knee reconstruction, and osteoporosis care.";
+  "Learn about Dr. Cheng-Min Shih's clinical training, spine and joint surgery practice, research, and approach to patient care.";
 const ABOUT_DESCRIPTION_ZH_CN =
   "石承民医师，台中荣民总医院骨科部脊柱外科主任，为专精脊柱手术的骨科医师，擅长脊柱滑脱、椎间盘突出等疾病的微创治疗，以及复杂脊柱翻修手术、膝髋关节重建与骨质疏松治疗。";
 const ABOUT_DESCRIPTION_VI =
@@ -202,7 +217,7 @@ const ABOUT_DESCRIPTION_ID =
 // Google's structured-data guidelines require FAQ markup to match the
 // on-page content it describes.
 const FAQ_HEADING_ZH = "常見問題";
-const FAQ_HEADING_EN = "Frequently Asked Questions";
+const FAQ_HEADING_EN = "Frequently asked questions";
 const FAQ_HEADING_ZH_CN = "常见问题";
 const FAQ_HEADING_VI = "Câu Hỏi Thường Gặp";
 const FAQ_HEADING_ID = "Pertanyaan yang Sering Diajukan";
@@ -240,32 +255,32 @@ const FAQ_ZH = [
 
 const FAQ_EN = [
   {
-    q: "Dr. Shih only has morning clinic hours, but I'm only free in the afternoon. Can I still be seen by him?",
+    q: "Your clinic is listed as a morning session. Can I still be seen in the afternoon?",
     a: [
-      "Of course. There's no need to worry. Unless I have an important meeting that day or need to handle an unexpected emergency surgery, my morning clinic usually runs all the way into the evening, so I'm still able to see you in the afternoon.",
-      "If the afternoon works better for you, or your registration number is further back, you're welcome to check the day's queue progress first and time your arrival accordingly, to avoid a long wait.",
+      "Yes. Unless I have an important meeting or need to perform emergency surgery, I usually continue seeing patients into the late afternoon or evening.",
+      "If the afternoon works better for you, or your appointment number is later in the queue, please check the hospital's live queue status and plan your arrival accordingly to avoid a long wait.",
     ],
   },
   {
-    q: "Does lower back pain with leg numbness always require surgery?",
-    a: "Not always. Whether it's a herniated disc, spinal stenosis, or spondylolisthesis, most cases can first be managed with rehabilitation, posture adjustments, and medication under observation. Surgery is typically recommended only when conservative treatment has limited effect and nerve compression symptoms, such as persistent numbness or weakness in the legs, continue to affect daily life.",
+    q: "Does low back pain with leg pain or numbness always require surgery?",
+    a: "No. Many cases involving a herniated disc, spinal stenosis, or spondylolisthesis can initially be managed with rehabilitation, posture changes, medication, and monitoring. Surgery is generally considered when nonsurgical treatment has not helped enough and symptoms of nerve compression, such as leg pain, numbness, or weakness, continue to interfere with daily life.",
   },
   {
-    q: "Will spine surgery damage nerves or cause paralysis?",
+    q: "Can spine surgery cause nerve damage or paralysis?",
     a: [
-      "This is genuinely one of the biggest worries for most patients. Spine surgery does carry a real risk of nerve injury, but that risk varies a great deal depending on the procedure. For common degenerative spine conditions (such as nerve compression from a herniated disc, spinal stenosis, or spondylolisthesis), serious nerve injury or paralysis after surgery is actually uncommon. For larger procedures such as major spinal deformity correction, spinal tumor removal, or other more complex surgeries, the risk of nerve injury is higher.",
-      "Modern surgery also uses tools like intraoperative neuromonitoring and image guidance, which help the surgeon track nerve status and instrument position during the procedure. That said, no surgery can ever be entirely risk-free. The actual risk still needs to be assessed individually based on each patient's condition and the specific procedure involved.",
-      "For typical degenerative spine surgery, beyond nerve function, what needs closer attention after the operation is usually whether the wound heals properly and stays free of infection, and, for fusion surgery, whether the bone fuses successfully. This isn't something only the surgeon needs to watch; it also requires the patient's cooperation during recovery.",
-      "So the safety of spine surgery isn't just about whether the nerves were injured during the procedure. How well the wound recovers and whether the bone heals properly afterward matter just as much.",
+      "This is one of the concerns patients raise most often. Spine surgery carries a risk of nerve injury, but the level of risk varies considerably by procedure. Serious nerve injury or paralysis is uncommon after surgery for common degenerative conditions such as a herniated disc, spinal stenosis, or spondylolisthesis. The risk is higher with major deformity correction, spinal tumor surgery, and other complex procedures.",
+      "Tools such as nerve monitoring and image guidance can help surgeons monitor nerve function and instrument position during surgery. No operation is completely risk-free, so the risks must be assessed for each patient's condition and planned procedure.",
+      "After surgery for a degenerative spine condition, wound healing and infection prevention are also important. After a fusion procedure, we need to monitor whether the bones heal together successfully. Your participation in recovery is part of that process.",
+      "Surgical safety includes both protecting the nerves during the operation and supporting wound and bone healing afterward.",
     ],
   },
   {
-    q: "What's the difference between minimally invasive and traditional spine surgery?",
-    a: "Minimally invasive spine surgery typically involves smaller incisions and a shorter recovery period, but it isn't suitable for every case. Whether it's appropriate depends on the severity and location of the condition and the patient's overall condition, not simply a preference for a smaller incision.",
+    q: "How does minimally invasive spine surgery differ from open surgery?",
+    a: "Minimally invasive spine surgery uses smaller incisions and often allows a shorter recovery, but it is not appropriate for every condition. The choice depends on the location and severity of the problem and your overall health, not simply the size of the incision.",
   },
   {
-    q: "When should I see an orthopedic doctor?",
-    a: "If you have persistent lower back pain, radiating pain or numbness in the legs, or a noticeably shorter walking distance before symptoms appear, it's worth having a further evaluation by an orthopedic or surgical doctor with spine expertise, combining your symptoms, physical exam, and imaging findings so you can discuss observation, rehabilitation, medication, or surgery together based on the actual findings.",
+    q: "When should I see an orthopedic specialist?",
+    a: "If you have persistent low back pain, pain or numbness traveling down a leg, or a noticeable decrease in how far you can walk, consider an evaluation by a physician with expertise in spine care. Your symptoms, physical examination, and imaging findings will help guide a discussion of monitoring, rehabilitation, medication, or surgery.",
   },
 ];
 
@@ -385,14 +400,20 @@ const SUBSCRIBE_COPY_ZH = {
 };
 
 const SUBSCRIBE_COPY_EN = {
-  label: "Article Updates",
-  heading: "Get notified about new articles",
-  desc: "Receive an email when a new article is published. Unsubscribe anytime.",
+  label: "Article updates",
+  heading: "Get new articles by email",
+  desc: "Receive an email when a new article is published. Unsubscribe at any time.",
   placeholder: "Email address",
   submit: "Subscribe",
-  success: "Thanks — check your inbox to confirm your subscription.",
-  error: "Something went wrong. Please try again later.",
+  success: "Thank you. Check your inbox to confirm your subscription.",
+  error: "We couldn't process your subscription. Please try again later.",
   invalid: "Please enter a valid email address.",
+  // The confirmed*/unsubscribed*/backLink fields below are documentation
+  // only (kept in sync with supabase/functions/_shared/locales.ts's email
+  // copy, out of scope for the website copy pass) — the actual
+  // /en/subscribe/confirmed/ and /en/subscribe/unsubscribed/ pages are
+  // hand-authored HTML, not generated from this object. Edit those files
+  // directly for on-page copy changes.
   confirmedHeading: "Confirm Subscription",
   confirmedSuccess: "You're subscribed to new article notifications.",
   confirmedError: "This confirmation link is invalid or expired — please subscribe again.",
@@ -470,8 +491,8 @@ const SHARE_COPY_EN = {
   line: "Share on LINE",
   copy: "Copy link",
   copied: "Link copied",
-  more: "More options",
-  site: "Share this site",
+  more: "More sharing options",
+  site: "Share this website",
 };
 
 const SHARE_COPY_ZH_CN = {
@@ -557,11 +578,12 @@ const LOCALES = [
     faqHeading: FAQ_HEADING_EN,
     faq: FAQ_EN,
     hospitalName: "Taichung Veterans General Hospital",
-    bookingToggleLabel: "Book an Appointment",
+    bookingToggleLabel: "Book an appointment",
     hospitalNameShort: "Taichung VGH (Mon & Thu AM)",
     secondHospitalNameShort: "Cheng Te Hospital (Fri PM)",
     alumniOf: ["National Yang Ming Chiao Tung University", "Kaohsiung Medical University"],
     categoryLabels: CATEGORY_LABELS_EN,
+    categoryChipLabels: CATEGORY_CHIP_LABELS_EN,
     relatedChipStyle: "code",
     langSwitchSelfLabel: "English",
     subscribeCopy: SUBSCRIBE_COPY_EN,
@@ -703,7 +725,7 @@ const FRIEND_LINKS = [
 
 const FRIEND_LINKS_HEADING = {
   zh: "友好連結",
-  en: "Partner Links",
+  en: "Follow Dr. Shih",
   "zh-cn": "友情链接",
   vi: "Liên Kết Đối Tác",
   id: "Tautan Mitra",
@@ -1232,7 +1254,7 @@ ${rowsHtml}
 // explicit read affordance at the end, matching the stonecare-preview design.
 const READ_LABEL = {
   zh: "閱讀文章",
-  en: "Read the article",
+  en: "Read article",
   "zh-cn": "阅读文章",
   vi: "Đọc bài viết",
   id: "Baca artikel",
@@ -1240,7 +1262,7 @@ const READ_LABEL = {
 
 const MORE_READING_LABEL = {
   zh: "更多文章",
-  en: "More reading",
+  en: "More articles",
   "zh-cn": "更多文章",
   vi: "Đọc thêm",
   id: "Baca lainnya",
@@ -1369,21 +1391,21 @@ ${listHtml}
 const EDUCATION_TOPIC_LABELS = {
   "20260802-symptom-location-vs-source": {
     zh: "症狀與原因",
-    en: "Symptoms & Causes",
+    en: "Symptoms and causes",
     "zh-cn": "症状与原因",
     vi: "Triệu Chứng & Nguyên Nhân",
     id: "Gejala & Penyebab",
   },
   "20260802-why-xray-with-mri": {
     zh: "檢查與診斷",
-    en: "Tests & Diagnosis",
+    en: "Tests and diagnosis",
     "zh-cn": "检查与诊断",
     vi: "Xét Nghiệm & Chẩn Đoán",
     id: "Pemeriksaan & Diagnosis",
   },
   "20260802-when-pain-affects-life": {
     zh: "疼痛與生活",
-    en: "Pain & Daily Life",
+    en: "Pain and daily life",
     "zh-cn": "疼痛与生活",
     vi: "Đau & Cuộc Sống",
     id: "Nyeri & Kehidupan",
@@ -1429,7 +1451,7 @@ ${restHtml}
 
 const RELATED_HEADING = {
   zh: "延伸閱讀",
-  en: "Further Reading",
+  en: "Related articles",
   "zh-cn": "延伸阅读",
   vi: "Đọc Thêm",
   id: "Baca Juga",
@@ -1561,7 +1583,7 @@ function estimateReadTime(html) {
     .replace(/&[a-z#0-9]+;/gi, " ");
   const words = text.split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.round(words / 200));
-  return `Approx. ${minutes} min read`;
+  return `About ${minutes} minute${minutes === 1 ? "" : "s"}`;
 }
 
 function updateArticleReadTime(article) {
@@ -2173,7 +2195,7 @@ function main() {
   for (const locale of LOCALES) {
     const articles = articlesByLocale[locale.code];
     articles.forEach(updateArticleUpdatedMarker);
-    articles.forEach((a) => updateArticleCategoryLabel(a, locale.categoryLabels));
+    articles.forEach((a) => updateArticleCategoryLabel(a, locale.categoryChipLabels || locale.categoryLabels));
     articles.forEach((a) => updateArticlePostDate(a, locale.code));
     if (locale.code === "en") articles.forEach(updateArticleReadTime);
     updateHomepageCards(
