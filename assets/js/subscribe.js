@@ -26,11 +26,13 @@
       var email = (emailInput.value || "").trim();
       if (!EMAIL_RE.test(email)) {
         status.textContent = invalidMsg;
+        status.dataset.state = "invalid";
         return;
       }
 
       submitBtn.disabled = true;
       status.textContent = "";
+      delete status.dataset.state;
 
       fetch(config.url + "/functions/v1/subscribe", {
         method: "POST",
@@ -53,13 +55,16 @@
         .then(function (data) {
           if (data && data.ok) {
             status.textContent = successMsg;
+            status.dataset.state = "success";
             form.reset();
           } else {
             status.textContent = errorMsg;
+            status.dataset.state = "error";
           }
         })
         .catch(function () {
           status.textContent = errorMsg;
+          status.dataset.state = "error";
         })
         .then(function () {
           submitBtn.disabled = false;

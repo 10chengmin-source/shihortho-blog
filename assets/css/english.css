@@ -24,53 +24,16 @@
   --font-sans: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 }
 
-/* Dark is the site-wide default (see style.css :root) — mirror that
-   structure for English with its own dark palette. */
-:is(html[lang="en"], html[lang="vi"], html[lang="id"]) {
-  --color-bg: #101b2b;
-  --color-bg-rgb: 16, 27, 43;
-  --color-surface: #17263b;
-  --color-surface-raised: #1c2d43;
-  --color-ink: #eef4fc;
-  --color-sub: #b6c5d8;
-  --color-line: #344860;
-  --color-accent: #83b8ff;
-  --color-accent-fill: #2f6fe4;
-  --color-accent-ink: #ffffff;
-  --color-amber: #83b8ff;
-}
-
-:is(html[lang="en"], html[lang="vi"], html[lang="id"])[data-color-mode="light"] {
-  --color-bg: #ffffff;
-  --color-bg-rgb: 255, 255, 255;
-  --color-surface: #ffffff;
-  --color-surface-raised: #f2f6fb;
-  --color-ink: #132d4b;
-  --color-sub: #536478;
-  --color-line: #dce3ec;
-  --color-accent: #155dc5;
-  --color-accent-fill: #155dc5;
-  --color-accent-ink: #ffffff;
-  --color-amber: #155dc5;
-}
-
-/* No-JS-and-light-OS-preference fallback, mirroring style.css's own
-   html:not([data-color-mode]) block. */
-@media (prefers-color-scheme: light) {
-  :is(html[lang="en"], html[lang="vi"], html[lang="id"]):not([data-color-mode]) {
-    --color-bg: #ffffff;
-    --color-bg-rgb: 255, 255, 255;
-    --color-surface: #ffffff;
-    --color-surface-raised: #f2f6fb;
-    --color-ink: #132d4b;
-    --color-sub: #536478;
-    --color-line: #dce3ec;
-    --color-accent: #155dc5;
-    --color-accent-fill: #155dc5;
-    --color-accent-ink: #ffffff;
-    --color-amber: #155dc5;
-  }
-}
+/* Colors used to be overridden here too (English's navy/blue palette vs.
+   zh/zh-cn's separate dark-green one). The 2026-09 site-wide color
+   unification made English's palette the shared one for every locale —
+   see style.css's :root / html[data-color-mode="light"] / the no-JS
+   @media(prefers-color-scheme:light) fallback, which are now the single
+   source of truth for --color-bg/-surface/-ink/-text/-sub/-line/-accent/
+   -accent-hover/-accent-fill/-accent-ink/-amber in both light and dark
+   mode. Don't reintroduce a color override block here — every locale reads
+   the same tokens now, which is the whole point; duplicating them here
+   would just risk the two copies drifting apart again. */
 
 /* ---------- Type ---------- */
 

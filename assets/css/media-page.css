@@ -125,7 +125,7 @@
   min-height: 340px;
   padding: 34px;
   color: #fff;
-  background-color: #16281f;
+  background-color: #101b2b;
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -135,7 +135,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10, 26, 19, 0.35) 0%, rgba(10, 26, 19, 0.78) 100%);
+  background: linear-gradient(180deg, rgba(16, 27, 43, 0.35) 0%, rgba(16, 27, 43, 0.78) 100%);
 }
 
 .media-video-cover > * {
@@ -144,7 +144,7 @@
 }
 
 .media-cover-label {
-  color: #d9e6dd;
+  color: #c7d6ea;
   font-size: 0.85rem;
   letter-spacing: 0.08em;
 }
@@ -425,7 +425,7 @@
   min-height: 220px;
   padding: 32px;
   color: #fff;
-  background-color: #16281f;
+  background-color: #101b2b;
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -435,7 +435,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, rgba(10, 26, 19, 0.3) 0%, rgba(10, 26, 19, 0.75) 100%);
+  background: linear-gradient(160deg, rgba(16, 27, 43, 0.3) 0%, rgba(16, 27, 43, 0.75) 100%);
 }
 
 .media-lecture-cover > * {
