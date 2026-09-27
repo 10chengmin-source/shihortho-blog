@@ -1,40 +1,48 @@
 # English design system (en/ locale only)
 
 `/en/` has its own visual design, separate from zh/zh-cn/vi/id: white
-background, dark-navy/blue accent, system-ui sans-serif everywhere (no
-Georgia, no CJK font), name-as-headline hero/about pages, and a reading-rail
-sidebar on articles. It shares every template, script and BUILD-marker
-mechanism with the other locales — nothing about the content pipeline
-forked — it is purely a CSS reskin plus a handful of English-only markup
-additions. Never touch zh/zh-cn/vi/id's design while working on English.
+background, dark-navy/blue accent, system-ui sans-serif, name-as-headline
+hero/about pages, and a reading-rail sidebar on articles. It shares every
+template, script and BUILD-marker mechanism with the other locales — nothing
+about the content pipeline forked — it is purely a CSS reskin plus a handful
+of English-only markup additions. Never touch zh/zh-cn/vi/id's *content* or
+*brand color* while working on English; shared layout primitives (see the
+"Shared cross-locale fixes" section below) are fair game and increasingly
+common after the 2026-09 multilingual audit.
 
 ## How it works
 
-- **`assets/css/english.css`** is the only file that carries the visual
-  design. It is linked only from `en/**/*.html` (right after
+- **`assets/css/english.css`** is the only file that carries English's own
+  visual design. It is linked only from `en/**/*.html` (right after
   `style.css`), and every rule inside it is scoped under `html[lang="en"]`
   so it cannot leak onto another locale even if a class name collides.
   Almost the entire reskin works by overriding the same `--color-*`,
-  `--font-serif`/`--font-mono`/`--font-sans`, `--radius` and `--wide-max`
-  custom properties every shared component already reads — so most of
-  style.css's components (`.feature-story`, `.team-grid`,
+  `--font-serif`/`--font-mono`/`--font-sans`/`--font-brand`, `--radius` and
+  `--wide-max` custom properties every shared component already reads — so
+  most of style.css's components (`.feature-story`, `.team-grid`,
   `.education-grid`, `.faq-block`, `.related-articles`, `.subscribe-block`,
   media-page.css's `.media-*` classes, etc.) reskin for free with zero
   markup changes. Only add a hard-coded color/font value to english.css if
   overriding a token genuinely can't reach it.
-- **CSS comments in this file must never contain a literal `*/` inside the
-  prose** (e.g. writing "color-*/font-*" as shorthand) — that string
-  prematurely closes the comment and silently corrupts everything parsed
-  after it until the next real `*/`, with no error in the browser console.
-  This exact bug shipped once during the 2026-09 redesign (the entire
-  design-token block silently failed to parse) — always write out words
-  like "and" instead of using `*/` as a separator inside a comment.
-- Nav never collapses into a hamburger on English pages: the
-  `<button class="nav-toggle">` element is simply omitted from `en/`
-  page markup (it's still present on every other locale), so
-  `assets/js/mobile-nav.js` no-ops there (it early-returns when the toggle
-  is missing) and english.css just keeps `.site-nav` visible and wrapping
-  at every width instead.
+- **CSS comments in this file (and style.css) must never contain a literal
+  `*/` inside the prose** (e.g. writing "color-*/font-*" as shorthand) —
+  that string prematurely closes the comment and silently corrupts
+  everything parsed after it until the next real `*/`, with no error in the
+  browser console. This exact bug shipped once during the 2026-09 redesign
+  (the entire design-token block silently failed to parse) — always write
+  out words like "and" instead of using `*/` as a separator inside a
+  comment.
+- Nav is a compact two-part header on English: a masthead row (logo + the
+  one essential "Book an Appointment" button + a hamburger toggle) and a
+  separate `.site-nav` row (the six section links, LINE, language, share)
+  that's always its own row via `flex-basis: 100%` and collapses behind the
+  hamburger below 860px. This replaced an earlier "no hamburger, nav always
+  wraps inline" version that turned out to make the collapsed mobile header
+  too tall (2026-09 multilingual audit) — if you see a claim anywhere that
+  English has no hamburger, it's stale; don't restore that behavior.
+  `assets/js/mobile-nav.js` has a small English-only fixed-breakpoint branch
+  for this (guarded by `document.documentElement.lang === "en"`, so it
+  can't affect the other locales' own fits-on-one-line collapse logic).
 - The doctor's name ("Cheng-Min Shih") must stay on one line, with "MD,
   PhD" attached, at any width including 320px — done with
   `container-type: inline-size` on the hero/profile wrapper and a
@@ -74,9 +82,9 @@ locale, no separate English article list to maintain. What you must include
 by hand when creating a new `en/<slug>/index.html`:
 
 1. Copy the chrome (head boilerplate, `<link>` to `english.css` right after
-   `style.css`, header/nav *without* a `.nav-toggle` button, footer) from
-   the most recently published English article rather than an older one,
-   in case the design has moved on.
+   `style.css`, header/nav including the masthead `.nav-toggle` button,
+   footer) from the most recently published English article rather than an
+   older one, in case the design has moved on.
 2. Wrap the `<article class="post">` in
    `<div class="article-layout"><aside class="article-rail">…</aside>
    <article class="post">…</article></div>` — see any existing English
@@ -96,6 +104,102 @@ by hand when creating a new `en/<slug>/index.html`:
    locale — see the article-notification workflow below); if English isn't
    ready yet, say so and don't publish a placeholder or Chinese text under
    an English URL.
+
+# Shared cross-locale fixes (2026-09 multilingual audit)
+
+An audit of all five locales (see the conversation history / the report at
+the time, `SITE_AUDIT_FOR_CLAUDE_CODE.md`) found layout and translation
+issues across zh/zh-cn/vi/id, not just English. The user explicitly
+authorized touching shared templates/CSS for every locale for this — an
+earlier, narrower "English only" restriction from before that audit no
+longer applies. What changed, and the rules to keep it that way:
+
+- **Typography is sans-serif site-wide now.** `--font-serif` (which drives
+  most headings/titles everywhere) is a real sans stack per locale
+  (`"Noto Sans TC"`/`"Noto Sans SC"` + system CJK sans fallbacks for
+  zh/zh-cn, `system-ui` for en/vi/id) instead of the old self-hosted Noto
+  *Serif* TC / Georgia look. Brand identity is preserved separately: `.logo`
+  reads a new `--font-brand` token instead, which still resolves to the
+  self-hosted serif on zh (and a serif SC stack on zh-cn) — so the
+  "S" mark + wordmark keep their distinct look while every other heading on
+  the page is a clean sans face. `--font-mono` (eyebrows/category labels)
+  was also retired in favor of `--font-sans` /`system-ui` — it read as
+  low-contrast "code" styling, not normal interface text. Never reintroduce
+  a bare monospace stack for body-adjacent UI text, and never point
+  `--font-serif` back at Georgia for vi/id (poor Vietnamese diacritic
+  support was part of why it changed).
+- **Mobile hero/About order is title-then-photo everywhere.** Both
+  `.hero`'s `.hero-visual` and `.profile-header`'s photo `<div>` used to
+  force themselves to the top of the mobile single-column layout via
+  `order: -1`/DOM order; removing that (plus a matching order-swap for
+  `.profile-header`) means the name/intro appear before the portrait on
+  every locale's phone view. English already had its own equivalent fix; it
+  now just falls out of the same shared rule.
+- **The About page's intro paragraph lives in the profile-header itself**
+  (`.profile-intro-text`, right after the name/`.profile-name-en`), not as
+  the first paragraph of `.post-content` below it — this is what actually
+  keeps the intro visible before the photo on mobile, not just the name. If
+  you ever add a new locale's About page, put the "I am Dr. ..." sentence
+  there, not back in `.post-content`.
+- **en/vi/id About pages now group Current Position/Education and Training
+  & Experience the same way**: `.credential-columns` (a 2-up grid, one
+  `<section>` per group) for the first, `.training-copy > .training-group`
+  (one `<section class="training-group">` with an `<h3 class="training-
+  label">` per topic — clinical training & certification / advanced
+  training & mentorship / professional memberships & recognition / research
+  & innovation) for the second. The `<article class="post">` also needs
+  `class="post profile-post"` for the wider shell these need
+  (`.post-content`/`.faq-block`/`.article-toc` inside still narrow back down
+  to a normal reading width — see style.css). **zh/zh-cn's About page is
+  explicitly excluded from this** — their Training & Experience stays one
+  long flowing paragraph, since it's protected content (see below); do not
+  fragment it into cards no matter how tempting the parallel looks.
+- **`.article-toc` (the About page's "On this page" box) is a slim inline
+  bar for every locale now**, not a padded card — a page outline shouldn't
+  be taller than the heading it sits under. `.post-content h2[id]`,
+  `.credential-columns[id]` and `.faq-heading[id]` all got
+  `scroll-margin-top` so jumping to one of these anchors doesn't land it
+  half-hidden under the sticky header.
+- **The 320px mobile header no longer lets a long brand name push the
+  hamburger onto its own row.** `.site-header .container` is a
+  `minmax(0,1fr) auto` grid below 640px for every locale except English
+  (which has its own masthead structure — see above): the logo can wrap
+  onto two lines if it has to, but the toggle button always stays on the
+  first line next to it. This was specifically a problem for vi/id, whose
+  brand names run longer than zh's.
+- **`readMeta()` in `scripts/build.js` now decodes HTML entities** before
+  handing a title/excerpt back to the rest of the pipeline. Meta tags
+  necessarily store `"` as `&quot;` (required inside a quoted attribute),
+  but every caller re-escapes with `escapeHtml()`/`escapeXml()` wherever it
+  places the value back into HTML/XML — leaving it pre-escaped meant a
+  title containing a quote mark rendered as the literal text `&quot;Foo
+  &quot;` on the page (id's `20260802-why-ask-again` was the article that
+  surfaced this). If you ever add a second meta-reading helper, decode
+  there too — the fix must live at the one point data enters the pipeline,
+  not patched at each output site.
+- **`_redirects` (repo root, copied into `dist/` by `scripts/prepare-
+  dist.js`) explicitly redirects `/zh-cn/booking/`, `/vi/booking/` and
+  `/id/booking/` to their locale's homepage.** Those three locales have no
+  dedicated booking page (their nav's booking-switch dropdown already
+  covers it inline) — without the redirect, Cloudflare Pages' fallback
+  silently served the zh homepage at those URLs with a 200 status. Add a
+  real page under a locale's `booking/` directory (mirroring `en/booking/`)
+  instead of just deleting its `_redirects` line, if that locale ever gets
+  its own booking page.
+- **Protected content (zh `/` and zh-cn `/zh-cn/`)**: existing body copy,
+  headings, excerpts, captions, FAQ and medical claims are never reworded,
+  re-punctuated or reordered within a paragraph by any of the above — only
+  container/font/spacing/block-position changes apply to them. When
+  verifying a change here, diff extracted visible text (tags/attributes
+  stripped, whitespace normalized) against the last commit rather than
+  comparing raw HTML — the version-hash query strings and BUILD-marker
+  regions change on every build regardless of content edits, so a raw diff
+  always shows noise.
+- **Name order (Cheng-Min Shih vs Shih Cheng-Min)** is intentionally
+  different across locales (en: given-name-first; vi/id: family-name-first)
+  and is internally consistent within each — this was audited and is a
+  deliberate per-locale choice, not a bug to "fix" toward one convention.
+  Don't silently change it in either direction without the user asking.
 
 # Article notification workflow
 

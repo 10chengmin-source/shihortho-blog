@@ -1,0 +1,9 @@
+# zh-cn/vi/id have no dedicated /booking/ page (only zh and en do — the
+# booking-switch dropdown in their nav already covers appointment links
+# inline). Without this, Cloudflare Pages' SPA fallback silently served the
+# Traditional Chinese homepage at these URLs with a 200 status, which the
+# 2026-09 multilingual audit flagged as a broken/deceptive route. Redirect
+# explicitly to each locale's own homepage instead of leaving that stand.
+/zh-cn/booking/* /zh-cn/ 302
+/vi/booking/* /vi/ 302
+/id/booking/* /id/ 302

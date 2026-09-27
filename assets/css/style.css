@@ -20,10 +20,19 @@
   --color-amber: #d7bc86;
   --color-line-brand: #06c755;
   --radius: 6px;
-  --font-serif: "Noto Serif TC", "PMingLiU", "PingFang TC", serif;
+  /* --font-serif drives most headings/titles site-wide; --font-brand is the
+     one place that still gets to look distinctly "brand" (the logo) even on
+     locales whose --font-serif is now a plain sans stack — see the 2026-09
+     multilingual-audit note below the per-locale block. */
+  --font-serif: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-brand: "Noto Serif TC", "PMingLiU", "PingFang TC", serif;
   --font-sans: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", -apple-system,
     BlinkMacSystemFont, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace;
+  /* Was a monospace stack; eyebrows/categories/meta labels set in it read as
+     low-contrast "code" styling rather than normal interface text (2026-09
+     multilingual audit). Reuses --font-sans everywhere except en/vi/id,
+     which override it to system-ui below, same as --font-serif. */
+  --font-mono: var(--font-sans);
 
   /* Article-typography bases — one set of "reading comfort" defaults per
      locale (font-size/line-height/column-width/paragraph-gap), tuned to how
@@ -75,17 +84,25 @@
    and Simplified Chinese read comfortably narrower, measured in characters
    (em); Latin scripts read comfortably wider, measured in ch. */
 /* --font-serif is also set per html[lang] here, not just the reader-*
-   tokens. Only zh-Hant actually references the self-hosted Noto Serif TC
-   @font-face below (its family name is "Noto Serif TC", matched here) —
-   zh-CN gets its own Simplified-appropriate system stack, and en/vi/id get
-   a plain Latin serif, so no locale downloads or renders a CJK font its
-   script doesn't need. See assets/fonts/README.md for the subset. */
+   tokens. 2026-09 multilingual audit: the site's main reading layer (nav,
+   article titles, section headings, interface text) read as too heavily
+   serif/monospace across every non-English locale, which the audit called
+   dated rather than clean. --font-serif is now a genuine sans stack for
+   every locale — zh/zh-CN use system CJK sans fonts (no self-hosting
+   needed, PingFang TC/SC and Microsoft JhengHei/YaHei cover iOS/macOS/
+   Windows; "Noto Sans TC/SC" simply won't match and falls through since
+   it isn't self-hosted here), vi/id now match English's system-ui stack
+   instead of Georgia (better Vietnamese diacritic coverage, no serif/sans
+   mismatch between English and its two closest sibling locales). Brand
+   identity (the logo, .logo only) keeps its serif look on purpose via the
+   separate --font-brand token above — see assets/fonts/README.md for the
+   self-hosted Noto Serif TC subset it still uses on zh-Hant. */
 html[lang="zh-Hant"] {
   --reader-font-size-base: 1.125rem;
   --reader-line-height-base: 1.85;
   --reader-content-width-base: 33em;
   --reader-paragraph-gap-base: 1.35em;
-  --font-serif: "Noto Serif TC", "PMingLiU", "PingFang TC", serif;
+  --font-serif: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
 }
 
 html[lang="zh-CN"] {
@@ -93,7 +110,8 @@ html[lang="zh-CN"] {
   --reader-line-height-base: 1.82;
   --reader-content-width-base: 34em;
   --reader-paragraph-gap-base: 1.35em;
-  --font-serif: "Noto Serif SC", "Songti SC", "Source Han Serif SC", "SimSun", serif;
+  --font-serif: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-brand: "Noto Serif SC", "Songti SC", "Source Han Serif SC", "SimSun", serif;
 }
 
 html[lang="en"] {
@@ -101,7 +119,9 @@ html[lang="en"] {
   --reader-line-height-base: 1.7;
   --reader-content-width-base: 64ch;
   --reader-paragraph-gap-base: 1.3em;
-  --font-serif: Georgia, "Noto Serif", "Times New Roman", serif;
+  --font-serif: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-brand: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-mono: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 }
 
 html[lang="vi"] {
@@ -109,7 +129,9 @@ html[lang="vi"] {
   --reader-line-height-base: 1.78;
   --reader-content-width-base: 60ch;
   --reader-paragraph-gap-base: 1.3em;
-  --font-serif: Georgia, "Noto Serif", "Times New Roman", serif;
+  --font-serif: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-brand: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-mono: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 }
 
 html[lang="id"] {
@@ -117,7 +139,9 @@ html[lang="id"] {
   --reader-line-height-base: 1.72;
   --reader-content-width-base: 64ch;
   --reader-paragraph-gap-base: 1.3em;
-  --font-serif: Georgia, "Noto Serif", "Times New Roman", serif;
+  --font-serif: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-brand: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-mono: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 }
 
 /* Cool, clean off-white palette (deliberately not warm cream — matches the
@@ -273,7 +297,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-family: var(--font-serif);
+  font-family: var(--font-brand);
   font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -672,7 +696,6 @@ a {
 
   .hero-visual {
     height: 340px;
-    order: -1;
   }
 }
 
@@ -1856,6 +1879,113 @@ main.container {
   margin: 0 0 8px;
 }
 
+/* Grouped-experience layout for the About page's Current Position/Education
+   and Training & Experience sections — originally English-only, now shared
+   since vi/id also group their (translated) experience into named sections
+   instead of one long paragraph (2026-09 multilingual audit). zh/zh-cn keep
+   their existing single flowing paragraph — this protected content is never
+   split into cards — so neither locale references these classes. */
+/* So jumping to an in-page anchor (the About page's "On this page" list, or
+   a homepage #category link) doesn't land the target right under the sticky
+   header where it's half-hidden (2026-09 multilingual audit). */
+.post-content h2[id],
+.credential-columns[id],
+.faq-heading[id] {
+  scroll-margin-top: 90px;
+}
+
+/* .profile-post is added to an About page's <article class="post"> whose
+   locale uses the grouped-experience layout (en/vi/id) so its hero/
+   credentials/training sections can use a wider shell than the narrow
+   article reading column, while .post-content/.faq-block/.article-toc
+   inside it stay at a comfortable reading width. zh/zh-cn's About page
+   keeps the plain narrow .post — their long-form experience paragraph is
+   protected content and isn't split into this layout. */
+.post.profile-post {
+  max-width: 1200px;
+}
+
+.profile-post .post-content,
+.profile-post .faq-block,
+.profile-post .article-toc {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-intro-text {
+  margin: 18px 0 0;
+  max-width: 46ch;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-sub);
+}
+
+.credential-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin: 0 0 8px;
+}
+
+.credential-columns h3 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+  margin: 0 0 18px;
+}
+
+.credential-columns ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.credential-columns li {
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-ink);
+}
+
+.credential-columns li:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.training-group {
+  padding: 0 0 26px;
+  margin: 0 0 26px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.training-group:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.training-label {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  margin: 0 0 10px;
+}
+
+@media (max-width: 640px) {
+  .credential-columns {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
 /* The name column next to the fixed 220px photo is only ~260-300px wide
    (narrower still for vi, whose reader-content-width is tighter) — too
    narrow for the full Latin-script name at the article-title size inherited
@@ -1879,31 +2009,40 @@ html[lang="id"] .profile-header h1 {
 /* Table of contents (about page). Ported from the stonecare-preview
    design — a quick-jump box right under the photo, for pages with enough
    h2 sections to benefit from an at-a-glance outline. */
+/* Slim inline bar, not a padded card — a page outline shouldn't be taller
+   than the heading it sits under (2026-09 multilingual audit; was English
+   -only, now shared since every locale's About page wants it compact). */
 .article-toc {
   display: flex;
-  flex-direction: column;
-  padding: 20px 24px;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius);
-  background: var(--color-surface);
-  margin: 28px 0;
-  font-size: 0.92rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 22px;
+  padding: 10px 0;
+  border: none;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  border-radius: 0;
+  background: transparent;
+  margin: 20px 0;
+  font-size: 0.85rem;
 }
 
 .article-toc strong {
   font-weight: 600;
   color: var(--color-ink);
-  margin-bottom: 6px;
+  margin-bottom: 0;
+  margin-right: 4px;
 }
 
 .article-toc a {
   display: block;
-  padding: 8px 0;
-  min-height: 44px;
+  padding: 6px 0;
+  min-height: 0;
   line-height: 28px;
   color: var(--color-accent);
   text-decoration: none;
-  border-top: 1px solid var(--color-line);
+  border-top: none;
 }
 
 .post-category {
@@ -2465,6 +2604,18 @@ html[lang="id"] .profile-header h1 {
     grid-template-columns: 1fr;
   }
 
+  /* Name/credentials before the photo on a phone — otherwise the portrait
+     pushes the doctor's own name below the first screen. Desktop keeps
+     photo-first (unchanged; no order set there). English already does
+     this at its own, wider collapse breakpoint (see english.css). */
+  .profile-header > div:first-child {
+    order: 2;
+  }
+
+  .profile-header > div:last-child {
+    order: 1;
+  }
+
   .profile-photo-frame {
     max-width: 220px;
   }
@@ -2476,6 +2627,29 @@ html[lang="id"] .profile-header h1 {
 
   .nav-toggle {
     display: inline-flex;
+  }
+
+  /* Logo and the hamburger always share one row, even when the brand name
+     wraps onto two lines (vi/id run noticeably longer than zh/en at this
+     width) — a plain flex-wrap row let a long enough brand name push the
+     toggle button onto its own line below, inflating the collapsed
+     header's height well past what the button+logo actually need. Not
+     scoped for English, which has its own masthead layout (booking-switch
+     + toggle live outside .site-nav there — see assets/css/english.css). */
+  html:not([lang="en"]) .site-header .container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 0;
+  }
+
+  html:not([lang="en"]) .logo {
+    min-width: 0;
+  }
+
+  html:not([lang="en"]) .site-nav {
+    grid-column: 1 / -1;
   }
 
   .site-nav {

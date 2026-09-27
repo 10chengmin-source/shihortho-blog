@@ -95,13 +95,16 @@ const CATEGORY_LABELS_ZH_CN = {
   uncategorized: "最新文章",
 };
 
+// Sentence case, not title case — Vietnamese doesn't capitalize every word
+// the way English does; only the first word and proper nouns (2026-09
+// multilingual audit).
 const CATEGORY_LABELS_VI = {
-  philosophy: "Triết Lý Điều Trị Của Bác Sĩ Shih",
-  announcement: "Tin Tức Phòng Khám",
-  surgery: "Ghi Chép Phẫu Thuật",
-  education: "Kiến Thức Chỉnh Hình",
-  story: "Câu Chuyện Lâm Sàng",
-  uncategorized: "Mới Nhất",
+  philosophy: "Triết lý điều trị của bác sĩ Shih",
+  announcement: "Tin tức phòng khám",
+  surgery: "Ghi chép phẫu thuật",
+  education: "Kiến thức chỉnh hình",
+  story: "Câu chuyện lâm sàng",
+  uncategorized: "Mới nhất",
 };
 
 const CATEGORY_LABELS_ID = {
@@ -706,6 +709,24 @@ const FRIEND_LINKS_HEADING = {
   id: "Tautan Mitra",
 };
 
+// Reverses escapeHtml() — meta tags necessarily store their content
+// HTML-escaped (a literal " would break the attribute), but every caller of
+// readMeta() treats the returned value as plain text and re-escapes it with
+// escapeHtml() wherever it's placed back into HTML (or escapeXml() for RSS,
+// or plain JSON.stringify for structured data). Returning the still-escaped
+// string here made that a double-escape for any title/excerpt containing a
+// quote — e.g. a meta value of `&quot;Foo&quot;` would render on the page as
+// the literal text `&quot;Foo&quot;` instead of "Foo". Decoding once here
+// keeps exactly one escape/decode round-trip end to end.
+function decodeHtmlEntities(str) {
+  return String(str)
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+}
+
 function readMeta(html, name) {
   // content is always double-quoted in this codebase; only "
   // terminates the match so apostrophes in English copy ("It's",
@@ -715,7 +736,7 @@ function readMeta(html, name) {
     "i"
   );
   const m = html.match(re);
-  return m ? m[1] : null;
+  return m ? decodeHtmlEntities(m[1]) : null;
 }
 
 function gitLastModified(absPath) {
