@@ -1,5 +1,5 @@
 /* English-locale visual redesign, loaded only on /en/ pages, after
-   style.css. Every rule here is scoped under html[lang="en"] so it can
+   style.css. Every rule here is scoped under :is(html[lang="en"], html[lang="vi"], html[lang="id"]) so it can
    never leak onto zh/zh-cn/vi/id, which keep the site's original serif
    green design untouched. Structure, interactivity and data (nav markup,
    BUILD-marker regions, subscribe/share/booking-switch/lang-switch,
@@ -12,7 +12,7 @@
 
 /* ---------- Design tokens ---------- */
 
-html[lang="en"] {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) {
   --wide-max: 1200px;
   --radius: 8px;
   /* No web fonts: system-ui/Segoe UI/Arial only, per the design brief. This
@@ -26,7 +26,7 @@ html[lang="en"] {
 
 /* Dark is the site-wide default (see style.css :root) — mirror that
    structure for English with its own dark palette. */
-html[lang="en"] {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) {
   --color-bg: #101b2b;
   --color-bg-rgb: 16, 27, 43;
   --color-surface: #17263b;
@@ -40,7 +40,7 @@ html[lang="en"] {
   --color-amber: #83b8ff;
 }
 
-html[lang="en"][data-color-mode="light"] {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"])[data-color-mode="light"] {
   --color-bg: #ffffff;
   --color-bg-rgb: 255, 255, 255;
   --color-surface: #ffffff;
@@ -57,7 +57,7 @@ html[lang="en"][data-color-mode="light"] {
 /* No-JS-and-light-OS-preference fallback, mirroring style.css's own
    html:not([data-color-mode]) block. */
 @media (prefers-color-scheme: light) {
-  html[lang="en"]:not([data-color-mode]) {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]):not([data-color-mode]) {
     --color-bg: #ffffff;
     --color-bg-rgb: 255, 255, 255;
     --color-surface: #ffffff;
@@ -74,35 +74,35 @@ html[lang="en"][data-color-mode="light"] {
 
 /* ---------- Type ---------- */
 
-html[lang="en"] h1,
-html[lang="en"] h2,
-html[lang="en"] h3,
-html[lang="en"] .logo,
-html[lang="en"] .section-title,
-html[lang="en"] .feature-story-title,
-html[lang="en"] .side-story-title,
-html[lang="en"] .quote-story-title,
-html[lang="en"] .team-main-title,
-html[lang="en"] .team-list-title,
-html[lang="en"] .education-grid h3,
-html[lang="en"] .related-title,
-html[lang="en"] .faq-heading,
-html[lang="en"] .subscribe-block-heading,
-html[lang="en"] .notice-title,
-html[lang="en"] .media-feature-body h3,
-html[lang="en"] .media-lecture-body h3,
-html[lang="en"] .media-news-card h3,
-html[lang="en"] .media-coverage h3,
-html[lang="en"] .media-topic-note h3,
-html[lang="en"] .media-section-head h2,
-html[lang="en"] .media-intro-title,
-html[lang="en"] .booking-page-card-hospital {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) h1,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) h2,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) h3,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .logo,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .section-title,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .feature-story-title,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .side-story-title,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .quote-story-title,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .team-main-title,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .team-list-title,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .education-grid h3,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .related-title,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .faq-heading,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .subscribe-block-heading,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .notice-title,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .media-feature-body h3,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .media-lecture-body h3,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .media-news-card h3,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .media-coverage h3,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .media-topic-note h3,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .media-section-head h2,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .media-intro-title,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .booking-page-card-hospital {
   font-weight: 700;
   letter-spacing: -0.03em;
 }
 
-html[lang="en"] .post-content h2,
-html[lang="en"] .post-content h3 {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .post-content h2,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .post-content h3 {
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -111,17 +111,17 @@ html[lang="en"] .post-content h3 {
    "Why I Started This Page") should read as the same kind of label as the
    credential-columns' "Current Position"/"Education" headings right above
    them, not switch to plain body-text color. */
-html[lang="en"] .post-content h2 {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .post-content h2 {
   color: var(--color-accent);
 }
 
-html[lang="en"] .section-eyebrow,
-html[lang="en"] .hero-eyebrow,
-html[lang="en"] .post-category,
-html[lang="en"] .related-category,
-html[lang="en"] .friend-links-label,
-html[lang="en"] .subscribe-block-label,
-html[lang="en"] .related-heading {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .section-eyebrow,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-eyebrow,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .post-category,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .related-category,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .friend-links-label,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .subscribe-block-label,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .related-heading {
   letter-spacing: 0.08em;
   font-weight: 700;
 }
@@ -136,23 +136,23 @@ html[lang="en"] .related-heading {
    a wall of wrapped nav links before reaching the page's actual content.
    Above that width .site-nav shows inline as normal — nothing is ever
    permanently hidden, just collapsed behind a toggle on narrow screens. */
-html[lang="en"] .site-header {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-header {
   padding: 10px 0;
 }
 
-html[lang="en"] .site-header .container {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-header .container {
   max-width: 1300px;
   gap: 10px 16px;
 }
 
-html[lang="en"] .tagline {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .tagline {
   text-transform: uppercase;
   font-size: 0.7rem;
   letter-spacing: 0.09em;
   font-weight: 600;
 }
 
-html[lang="en"] .site-nav {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-nav {
   flex-basis: 100%;
   padding-top: 8px;
   gap: 10px 20px;
@@ -162,36 +162,36 @@ html[lang="en"] .site-nav {
    in/out by JS like the other locales), so the collapsed-nav rules meant
    for a booking button stacked inside the vertical mobile menu don't apply
    to it here — reset back to a normal inline header button. */
-html[lang="en"] .site-header.nav-collapsed .booking-switch {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-header.nav-collapsed .booking-switch {
   order: 0;
 }
 
-html[lang="en"] .site-header.nav-collapsed .booking-switch-toggle {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-header.nav-collapsed .booking-switch-toggle {
   width: auto;
   margin-top: 0;
 }
 
-html[lang="en"] .site-header.nav-collapsed .booking-switch-menu {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-header.nav-collapsed .booking-switch-menu {
   position: absolute;
   margin-top: 0;
 }
 
-html[lang="en"] .site-header.nav-collapsed .booking-switch-menu a {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-header.nav-collapsed .booking-switch-menu a {
   text-align: left;
 }
 
 /* Language and share are secondary, so they read as quiet text links, not
    pill buttons competing with the six primary section links next to them. */
-html[lang="en"] .lang-switch-toggle,
-html[lang="en"] .site-share-toggle {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .lang-switch-toggle,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-share-toggle {
   border: none;
   padding: 4px 0;
   min-height: 32px;
   color: var(--color-sub);
 }
 
-html[lang="en"] .lang-switch-toggle:hover,
-html[lang="en"] .site-share-toggle:hover {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .lang-switch-toggle:hover,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-share-toggle:hover {
   color: var(--color-accent);
   border-color: transparent;
 }
@@ -201,13 +201,13 @@ html[lang="en"] .site-share-toggle:hover {
      { order: -1 } (which pulls these to the top of the stacked mobile
      menu for other locales) — for English they should read as low-key,
      after the primary links and LINE, not compete for first position. */
-  html[lang="en"] .site-header.nav-collapsed .lang-switch,
-  html[lang="en"] .site-header.nav-collapsed .site-share {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-header.nav-collapsed .lang-switch,
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-header.nav-collapsed .site-share {
     order: 1;
   }
 
-  html[lang="en"] .lang-switch-toggle,
-  html[lang="en"] .site-share-toggle {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .lang-switch-toggle,
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .site-share-toggle {
     width: auto;
     justify-content: flex-start;
   }
@@ -218,25 +218,25 @@ html[lang="en"] .site-share-toggle:hover {
    "MD, PhD" attached — container query sizing rather than a fixed clamp,
    so the font shrinks to whatever room the column actually has instead of
    guessing a breakpoint. */
-html[lang="en"] .hero-copy,
-html[lang="en"] .profile-intro-head {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-copy,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .profile-intro-head {
   min-width: 0;
   container-type: inline-size;
 }
 
-html[lang="en"] .hero-title,
-html[lang="en"] .profile-header h1 {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-title,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .profile-header h1 {
   font-size: clamp(1.7rem, 8.5cqi, 3.4rem);
   line-height: 1.15;
   text-wrap: unset;
   word-break: normal;
 }
 
-html[lang="en"] .full-name {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .full-name {
   white-space: nowrap;
 }
 
-html[lang="en"] .name-degrees {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .name-degrees {
   display: inline-block;
   font-size: 0.34em;
   font-weight: 600;
@@ -247,15 +247,15 @@ html[lang="en"] .name-degrees {
   color: var(--color-sub);
 }
 
-html[lang="en"] .hero-specialty,
-html[lang="en"] .profile-specialty {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-specialty,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .profile-specialty {
   margin: 10px 0 0;
   font-size: 1.15rem;
   font-weight: 600;
   color: var(--color-accent);
 }
 
-html[lang="en"] .hero-affiliation {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-affiliation {
   display: block;
   margin-top: 28px;
   padding-left: 16px;
@@ -264,23 +264,23 @@ html[lang="en"] .hero-affiliation {
   color: var(--color-ink);
 }
 
-html[lang="en"] .hero-affiliation small {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-affiliation small {
   display: block;
   margin-top: 2px;
   font-size: 0.8rem;
   color: var(--color-sub);
 }
 
-html[lang="en"] .hero-visual {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-visual {
   border-radius: 14px;
   background: var(--color-surface-raised);
 }
 
-html[lang="en"] .hero-visual-caption {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-visual-caption {
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
 }
 
-html[lang="en"] .hero-visual-caption span {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-visual-caption span {
   font-family: var(--font-sans);
   letter-spacing: 0.02em;
 }
@@ -289,50 +289,50 @@ html[lang="en"] .hero-visual-caption span {
    English keeps the name/specialty/intro first so the photo never buries
    who-this-is above the fold on a phone. */
 @media (max-width: 900px) {
-  html[lang="en"] .hero-visual {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-visual {
     order: 0;
   }
 }
 
 /* ---------- Buttons / links ---------- */
 
-html[lang="en"] .hero-actions .button,
-html[lang="en"] .booking-switch-toggle,
-html[lang="en"] .subscribe-submit,
-html[lang="en"] .media-btn,
-html[lang="en"] .line-cta {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-actions .button,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .booking-switch-toggle,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .subscribe-submit,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .media-btn,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .line-cta {
   border-radius: 7px;
   font-weight: 700;
 }
 
-html[lang="en"] .hero-actions .button {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .hero-actions .button {
   border-width: 1px;
 }
 
 /* ---------- Category sections ---------- */
 
-html[lang="en"] .feature-story,
-html[lang="en"] .team-main img,
-html[lang="en"] .notice-banner,
-html[lang="en"] .booking-page-card,
-html[lang="en"] .article-toc,
-html[lang="en"] .subscribe-block {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .feature-story,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .team-main img,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .notice-banner,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .booking-page-card,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-toc,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .subscribe-block {
   border-radius: 12px;
 }
 
-html[lang="en"] .feature-story-image {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .feature-story-image {
   border-radius: 12px 12px 0 0;
 }
 
-html[lang="en"] .feature-story-image img {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .feature-story-image img {
   border-radius: 12px 12px 0 0;
 }
 
-html[lang="en"] .feature-story-badge {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .feature-story-badge {
   border-radius: 999px;
 }
 
-html[lang="en"] .side-story img {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .side-story img {
   border-radius: 10px;
 }
 
@@ -342,7 +342,7 @@ html[lang="en"] .side-story img {
    inside it points at real site URLs. Falls back to a single column below
    1050px, same breakpoint style.css already uses for other 2-column article
    chrome. */
-html[lang="en"] .article-layout {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-layout {
   display: grid;
   grid-template-columns: 190px minmax(0, 1fr);
   gap: 56px;
@@ -350,13 +350,13 @@ html[lang="en"] .article-layout {
   margin: 0 auto;
 }
 
-html[lang="en"] .article-rail {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-rail {
   padding-top: 36px;
   font-size: 0.85rem;
   color: var(--color-sub);
 }
 
-html[lang="en"] .article-rail .eyebrow {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-rail .eyebrow {
   display: block;
   font-size: 0.72rem;
   font-weight: 700;
@@ -366,13 +366,13 @@ html[lang="en"] .article-rail .eyebrow {
   margin-bottom: 10px;
 }
 
-html[lang="en"] .article-rail-category {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-rail-category {
   display: block;
   font-weight: 600;
   color: var(--color-ink);
 }
 
-html[lang="en"] .article-rail-rule {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-rail-rule {
   display: block;
   width: 40px;
   height: 1px;
@@ -380,23 +380,23 @@ html[lang="en"] .article-rail-rule {
   margin: 18px 0;
 }
 
-html[lang="en"] .article-rail-author {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-rail-author {
   display: block;
   color: var(--color-ink);
   text-decoration: none;
   font-weight: 600;
 }
 
-html[lang="en"] .article-rail-author:hover {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-rail-author:hover {
   color: var(--color-accent);
 }
 
-html[lang="en"] .article-rail-role {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-rail-role {
   display: block;
   margin: 2px 0 18px;
 }
 
-html[lang="en"] .article-rail-back {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-rail-back {
   display: inline-block;
   color: var(--color-accent);
   text-decoration: none;
@@ -411,7 +411,7 @@ html[lang="en"] .article-rail-back {
    padding — a P1 bug here previously left English article text running
    edge-to-edge with zero margin at 390px. */
 @media (min-width: 1051px) {
-  html[lang="en"] .article-layout .post {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-layout .post {
     padding-left: 0;
     padding-right: 0;
     margin: 0;
@@ -420,16 +420,16 @@ html[lang="en"] .article-rail-back {
 }
 
 @media (max-width: 1050px) {
-  html[lang="en"] .article-layout {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-layout {
     display: block;
     max-width: none;
   }
 
-  html[lang="en"] .article-rail {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-rail {
     display: none;
   }
 
-  html[lang="en"] .article-layout .post {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .article-layout .post {
     padding: 28px var(--reader-post-padding-x, 20px) 48px;
     max-width: none;
   }
@@ -440,17 +440,17 @@ html[lang="en"] .article-rail-back {
    since vi/id also use the grouped-experience About layout — see there.
    Only the things that are genuinely English-specific stay here: the wider
    photo column and the (English-only) eyebrow label. */
-html[lang="en"] .profile-header {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .profile-header {
   grid-template-columns: 280px 1fr;
   gap: 56px;
 }
 
-html[lang="en"] .profile-photo-frame,
-html[lang="en"] .profile-photo {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .profile-photo-frame,
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .profile-photo {
   border-radius: 14px;
 }
 
-html[lang="en"] .profile-eyebrow {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .profile-eyebrow {
   display: block;
   font-size: 0.75rem;
   font-weight: 700;
@@ -466,22 +466,22 @@ html[lang="en"] .profile-eyebrow {
    English-only. See style.css for the actual declarations. */
 
 @media (max-width: 900px) {
-  html[lang="en"] .profile-header {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .profile-header {
     grid-template-columns: 1fr;
   }
 
   /* Name, credentials and intro must appear before the photo on a phone —
      otherwise a tall portrait pushes the doctor's own name off the first
      screen. Desktop keeps photo-then-text (unchanged, no order set there). */
-  html[lang="en"] .profile-header > div:first-child {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .profile-header > div:first-child {
     order: 2;
   }
 
-  html[lang="en"] .profile-intro-head {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .profile-intro-head {
     order: 1;
   }
 
-  html[lang="en"] .credential-columns {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .credential-columns {
     grid-template-columns: 1fr;
     gap: 24px;
   }
@@ -489,39 +489,39 @@ html[lang="en"] .profile-eyebrow {
 
 /* ---------- Utility pages (booking) ---------- */
 
-html[lang="en"] .booking-page {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .booking-page {
   max-width: 720px;
   width: calc(100% - 40px);
   margin: 40px auto;
 }
 
-html[lang="en"] .booking-page h1 {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .booking-page h1 {
   font-size: clamp(2rem, 6vw, 2.8rem);
 }
 
-html[lang="en"] .booking-page .clinic-reminder {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .booking-page .clinic-reminder {
   padding: 14px 0 0;
   margin: 14px 0 0;
   border-top: 1px solid var(--color-line);
 }
 
-html[lang="en"] .booking-page .clinic-reminder:first-of-type {
+:is(html[lang="en"], html[lang="vi"], html[lang="id"]) .booking-page .clinic-reminder:first-of-type {
   margin-top: 24px;
 }
 
 @media (max-width: 420px) {
-  html[lang="en"] .logo {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .logo {
     font-size: 1.05rem;
   }
 
-  html[lang="en"] .booking-switch-toggle {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) .booking-switch-toggle {
     padding: 9px 14px;
     font-size: 0.85rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html[lang="en"] * {
+  :is(html[lang="en"], html[lang="vi"], html[lang="id"]) * {
     transition: none !important;
   }
 }
