@@ -349,6 +349,82 @@ longer applies. What changed, and the rules to keep it that way:
   deliberate per-locale choice, not a bug to "fix" toward one convention.
   Don't silently change it in either direction without the user asking.
 
+# US English editorial standard (2026-09 English copy revision)
+
+`/en/` content went through a full US-English editing pass (all 14 articles,
+the 8 non-article pages, and the shared UI dictionary in `scripts/build.js`)
+because direct/literal translation from the Chinese source had accumulated
+awkward calques, quote-attribution errors, and inconsistent terminology.
+Apply this standard to every new or edited English page going forward —
+don't translate sentence-by-sentence from the Chinese source and call it
+done; translation review must clear a page before it enters the normal
+publish flow (see "The three-way publish decision" below, which is a
+separate, later gate).
+
+- **Translate meaning, not sentence structure.** Read the Chinese article's
+  actual point first, then write it as a US physician would explain it to a
+  patient — direct, warm, professional. Not an academic paper, not an ad.
+  Use contractions where natural.
+- **Sentence case for headings and UI**, proper nouns/brand/official
+  institution names keep their own capitalization (e.g. "Japanese
+  Orthopaedic Association", "MD, PhD", "Behind the Strength").
+- **Preferred terms**: orthopedic, anesthesia, canceled, center, program.
+  Never Americanize an official name (a real institution/award/society name
+  is quoted as-is, even if its own spelling looks "British").
+  X-ray, MRI, follow-up (noun/adjective) vs. follow up (verb), postoperative,
+  nonsurgical, robot-assisted. Distinguish clinic session (one clinic
+  block) / clinic hours or schedule (the recurring time slot) / appointment
+  (a patient's booked visit) / fully booked / canceled session — don't use
+  these interchangeably.
+- **Plain language first, medical terms only where they earn their place.**
+  "Small incisions" is not a substitute for the full meaning of "minimally
+  invasive" — don't quietly narrow a medical concept for the sake of a
+  simpler word.
+- **Never add certainty, credentials, or claims the Chinese source doesn't
+  have.** Keep qualifiers like "may", "usually", "after evaluation", "in my
+  experience", "for selected patients" — don't smooth them into "always",
+  "guaranteed", or "risk-free". Don't imply a US board certification,
+  fellowship, or license the source doesn't state — Taiwan-specific
+  certifications are described as exactly that ("I hold specialist
+  certifications … in Taiwan"), never reworded into an American-sounding
+  equivalent.
+- **Minimize em dashes**, but never touch a name's own hyphen, an official
+  title, or a URL — and don't force a semicolon in just to avoid a dash.
+- **Publication date ≠ event date.** A relative-time phrase in the Chinese
+  source ("這幾天", "昨天") describes when the underlying event happened,
+  not when the page was rebuilt — don't let a later rebuild silently make
+  an old event read as if it just happened. If the two dates might actually
+  conflict (a historical post migrated onto a newer publish date), flag it
+  for the user rather than guessing which one is right.
+- **Never invent a name, credential, institution, or date the source
+  doesn't give you.** If an English romanization, a person's name in a
+  photo caption, an award's official title, or an event's exact date isn't
+  independently confirmed, leave it out and flag it as pending rather than
+  guessing — a wrong guess is worse than a visible gap. (One example still
+  open from the 2026-09 pass: `en/20260809-doctors-weekend/` is missing the
+  Chinese version's 4-physician photo caption because two of the names'
+  English romanizations were never confirmed — don't add placeholder or
+  guessed names there.)
+- **Translation completeness beats a punchy short sentence.** A shorter
+  heading can use a different figure of speech, but never at the cost of
+  dropping a qualifier, a number, a citation, or an existing caption/link
+  from the body.
+- **Metadata/title changes must propagate everywhere the title appears**:
+  `<title>`, `<h1>`, `article:title`/`article:excerpt` meta (which
+  regenerate OG/Twitter/JSON-LD and the homepage cards/related-articles/RSS
+  automatically on the next `npm run build` — see `readMeta()`/
+  `buildArticleSeo()`/`buildHomeSeo()`/`buildAboutSeo()` in
+  `scripts/build.js`), and any literal `<title>`/`<meta name="description">`
+  that sits *outside* a `<!-- BUILD:SEO:START -->` region (the homepage,
+  About, and Media pages all have some of these — check before assuming a
+  title change "just works" after editing the meta tag).
+- **Category text has two different lengths on purpose.** `CATEGORY_LABELS_EN`
+  is the homepage's `<h2>` section heading (longer, e.g. "My approach to
+  care"); `CATEGORY_CHIP_LABELS_EN` is the compact per-article tag (e.g.
+  "Approach to care"). Keep both in sync when adding a category, and don't
+  collapse them back into one object — that was the 2026-09 pass's fix for
+  a heading-length string being awkwardly reused as a small inline tag.
+
 # Article notification workflow
 
 This project has an article-notification subscription system (Supabase Edge
