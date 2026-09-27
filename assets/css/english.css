@@ -107,6 +107,14 @@ html[lang="en"] .post-content h3 {
   letter-spacing: -0.02em;
 }
 
+/* Section headings inside the About page's prose ("Training & Experience",
+   "Why I Started This Page") should read as the same kind of label as the
+   credential-columns' "Current Position"/"Education" headings right above
+   them, not switch to plain body-text color. */
+html[lang="en"] .post-content h2 {
+  color: var(--color-accent);
+}
+
 html[lang="en"] .section-eyebrow,
 html[lang="en"] .hero-eyebrow,
 html[lang="en"] .post-category,
