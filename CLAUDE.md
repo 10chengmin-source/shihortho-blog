@@ -1,17 +1,21 @@
-# English/Vietnamese/Indonesian design system (en/vi/id)
+# English/Vietnamese/Indonesian layout system (en/vi/id)
 
-`/en/`, `/vi/` and `/id/` share one visual design, separate from zh/zh-cn:
-white background, dark-navy/blue accent, system-ui sans-serif, name-as-headline
-hero/about pages, and a reading-rail sidebar on articles. vi/id were brought
-onto this design in a 2026-09 follow-up ("越南跟印尼文採取跟英文版一樣的色調跟排版") —
-before that, only English had it and vi/id kept the dark-green look. It
-shares every template, script and BUILD-marker mechanism with zh/zh-cn —
-nothing about the content pipeline forked — it is purely a CSS reskin plus a
-handful of markup additions (masthead structure, hero/profile-header text,
-article-rail wrapper). Never touch zh/zh-cn's *content* or *brand color*
-while working on this design system; shared layout primitives (see the
-"Shared cross-locale fixes" section below) are fair game and increasingly
-common after the 2026-09 multilingual audit.
+`/en/`, `/vi/` and `/id/` share one layout, separate from zh/zh-cn: system-ui
+sans-serif, name-as-headline hero/about pages, and a reading-rail sidebar on
+articles. **Colors are no longer part of what makes this different** — since
+the 2026-09 site-wide color unification (see the dedicated section below),
+every locale including zh/zh-cn uses the same navy/blue palette. Before that,
+this design system also carried its own separate color palette (that's what
+`english.css`'s now-removed `--color-*` blocks used to do), and before *that*,
+only English had this design at all and vi/id kept a different look — if you
+see an old note anywhere still describing this as a "color" difference from
+zh/zh-cn, it's stale. This system shares every template, script and
+BUILD-marker mechanism with zh/zh-cn — nothing about the content pipeline
+forked — it is purely a CSS reskin plus a handful of markup additions
+(masthead structure, hero/profile-header text, article-rail wrapper). Never
+touch zh/zh-cn's *content* while working on this system; shared layout
+primitives (see the "Shared cross-locale fixes" section below) are fair game
+and increasingly common after the 2026-09 multilingual audit.
 
 If you see an older note anywhere claiming this design is "English only" or
 that `english.css` is scoped to `html[lang="en"]` alone, it's stale — don't
@@ -19,19 +23,21 @@ re-narrow the selectors back down without the user asking.
 
 ## How it works
 
-- **`assets/css/english.css`** is the only file that carries this design.
-  It is linked from `en/**/*.html`, `vi/**/*.html` and `id/**/*.html` (right
-  after `style.css`), and every rule inside it is scoped under
+- **`assets/css/english.css`** is the only file that carries this layout
+  system. It is linked from `en/**/*.html`, `vi/**/*.html` and `id/**/*.html`
+  (right after `style.css`), and every rule inside it is scoped under
   `:is(html[lang="en"], html[lang="vi"], html[lang="id"])` so it cannot leak
-  onto zh/zh-cn even if a class name collides. Almost the entire reskin works
-  by overriding the same `--color-*`,
-  `--font-serif`/`--font-mono`/`--font-sans`/`--font-brand`, `--radius` and
-  `--wide-max` custom properties every shared component already reads — so
-  most of style.css's components (`.feature-story`, `.team-grid`,
-  `.education-grid`, `.faq-block`, `.related-articles`, `.subscribe-block`,
-  media-page.css's `.media-*` classes, etc.) reskin for free with zero
-  markup changes. Only add a hard-coded color/font value to english.css if
-  overriding a token genuinely can't reach it.
+  onto zh/zh-cn even if a class name collides. It does **not** define any
+  `--color-*` tokens any more (see "Site-wide color system" below for where
+  those live) — it overrides `--font-serif`/`--font-mono`/`--font-sans`/
+  `--font-brand`, `--radius` and `--wide-max`, which every shared component
+  already reads, so most of style.css's components (`.feature-story`,
+  `.team-grid`, `.education-grid`, `.faq-block`, `.related-articles`,
+  `.subscribe-block`, media-page.css's `.media-*` classes, etc.) reskin for
+  free with zero markup changes. Only add a hard-coded font value to
+  english.css if overriding a token genuinely can't reach it, and never add
+  a color override here — that would recreate the exact "two copies of the
+  palette drifting apart" problem the 2026-09 unification removed.
 - **CSS comments in this file (and style.css) must never contain a literal
   `*/` inside the prose** (e.g. writing "color-*/font-*" as shorthand) —
   that string prematurely closes the comment and silently corrupts
@@ -128,6 +134,118 @@ by hand when creating a new `en/<slug>/index.html`:
    locale — see the article-notification workflow below); if English isn't
    ready yet, say so and don't publish a placeholder or Chinese text under
    an English URL.
+
+# Site-wide color system (2026-09 color unification)
+
+Every locale (zh, zh-cn, en, vi, id) shares one color palette. Before this,
+zh/zh-cn had their own separate dark-ink-green theme while en/vi/id had
+already moved to navy/blue in `english.css` — the user explicitly asked for
+this split to end ("請將網站所有語言的配色統一調整為白底＋海軍藍標題＋藍色主要按鈕＋綠色LOGO"),
+since switching languages made the site feel like two different products.
+
+## Where the colors live
+
+**`assets/css/style.css` is the only place `--color-*` tokens are defined —
+for every locale.** Three blocks, all in style.css:
+
+- `:root` — dark-mode defaults (deep navy, `#101b2b` background).
+- `html[data-color-mode="light"]` — light mode (pure white `#ffffff`
+  background), which is what most visitors see by default.
+- `@media (prefers-color-scheme: light) { html:not([data-color-mode]) {...} }`
+  — the no-JS fallback, kept byte-identical to the light block above.
+
+`assets/css/english.css` (loaded on en/vi/id, see the layout-system section
+above) does **not** define any `--color-*` tokens — it used to have its own
+copy of the light/dark blue palette, which is exactly what this unification
+removed. Don't add color overrides back there; every locale reading the same
+tokens from one place is the entire point, and a second copy risks drifting
+out of sync again exactly like it did before.
+
+## The tokens
+
+- `--color-bg` (`#ffffff` light / `#101b2b` dark) — page background.
+- `--color-surface` (`#ffffff` / `#17263b`) — card background. Deliberately
+  the *same* as `--color-bg` in light mode — cards are separated by
+  `--color-line` borders, not a background difference (matches the flat,
+  bordered-card look already shipped for English before this unification).
+- `--color-surface-raised` (`#f3f6fa` / `#1c2d43`) — the one secondary/tinted
+  background (hover states, subtle section fills). This is the "次要區塊背景"
+  from the spec — not the whole page background.
+- `--color-ink` (`#132d4b` / `#eef4fc`) — headings and other high-emphasis
+  text. Used explicitly by every heading-level selector (h1-h3, `.logo`,
+  `.section-title`, card titles, `.faq-question`, etc.).
+- `--color-text` (`#293544` / `#d7e3f2`) — body copy. This is `body`'s own
+  color (so anything without a more specific color falls back to it) and is
+  set explicitly on `.post-content p`, `.credential-columns li` and
+  `.subscribe-input`. Deliberately a hair lighter/less saturated than
+  `--color-ink` — don't collapse the two back into one token; the spec calls
+  for headings and body text to read as two distinct (if close) shades.
+- `--color-sub` (`#536478` / `#b6c5d8`) — secondary/muted text (dates, meta,
+  captions).
+- `--color-line` (`#dce3ec` / `#344860`) — borders and dividers.
+- `--color-accent` (`#155dc5` / `#83b8ff`) — links, icons, outline-button
+  text/border.
+- `--color-accent-hover` (`#104ba0` / `#a8cdff`) — **new token.** Every
+  primary (filled-blue) button's hover state uses this as an explicit
+  `background`, not a `filter: brightness()` trick — the old approach
+  lightened the button on hover regardless of mode, which doesn't match a
+  spec that calls for a specific darker hover color. If you add a new filled
+  button, give it a `:hover { background: var(--color-accent-hover) }` rule
+  (and make sure its `transition` list includes `background-color`) rather
+  than reaching for `filter` again.
+- `--color-accent-fill` (`#155dc5` / `#2f6fe4`) — filled-button background at
+  rest. Same value as `--color-accent` in light mode; dark mode keeps them
+  split because the lighter dark-mode `--color-accent` doesn't hold enough
+  contrast under white button text when used as a fill.
+- `--color-accent-ink` (`#ffffff` both modes) — text/icon color on top of a
+  filled accent background.
+- `--color-amber` (`#155dc5` / `#83b8ff`) — same value as `--color-accent`.
+  This used to be a separate muted gold/sage decorative color for meta text
+  (dates, category labels, blockquote rules); en/vi/id had already collapsed
+  it into the accent blue before this unification, and zh/zh-cn now match.
+  Don't reintroduce a separate amber hue without the user asking.
+- `--color-success` (`#1a7f4b` / `#4ade80`) / `--color-danger` (`#c0293c` /
+  `#f87171`) — **new tokens**, semantic status colors. Currently used only by
+  `.subscribe-status[data-state="success"|"error"|"invalid"]` (set by
+  `assets/js/subscribe.js`) so a submission's outcome doesn't read
+  identically as neutral gray either way. Use these (not the accent blue)
+  for any future success/error/warning UI — the request that drove this
+  unification was explicit that status colors should stay semantic, not all
+  become blue.
+- `--color-line-brand` (`#06c755`, both modes, unchanged) — LINE's own brand
+  green, used only by `.line-cta`/`.header-actions .line-cta`. Reserved,
+  like the logo, as one of the two places green still appears on purpose.
+
+## What's deliberately still green
+
+The logo mark (`.logo-mark`, `assets/images/logomark-small.png`) is a raster
+image with its own baked-in green — untouched by any of the above, and not
+something to "fix" toward blue. The `.logo` *text* next to it (the wordmark)
+was already reading `--color-ink` before this unification and still does —
+it's treated as heading-tier text, not specially colored. LINE's CTA button
+keeps `--color-line-brand`. Nothing else should be green; if you find a
+component still using green outside these two cases, it's very likely a
+leftover from the pre-unification zh/zh-cn theme that should be moved onto
+the shared tokens instead.
+
+## Other things this unification touched
+
+- **A global `:focus-visible` rule** (`outline: 2px solid var(--color-accent)`)
+  was added near the top of style.css. Before this, only `.subscribe-input`
+  had an explicit focus style; everything else relied on the browser's own
+  default outline. Don't remove this or add a blanket `outline: none` reset
+  anywhere — keyboard focus visibility was an explicit requirement.
+- **`media-page.css`'s video/lecture cover scrims** (`.media-video-cover`,
+  `.media-lecture-cover`) had a hardcoded dark-green fallback background and
+  gradient tint (`#16281f` / `rgba(10, 26, 19, ...)`) for text legibility
+  over a thumbnail photo — these are now navy (`#101b2b` /
+  `rgba(16, 27, 43, ...)`) to match. This is decorative site chrome sitting
+  on top of a photo, not the photo's own colors, so it was in scope; the
+  actual photos/videos underneath are untouched, per the rule below.
+- **Photos, videos and media-source logos are never recolored.** Nothing in
+  this unification touches an `<img>`/`<video>`'s own pixels or applies a
+  color filter over them — only surrounding chrome (backgrounds, borders,
+  text, buttons).
 
 # Shared cross-locale fixes (2026-09 multilingual audit)
 

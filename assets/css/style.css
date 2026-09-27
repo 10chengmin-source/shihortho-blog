@@ -1,24 +1,37 @@
 :root {
   --wide-max: 1100px;
-  /* 2026-09 redesign palette: deep ink-green ("墨綠色") replacing the prior
-     teal-night theme, ported from the stonecare-preview design. Dark mode's
-     button/card fills use a separate, darker --color-accent-fill from
-     --color-accent (used for links/icons/borders) because the lighter sage
-     accent doesn't hold enough contrast under white button text — light mode
-     doesn't need the split since its ink-green accent already contrasts
-     fine filled. */
-  --color-bg: #142421;
-  --color-bg-rgb: 20, 36, 33;
-  --color-surface: #20372f;
-  --color-surface-raised: #1c3029;
-  --color-ink: #edf2e9;
-  --color-sub: #b9c9c2;
-  --color-line: #3b5148;
-  --color-accent: #77bba0;
-  --color-accent-fill: #245f4a;
+  /* 2026-09 site-wide color unification: one navy/blue palette across every
+     locale (previously zh/zh-cn kept a separate deep ink-green theme while
+     en/vi/id had already moved to navy in assets/css/english.css — that
+     split made the site read as two different products depending on
+     language). These are now the single source of truth for every locale's
+     colors; english.css no longer carries its own color-token overrides.
+     Dark mode's button/card fills use a separate, more saturated
+     --color-accent-fill from --color-accent (used for links/icons/borders)
+     because the lighter sky-blue accent doesn't hold enough contrast under
+     white button text — light mode doesn't need the split since its navy
+     accent already contrasts fine filled. --color-ink is for headings and
+     other high-emphasis text; --color-text is for body copy (a hair
+     lighter/warmer than --color-ink); --color-sub is secondary/muted text.
+     Green is reserved for the logo mark (a raster image, unaffected by
+     these tokens) and LINE's brand color (--color-line-brand) — it is
+     deliberately not one of the tokens below. */
+  --color-bg: #101b2b;
+  --color-bg-rgb: 16, 27, 43;
+  --color-surface: #17263b;
+  --color-surface-raised: #1c2d43;
+  --color-ink: #eef4fc;
+  --color-text: #d7e3f2;
+  --color-sub: #b6c5d8;
+  --color-line: #344860;
+  --color-accent: #83b8ff;
+  --color-accent-hover: #a8cdff;
+  --color-accent-fill: #2f6fe4;
   --color-accent-ink: #ffffff;
-  --color-amber: #d7bc86;
+  --color-amber: #83b8ff;
   --color-line-brand: #06c755;
+  --color-success: #4ade80;
+  --color-danger: #f87171;
   --radius: 6px;
   /* --font-serif drives most headings/titles site-wide; --font-brand is the
      one place that still gets to look distinctly "brand" (the logo) even on
@@ -144,21 +157,27 @@ html[lang="id"] {
   --font-mono: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 }
 
-/* Cool, clean off-white palette (deliberately not warm cream — matches the
-   same "precise/clinical" direction the dark theme was chosen for). Only the
-   palette changes; layout and components are shared. */
+/* Bright, clean white palette, shared by every locale (2026-09 color
+   unification — see the :root comment above). Pure white page/card
+   background per spec, not the previous off-white; --color-surface-raised
+   is the one slightly-tinted secondary background (section fills, hover
+   states), not the whole page. */
 html[data-color-mode="light"] {
-  --color-bg: #faf9f5;
-  --color-bg-rgb: 250, 249, 245;
+  --color-bg: #ffffff;
+  --color-bg-rgb: 255, 255, 255;
   --color-surface: #ffffff;
-  --color-surface-raised: #edf1e9;
-  --color-ink: #1d3934;
-  --color-sub: #50615b;
-  --color-line: #d8dfd8;
-  --color-accent: #165b48;
-  --color-accent-fill: #165b48;
+  --color-surface-raised: #f3f6fa;
+  --color-ink: #132d4b;
+  --color-text: #293544;
+  --color-sub: #536478;
+  --color-line: #dce3ec;
+  --color-accent: #155dc5;
+  --color-accent-hover: #104ba0;
+  --color-accent-fill: #155dc5;
   --color-accent-ink: #ffffff;
-  --color-amber: #907445;
+  --color-amber: #155dc5;
+  --color-success: #1a7f4b;
+  --color-danger: #c0293c;
 }
 
 /* No-JS fallback: the bootstrap <script> in <head> is what normally sets
@@ -170,17 +189,21 @@ html[data-color-mode="light"] {
    path once that attribute is present. */
 @media (prefers-color-scheme: light) {
   html:not([data-color-mode]) {
-    --color-bg: #faf9f5;
-    --color-bg-rgb: 250, 249, 245;
+    --color-bg: #ffffff;
+    --color-bg-rgb: 255, 255, 255;
     --color-surface: #ffffff;
-    --color-surface-raised: #edf1e9;
-    --color-ink: #1d3934;
-    --color-sub: #50615b;
-    --color-line: #d8dfd8;
-    --color-accent: #165b48;
-    --color-accent-fill: #165b48;
+    --color-surface-raised: #f3f6fa;
+    --color-ink: #132d4b;
+    --color-text: #293544;
+    --color-sub: #536478;
+    --color-line: #dce3ec;
+    --color-accent: #155dc5;
+    --color-accent-hover: #104ba0;
+    --color-accent-fill: #155dc5;
     --color-accent-ink: #ffffff;
-    --color-amber: #907445;
+    --color-amber: #155dc5;
+    --color-success: #1a7f4b;
+    --color-danger: #c0293c;
   }
 }
 
@@ -233,6 +256,17 @@ html.reading-transitions-ready .site-footer {
   box-sizing: border-box;
 }
 
+/* One consistent, clearly-visible keyboard-focus ring site-wide, in the
+   brand accent color, instead of leaving it to each browser's own default
+   (2026-09 color unification — also fixes several interactive elements that
+   had no focus style at all beyond the browser default). Mouse/touch clicks
+   never trigger :focus-visible, so this never shows up as an unwanted click
+   ring. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
 }
@@ -240,7 +274,7 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  color: var(--color-ink);
+  color: var(--color-text);
   background: var(--color-bg);
   line-height: 1.75;
   overflow-x: hidden;
@@ -455,11 +489,11 @@ a {
      now share it via a dropdown rather than doubling up on buttons. */
   border-radius: var(--radius);
   cursor: pointer;
-  transition: filter 0.15s ease, transform 0.15s ease;
+  transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
 .booking-switch-toggle:hover {
-  filter: brightness(1.08);
+  background: var(--color-accent-hover);
   color: var(--color-accent-ink);
   transform: translateY(-1px);
 }
@@ -603,7 +637,8 @@ a {
 }
 
 .hero-actions .button:hover {
-  background: var(--color-accent-fill);
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
   color: var(--color-accent-ink);
 }
 
@@ -1254,9 +1289,8 @@ main.container {
 
 .booking-page-card--site:hover,
 .booking-page-card--site:active {
-  border-color: var(--color-accent-fill);
-  background: var(--color-accent-fill);
-  filter: brightness(1.08);
+  border-color: var(--color-accent-hover);
+  background: var(--color-accent-hover);
 }
 
 .booking-page-card-text {
@@ -1522,7 +1556,7 @@ main.container {
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
   background: var(--color-bg);
-  color: var(--color-ink);
+  color: var(--color-text);
   font: inherit;
   font-size: 0.9rem;
 }
@@ -1542,11 +1576,12 @@ main.container {
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
 }
 
 .subscribe-submit:hover {
-  opacity: 0.88;
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
 }
 
 .subscribe-submit:disabled {
@@ -1558,7 +1593,21 @@ main.container {
   margin: 12px 0 0;
   min-height: 1.2em;
   font-size: 0.82rem;
+  font-weight: 500;
   color: var(--color-sub);
+}
+
+/* Success/error get their own semantic color (not just the neutral default
+   above) so a submission's outcome doesn't read identically either way —
+   set via subscribe.js's data-state attribute, not a color-only signal
+   since the message text itself always says what happened too. */
+.subscribe-status[data-state="success"] {
+  color: var(--color-success);
+}
+
+.subscribe-status[data-state="error"],
+.subscribe-status[data-state="invalid"] {
+  color: var(--color-danger);
 }
 
 /* Compact icon-only row, inline in .post-meta next to author/date. */
@@ -1949,7 +1998,7 @@ main.container {
   border-bottom: 1px solid var(--color-line);
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .credential-columns li:last-child {
@@ -2149,7 +2198,7 @@ html[lang="id"] .profile-header h1 {
 
 .post-content p {
   margin: 0 0 var(--reader-paragraph-gap);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .post-content ul,
