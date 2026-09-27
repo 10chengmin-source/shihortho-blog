@@ -1,22 +1,30 @@
-# English design system (en/ locale only)
+# English/Vietnamese/Indonesian design system (en/vi/id)
 
-`/en/` has its own visual design, separate from zh/zh-cn/vi/id: white
-background, dark-navy/blue accent, system-ui sans-serif, name-as-headline
-hero/about pages, and a reading-rail sidebar on articles. It shares every
-template, script and BUILD-marker mechanism with the other locales — nothing
-about the content pipeline forked — it is purely a CSS reskin plus a handful
-of English-only markup additions. Never touch zh/zh-cn/vi/id's *content* or
-*brand color* while working on English; shared layout primitives (see the
+`/en/`, `/vi/` and `/id/` share one visual design, separate from zh/zh-cn:
+white background, dark-navy/blue accent, system-ui sans-serif, name-as-headline
+hero/about pages, and a reading-rail sidebar on articles. vi/id were brought
+onto this design in a 2026-09 follow-up ("越南跟印尼文採取跟英文版一樣的色調跟排版") —
+before that, only English had it and vi/id kept the dark-green look. It
+shares every template, script and BUILD-marker mechanism with zh/zh-cn —
+nothing about the content pipeline forked — it is purely a CSS reskin plus a
+handful of markup additions (masthead structure, hero/profile-header text,
+article-rail wrapper). Never touch zh/zh-cn's *content* or *brand color*
+while working on this design system; shared layout primitives (see the
 "Shared cross-locale fixes" section below) are fair game and increasingly
 common after the 2026-09 multilingual audit.
 
+If you see an older note anywhere claiming this design is "English only" or
+that `english.css` is scoped to `html[lang="en"]` alone, it's stale — don't
+re-narrow the selectors back down without the user asking.
+
 ## How it works
 
-- **`assets/css/english.css`** is the only file that carries English's own
-  visual design. It is linked only from `en/**/*.html` (right after
-  `style.css`), and every rule inside it is scoped under `html[lang="en"]`
-  so it cannot leak onto another locale even if a class name collides.
-  Almost the entire reskin works by overriding the same `--color-*`,
+- **`assets/css/english.css`** is the only file that carries this design.
+  It is linked from `en/**/*.html`, `vi/**/*.html` and `id/**/*.html` (right
+  after `style.css`), and every rule inside it is scoped under
+  `:is(html[lang="en"], html[lang="vi"], html[lang="id"])` so it cannot leak
+  onto zh/zh-cn even if a class name collides. Almost the entire reskin works
+  by overriding the same `--color-*`,
   `--font-serif`/`--font-mono`/`--font-sans`/`--font-brand`, `--radius` and
   `--wide-max` custom properties every shared component already reads — so
   most of style.css's components (`.feature-story`, `.team-grid`,
@@ -32,28 +40,44 @@ common after the 2026-09 multilingual audit.
   (the entire design-token block silently failed to parse) — always write
   out words like "and" instead of using `*/` as a separator inside a
   comment.
-- Nav is a compact two-part header on English: a masthead row (logo + the
-  one essential "Book an Appointment" button + a hamburger toggle) and a
-  separate `.site-nav` row (the six section links, LINE, language, share)
-  that's always its own row via `flex-basis: 100%` and collapses behind the
+- Nav is a compact two-part header on en/vi/id: a masthead row (logo + the
+  one essential booking button/switch + a hamburger toggle) and a separate
+  `.site-nav` row (the six section links, LINE, language, share) that's
+  always its own row via `flex-basis: 100%` and collapses behind the
   hamburger below 860px. This replaced an earlier "no hamburger, nav always
   wraps inline" version that turned out to make the collapsed mobile header
   too tall (2026-09 multilingual audit) — if you see a claim anywhere that
   English has no hamburger, it's stale; don't restore that behavior.
-  `assets/js/mobile-nav.js` has a small English-only fixed-breakpoint branch
-  for this (guarded by `document.documentElement.lang === "en"`, so it
-  can't affect the other locales' own fits-on-one-line collapse logic).
-- The doctor's name ("Cheng-Min Shih") must stay on one line, with "MD,
-  PhD" attached, at any width including 320px — done with
-  `container-type: inline-size` on the hero/profile wrapper and a
-  `clamp(1.7rem, 8.5cqi, 3.4rem)` font-size on the heading, plus
-  `.full-name { white-space: nowrap }`. This makes the name immune to
-  reading-level font scaling, since it never reads `--reader-font-size`.
-  If you ever see it wrap or overflow, check the CSS file actually parsed
-  first (see the `*/` bug above) before assuming the sizing math is wrong.
-- English articles are wrapped in `.article-layout > .article-rail +
+  `assets/js/mobile-nav.js` picks this fixed-breakpoint behavior
+  *structurally*: `usesMastheadLayout` is true whenever `.booking-switch`
+  is not inside `#site-nav` (true for en/vi/id, false for zh/zh-cn, whose
+  booking-switch still lives inside the collapsible nav and uses the
+  separate fits-on-one-line measurement path). Don't gate this on
+  `document.documentElement.lang` again — that's what caused vi/id's
+  masthead to break the first time they got this markup (the booking
+  button collapsed into a single narrow vertical column at 320px because
+  the old lang-gated JS branch, and a `.site-header .container` grid rule
+  in style.css written for the old zh/zh-cn-only structure, both still
+  matched vi/id after their markup changed but their behavior didn't).
+  `style.css`'s "320px header doesn't let the brand name push the toggle
+  onto its own row" grid fix is correspondingly scoped to
+  `html:not([lang="en"]):not([lang="vi"]):not([lang="id"])` — it's a
+  zh/zh-cn-only rule now, not "every non-English locale".
+- The doctor's name ("Cheng-Min Shih" / "Bác sĩ Shih Cheng-Min" / "Dr. Shih
+  Cheng-Min") must stay on one line, with "MD, PhD" attached where used, at
+  any width including 320px — done with `container-type: inline-size` on
+  the hero/profile wrapper and a `clamp(1.7rem, 8.5cqi, 3.4rem)` font-size
+  on the heading, plus `.full-name { white-space: nowrap }`. This makes the
+  name immune to reading-level font scaling, since it never reads
+  `--reader-font-size`. If you ever see it wrap or overflow, check the CSS
+  file actually parsed first (see the `*/` bug above) before assuming the
+  sizing math is wrong.
+- en/vi/id articles are wrapped in `.article-layout > .article-rail +
   article.post` (a small reading-rail sidebar, hidden below 1050px) —
-  the other locales' articles are not.
+  zh/zh-cn's articles are not. vi/id's rail uses locale-appropriate labels
+  (eyebrow "Tạp Chí"/"Catatan", author name, role, "all notes" link) but
+  deliberately keeps each locale's own relative-date/read-time wording —
+  see the next point.
 - English shows relative dates as "Latest" / "Within the last 2 weeks" /
   "Within the last month" / "N months ago", computed against the single
   most-recently-published English article (`EN_LATEST_DATE` in
@@ -161,12 +185,18 @@ longer applies. What changed, and the rules to keep it that way:
   `scroll-margin-top` so jumping to one of these anchors doesn't land it
   half-hidden under the sticky header.
 - **The 320px mobile header no longer lets a long brand name push the
-  hamburger onto its own row.** `.site-header .container` is a
-  `minmax(0,1fr) auto` grid below 640px for every locale except English
-  (which has its own masthead structure — see above): the logo can wrap
-  onto two lines if it has to, but the toggle button always stays on the
-  first line next to it. This was specifically a problem for vi/id, whose
-  brand names run longer than zh's.
+  hamburger onto its own row — for zh/zh-cn.** `.site-header .container` is
+  a `minmax(0,1fr) auto` grid below 640px, scoped to
+  `html:not([lang="en"]):not([lang="vi"]):not([lang="id"])`: the logo can
+  wrap onto two lines if it has to, but the toggle button always stays on
+  the first line next to it. en/vi/id are excluded because they use the
+  masthead structure instead (see above) — vi/id were originally included
+  in this fix (their brand names run longer than zh's) back when their
+  booking-switch still lived inside `.site-nav` like zh/zh-cn's; once vi/id
+  moved to the masthead structure in the 2026-09 color/layout match-up,
+  this grid rule had to stop matching them too, or it fights the masthead's
+  own flex layout (this exact conflict broke vi/id's masthead once — see
+  the mobile-nav.js note above).
 - **`readMeta()` in `scripts/build.js` now decodes HTML entities** before
   handing a title/excerpt back to the rest of the pipeline. Meta tags
   necessarily store `"` as `&quot;` (required inside a quoted attribute),

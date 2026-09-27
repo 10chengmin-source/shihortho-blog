@@ -44,15 +44,18 @@
     // meaningless anyway (nav is already display:none in that layout).
     var MOBILE_BREAKPOINT = 640;
 
-    // English uses a fixed breakpoint instead of the fits-on-one-line
-    // measurement below: its header already keeps booking permanently in
-    // the masthead row (not inside .site-nav, so there's nothing to lift),
-    // and .site-nav there holds everything else (nav links, LINE, language,
-    // share) behind the hamburger on narrow screens rather than trying to
-    // fit an unusually link-heavy row inline. See CLAUDE.md's "English
-    // design system" section.
-    var isEnglish = document.documentElement.lang === "en";
-    var ENGLISH_BREAKPOINT = 860;
+    // Any locale using the English-style masthead layout (booking kept
+    // permanently in the masthead row, outside .site-nav — currently en/vi/id,
+    // see assets/css/english.css) uses a fixed breakpoint instead of the
+    // fits-on-one-line measurement below: there's nothing to lift in/out of
+    // the nav, and .site-nav there holds everything else (nav links, LINE,
+    // language, share) behind the hamburger on narrow screens rather than
+    // trying to fit an unusually link-heavy row inline. Detected structurally
+    // (is booking-switch already outside #site-nav?) rather than by language
+    // code, since the DOM shape is what actually determines which behavior
+    // is correct. See CLAUDE.md's "English design system" section.
+    var usesMastheadLayout = !nav.querySelector(".booking-switch");
+    var MASTHEAD_BREAKPOINT = 860;
 
     // .site-nav has its own flex-wrap: wrap, so when its content doesn't
     // fit, the children wrap onto extra rows inside it rather than the nav
@@ -116,8 +119,8 @@
     }
 
     function updateCollapse() {
-      if (isEnglish) {
-        var collapsed = window.innerWidth <= ENGLISH_BREAKPOINT;
+      if (usesMastheadLayout) {
+        var collapsed = window.innerWidth <= MASTHEAD_BREAKPOINT;
         header.classList.toggle("nav-collapsed", collapsed);
         if (!collapsed) setOpen(false);
         return;

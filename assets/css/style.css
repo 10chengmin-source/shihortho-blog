@@ -2630,13 +2630,16 @@ html[lang="id"] .profile-header h1 {
   }
 
   /* Logo and the hamburger always share one row, even when the brand name
-     wraps onto two lines (vi/id run noticeably longer than zh/en at this
+     wraps onto two lines (zh-cn's brand name runs longer than zh/en at this
      width) — a plain flex-wrap row let a long enough brand name push the
      toggle button onto its own line below, inflating the collapsed
      header's height well past what the button+logo actually need. Not
-     scoped for English, which has its own masthead layout (booking-switch
-     + toggle live outside .site-nav there — see assets/css/english.css). */
-  html:not([lang="en"]) .site-header .container {
+     scoped for English, vi or id, which share the masthead layout where
+     booking-switch + toggle live outside .site-nav (see the
+     :is(html[lang="en"], html[lang="vi"], html[lang="id"]) rules in
+     assets/css/english.css) — this plain grid only fits the simpler
+     zh/zh-cn structure where booking-switch still lives inside .site-nav. */
+  html:not([lang="en"]):not([lang="vi"]):not([lang="id"]) .site-header .container {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
@@ -2644,11 +2647,11 @@ html[lang="id"] .profile-header h1 {
     row-gap: 0;
   }
 
-  html:not([lang="en"]) .logo {
+  html:not([lang="en"]):not([lang="vi"]):not([lang="id"]) .logo {
     min-width: 0;
   }
 
-  html:not([lang="en"]) .site-nav {
+  html:not([lang="en"]):not([lang="vi"]):not([lang="id"]) .site-nav {
     grid-column: 1 / -1;
   }
 
