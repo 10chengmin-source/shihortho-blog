@@ -1903,8 +1903,8 @@ main.container {
 
 .profile-header {
   display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 32px;
+  grid-template-columns: 260px 1fr;
+  gap: 36px;
   align-items: start;
 }
 
@@ -1954,6 +1954,18 @@ main.container {
   max-width: 1200px;
 }
 
+/* zh/zh-cn's About page keeps its long-form Training paragraph as one
+   flowing block (protected content, never split into credential-columns/
+   training-group cards like en/vi/id) — but the hero photo+text row was
+   still cramped inside the narrow article-reading-width .post container
+   (~33em), which is tuned for prose, not a photo-plus-heading row. Give
+   these two locales the same wider-shell treatment as en/vi/id, just
+   narrower (2026-09 About-page layout fix) — see .profile-intro-detail
+   below for the paragraph that used to live inside the cramped column. */
+:is(html[lang="zh-Hant"], html[lang="zh-CN"]) .post.profile-post {
+  max-width: 1000px;
+}
+
 .profile-post .post-content,
 .profile-post .faq-block,
 .profile-post .article-toc {
@@ -1968,6 +1980,26 @@ main.container {
   font-size: 1.0625rem;
   line-height: 1.75;
   color: var(--color-sub);
+}
+
+/* The About page's longer, second self-introduction paragraph (clinical
+   specialties, research, etc.) — deliberately NOT part of
+   .profile-intro-head's narrow hero column any more (2026-09 layout fix):
+   squeezing a long paragraph into that column, next to a tall portrait,
+   caused heavy wrapping and left an unbalanced gap under the photo. It now
+   sits as its own full-width block directly under .profile-header, so it
+   spans the photo+text row's whole width instead of just the text column,
+   while still reading at each locale's own comfortable prose width (same
+   --reader-content-width/--reader-font-size/--reader-line-height tokens
+   .post-content uses, so the accessibility reading-size setting still
+   applies here too). Not centered — it left-aligns with .profile-header
+   above it, sharing the same left edge as the photo. */
+.profile-intro-detail {
+  margin: 32px 0 0;
+  max-width: var(--reader-content-width);
+  font-size: var(--reader-font-size);
+  line-height: var(--reader-line-height);
+  color: var(--color-text);
 }
 
 .credential-columns {
