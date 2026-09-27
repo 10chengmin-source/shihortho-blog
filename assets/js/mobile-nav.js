@@ -44,6 +44,16 @@
     // meaningless anyway (nav is already display:none in that layout).
     var MOBILE_BREAKPOINT = 640;
 
+    // English uses a fixed breakpoint instead of the fits-on-one-line
+    // measurement below: its header already keeps booking permanently in
+    // the masthead row (not inside .site-nav, so there's nothing to lift),
+    // and .site-nav there holds everything else (nav links, LINE, language,
+    // share) behind the hamburger on narrow screens rather than trying to
+    // fit an unusually link-heavy row inline. See CLAUDE.md's "English
+    // design system" section.
+    var isEnglish = document.documentElement.lang === "en";
+    var ENGLISH_BREAKPOINT = 860;
+
     // .site-nav has its own flex-wrap: wrap, so when its content doesn't
     // fit, the children wrap onto extra rows inside it rather than the nav
     // element itself reporting an overflow width — checking scrollWidth
@@ -106,6 +116,12 @@
     }
 
     function updateCollapse() {
+      if (isEnglish) {
+        var collapsed = window.innerWidth <= ENGLISH_BREAKPOINT;
+        header.classList.toggle("nav-collapsed", collapsed);
+        if (!collapsed) setOpen(false);
+        return;
+      }
       if (window.innerWidth <= MOBILE_BREAKPOINT) {
         // Pure CSS handles this range; avoid fighting it with the class.
         restoreActions();

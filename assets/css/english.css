@@ -127,14 +127,22 @@ html[lang="en"] .related-heading {
 }
 
 /* ---------- Header / nav ---------- */
-/* English drops the hamburger entirely: .nav-toggle isn't rendered in the
-   English page templates, so mobile-nav.js's collapse logic no-ops on its
-   own (it early-returns when the toggle element is missing). This CSS just
-   makes sure .site-nav itself stays a normal always-visible, wrapping row
-   at every width, since it would otherwise be hidden by style.css's own
-   sub-640px "wait for .is-open" rule. */
+/* Two rows, like the original design brief's masthead + primary-nav: the
+   logo, the one "essential" action (Book an Appointment) and the hamburger
+   live in the top row; everything else (the six section links, LINE,
+   language, share) lives in .site-nav, always forced onto its own row via
+   flex-basis, and hidden behind the hamburger below ENGLISH_BREAKPOINT
+   (860px, see assets/js/mobile-nav.js) so a phone never has to scroll past
+   a wall of wrapped nav links before reaching the page's actual content.
+   Above that width .site-nav shows inline as normal — nothing is ever
+   permanently hidden, just collapsed behind a toggle on narrow screens. */
+html[lang="en"] .site-header {
+  padding: 10px 0;
+}
+
 html[lang="en"] .site-header .container {
   max-width: 1300px;
+  gap: 10px 16px;
 }
 
 html[lang="en"] .tagline {
@@ -144,21 +152,64 @@ html[lang="en"] .tagline {
   font-weight: 600;
 }
 
-@media (max-width: 640px) {
-  html[lang="en"] .site-nav {
-    display: flex;
-    flex-basis: auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-top: 0;
-    padding-top: 0;
-    border-top: 0;
-    gap: 12px 18px;
+html[lang="en"] .site-nav {
+  flex-basis: 100%;
+  padding-top: 8px;
+  gap: 10px 20px;
+}
+
+/* Booking lives permanently in the masthead row for English (not lifted
+   in/out by JS like the other locales), so the collapsed-nav rules meant
+   for a booking button stacked inside the vertical mobile menu don't apply
+   to it here — reset back to a normal inline header button. */
+html[lang="en"] .site-header.nav-collapsed .booking-switch {
+  order: 0;
+}
+
+html[lang="en"] .site-header.nav-collapsed .booking-switch-toggle {
+  width: auto;
+  margin-top: 0;
+}
+
+html[lang="en"] .site-header.nav-collapsed .booking-switch-menu {
+  position: absolute;
+  margin-top: 0;
+}
+
+html[lang="en"] .site-header.nav-collapsed .booking-switch-menu a {
+  text-align: left;
+}
+
+/* Language and share are secondary, so they read as quiet text links, not
+   pill buttons competing with the six primary section links next to them. */
+html[lang="en"] .lang-switch-toggle,
+html[lang="en"] .site-share-toggle {
+  border: none;
+  padding: 4px 0;
+  min-height: 32px;
+  color: var(--color-sub);
+}
+
+html[lang="en"] .lang-switch-toggle:hover,
+html[lang="en"] .site-share-toggle:hover {
+  color: var(--color-accent);
+  border-color: transparent;
+}
+
+@media (max-width: 860px) {
+  /* Higher specificity than style.css's generic .nav-collapsed .lang-switch
+     { order: -1 } (which pulls these to the top of the stacked mobile
+     menu for other locales) — for English they should read as low-key,
+     after the primary links and LINE, not compete for first position. */
+  html[lang="en"] .site-header.nav-collapsed .lang-switch,
+  html[lang="en"] .site-header.nav-collapsed .site-share {
+    order: 1;
   }
 
-  html[lang="en"] .site-nav a {
-    min-height: 32px;
+  html[lang="en"] .lang-switch-toggle,
+  html[lang="en"] .site-share-toggle {
+    width: auto;
+    justify-content: flex-start;
   }
 }
 
@@ -380,13 +431,49 @@ html[lang="en"] .post.profile-post {
 }
 
 html[lang="en"] .profile-header {
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 56px;
+}
+
+html[lang="en"] .profile-intro-text {
+  margin: 18px 0 0;
+  max-width: 46ch;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-sub);
 }
 
 html[lang="en"] .profile-photo-frame,
 html[lang="en"] .profile-photo {
   border-radius: 14px;
+}
+
+/* Slim inline bar instead of a padded card — a page-outline shouldn't be
+   taller than the heading it sits under. */
+html[lang="en"] .article-toc {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 22px;
+  padding: 10px 0;
+  border: none;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  border-radius: 0;
+  background: transparent;
+  margin: 20px 0;
+  font-size: 0.85rem;
+}
+
+html[lang="en"] .article-toc strong {
+  margin-bottom: 0;
+  margin-right: 4px;
+}
+
+html[lang="en"] .article-toc a {
+  padding: 6px 0;
+  min-height: 0;
+  border-top: none;
 }
 
 html[lang="en"] .profile-eyebrow {
@@ -471,6 +558,17 @@ html[lang="en"] .training-label {
     grid-template-columns: 1fr;
   }
 
+  /* Name, credentials and intro must appear before the photo on a phone —
+     otherwise a tall portrait pushes the doctor's own name off the first
+     screen. Desktop keeps photo-then-text (unchanged, no order set there). */
+  html[lang="en"] .profile-header > div:first-child {
+    order: 2;
+  }
+
+  html[lang="en"] .profile-intro-head {
+    order: 1;
+  }
+
   html[lang="en"] .credential-columns {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -497,6 +595,17 @@ html[lang="en"] .booking-page .clinic-reminder {
 
 html[lang="en"] .booking-page .clinic-reminder:first-of-type {
   margin-top: 24px;
+}
+
+@media (max-width: 420px) {
+  html[lang="en"] .logo {
+    font-size: 1.05rem;
+  }
+
+  html[lang="en"] .booking-switch-toggle {
+    padding: 9px 14px;
+    font-size: 0.85rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
